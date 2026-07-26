@@ -22,7 +22,7 @@ export function LegalPageLayout({
   const resolvedItems = menuItems && menuItems.length > 0 ? menuItems : CORPORATE_PAGES
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 py-10 pb-24 sm:px-6 md:pb-12">
+    <div className="mx-auto w-full max-w-7xl px-4 py-10 pb-[calc(var(--site-bottom-chrome)+1rem)] sm:px-6 md:pb-12">
       <div className="mb-6 flex items-center gap-2 text-sm text-[#696970]">
         <Link href="/" className="hover:text-[#1f3120]">
           Anasayfa

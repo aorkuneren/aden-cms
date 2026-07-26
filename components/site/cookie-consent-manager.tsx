@@ -80,7 +80,7 @@ export function CookieConsentManager() {
         <section
           role="region"
           aria-label="Çerez tercihleri"
-          className="fixed inset-x-0 bottom-[5.45rem] z-[70] w-full border-y border-[#d9d0c2] bg-[#fffdf8]/98 px-3 py-2.5 shadow-[0_-10px_35px_-24px_rgba(17,24,19,0.5)] backdrop-blur md:bottom-0 md:border-b-0 sm:px-4"
+          className="fixed inset-x-0 bottom-[var(--site-bottom-chrome)] z-[70] w-full border-y border-[#d9d0c2] bg-[#fffdf8]/98 px-3 py-2.5 shadow-[0_-10px_35px_-24px_rgba(17,24,19,0.5)] backdrop-blur md:bottom-0 md:border-b-0 sm:px-4"
         >
           <div className="flex w-full flex-col gap-2.5 lg:flex-row lg:items-center lg:justify-between lg:gap-4">
             <div className="flex min-w-0 flex-1 items-start gap-2.5">

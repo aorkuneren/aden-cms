@@ -470,7 +470,7 @@ export default async function SiteHomePage() {
     .map((item) => toSiteBungalov(item as unknown as Record<string, unknown>))
 
   return (
-    <div className="home-motion-root pb-24 md:pb-0">
+    <div className="home-motion-root pb-[calc(var(--site-bottom-chrome)+1rem)] md:pb-0">
       <HomeGsapAnimations />
 
       <div data-gsap-hero>

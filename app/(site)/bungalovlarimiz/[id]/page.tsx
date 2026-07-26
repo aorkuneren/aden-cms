@@ -129,7 +129,7 @@ export default async function BungalovDetayPage({ params, searchParams }: Detail
     featureCatalog
   )
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 py-8 pb-28 sm:px-6 md:py-10 md:pb-16 space-y-8">
+    <div className="mx-auto w-full max-w-7xl px-4 py-8 pb-[calc(var(--site-bottom-chrome)+1rem)] sm:px-6 md:py-10 md:pb-16 space-y-8">
       <BreadcrumbJsonLd
         items={[
           { name: "Ana Sayfa", url: "https://www.adenbungalov.com" },

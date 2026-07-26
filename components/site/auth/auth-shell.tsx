@@ -32,7 +32,7 @@ export function AuthShell({
   children,
 }: AuthShellProps) {
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 py-10 pb-28 sm:px-6 md:py-16 md:pb-16">
+    <div className="mx-auto w-full max-w-7xl px-4 py-10 pb-[calc(var(--site-bottom-chrome)+1rem)] sm:px-6 md:py-16 md:pb-16">
       <BreadcrumbJsonLd
         items={[
           { name: "Ana Sayfa", url: "https://www.adenbungalov.com" },

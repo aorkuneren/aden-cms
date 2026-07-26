@@ -29,7 +29,7 @@ export function MobileBottomNav({ whatsappHref, phoneHref, userSystemEnabled }: 
   return (
     <nav
       aria-label="Mobil Alt Gezinme"
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-[#ded5c6] bg-[#fffaf2]/95 px-2 py-1.5 pb-safe backdrop-blur md:hidden"
+      className="fixed inset-x-0 bottom-0 z-50 border-t border-[#ded5c6] bg-[#fffaf2]/95 px-2 px-safe py-1.5 pb-safe backdrop-blur md:hidden"
     >
       <div className={cn("mx-auto grid max-w-xl gap-1", userSystemEnabled ? "grid-cols-4" : "grid-cols-3")}>
         {actions.map((action) =>
