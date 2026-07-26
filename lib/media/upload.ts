@@ -1,12 +1,6 @@
 import fs from "fs/promises"
 import path from "path"
 
-/**
- * Yükleme dosyalarının fiziksel kök dizini. Public altında tutulur ki
- * `/uploads/...` adresiyle statik olarak sunulabilsin.
- */
-const UPLOAD_DIR = process.env.UPLOAD_DIR || "./public/uploads"
-
 /** Yükleme bağlamı — dosyanın hangi klasör altında tutulacağını belirler. */
 export type UploadTarget =
   | { scope: "bungalov"; id: string }
@@ -27,7 +21,12 @@ export interface UploadedFile {
   size: number
 }
 
-function resolveUploadRoot(): string {
+function getUploadDirEnv(): string {
+  return process.env.UPLOAD_DIR || "./public/uploads"
+}
+
+export function resolveUploadRoot(): string {
+  const UPLOAD_DIR = getUploadDirEnv()
   return path.isAbsolute(UPLOAD_DIR)
     ? UPLOAD_DIR
     : path.join(process.cwd(), UPLOAD_DIR.replace(/^\.\//, ""))

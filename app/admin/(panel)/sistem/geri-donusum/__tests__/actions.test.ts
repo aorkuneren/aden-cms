@@ -6,12 +6,24 @@ const requireCms = vi.fn()
 vi.mock("@/lib/cms/mutate-cms", () => ({ mutateCms }))
 vi.mock("@/lib/admin/permissions", () => ({ requireCms }))
 
+const deleteUploadByUrl = vi.fn().mockResolvedValue({ deleted: true })
+const collectMediaUrls = vi.fn().mockReturnValue(["/uploads/galeri/x.jpg"])
+const isUploadUrlReferencedElsewhere = vi.fn().mockResolvedValue(false)
+
+vi.mock("@/lib/media/delete", () => ({
+  deleteUploadByUrl,
+  collectMediaUrls,
+  isUploadUrlReferencedElsewhere,
+}))
+
 const { purgeTrashItemAction, restoreTrashItemAction } = await import("../actions")
 
 describe("geri dönüşüm aksiyonları", () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mutateCms.mockResolvedValue({ ok: true, data: {}, admin: {} })
+    isUploadUrlReferencedElsewhere.mockResolvedValue(false)
+    collectMediaUrls.mockReturnValue(["/uploads/galeri/x.jpg"])
   })
 
   it("silinen slider kaydını update yetkisiyle geri yükler", async () => {
@@ -46,7 +58,7 @@ describe("geri dönüşüm aksiyonları", () => {
     expect(mutateCms).not.toHaveBeenCalled()
   })
 
-  it("SUPERADMIN için kaydı delete yetkisiyle fiziksel olarak kaldırır", async () => {
+  it("SUPERADMIN için soft-delete edilmiş kaydı fiziksel olarak kaldırır", async () => {
     requireCms.mockResolvedValue({
       ok: true,
       admin: { id: "superadmin-1", role: "SUPERADMIN", isActive: true },
@@ -65,6 +77,79 @@ describe("geri dönüşüm aksiyonları", () => {
     )
 
     const options = mutateCms.mock.calls[0]?.[0]
-    expect(options.updater([{ id: "bungalow-1" }, { id: "bungalow-2" }])).toEqual([{ id: "bungalow-2" }])
+    expect(
+      options.updater([
+        { id: "bungalow-1", deletedAt: "2026-07-27" },
+        { id: "bungalow-2" },
+      ])
+    ).toEqual([{ id: "bungalow-2" }])
+  })
+
+  it("aktif (soft-delete edilmemiş) kaydı purge etmez ve dosya silmez", async () => {
+    requireCms.mockResolvedValue({
+      ok: true,
+      admin: { id: "superadmin-1", role: "SUPERADMIN", isActive: true },
+    })
+
+    mutateCms.mockImplementation(async (options: any) => {
+      const current = {
+        galleryManagement: {
+          items: [{ id: "gal-1", imageUrl: "/uploads/galeri/x.jpg", deletedAt: null }],
+        },
+      }
+      options.updater(current)
+      return { ok: true, data: {}, admin: {} }
+    })
+
+    const result = await purgeTrashItemAction("cms_gallery", "gal-1")
+    expect(result).toEqual({
+      ok: false,
+      error: "Yalnızca geri dönüşümdeki kayıtlar kalıcı silinebilir.",
+    })
+    expect(deleteUploadByUrl).not.toHaveBeenCalled()
+  })
+
+  it("SUPERADMIN purge sonrası yerel medya URL’lerini siler", async () => {
+    requireCms.mockResolvedValue({
+      ok: true,
+      admin: { id: "superadmin-1", role: "SUPERADMIN", isActive: true },
+    })
+
+    const target = { id: "gal-1", imageUrl: "/uploads/galeri/x.jpg", deletedAt: "2026-07-27" }
+    mutateCms.mockImplementation(async (options: any) => {
+      const current = { galleryManagement: { items: [target] } }
+      options.updater(current)
+      return { ok: true, data: {}, admin: {} }
+    })
+
+    const result = await purgeTrashItemAction("cms_gallery", "gal-1")
+    expect(result).toEqual({ ok: true })
+    expect(collectMediaUrls).toHaveBeenCalledWith("cms_gallery", expect.objectContaining({ id: "gal-1" }))
+    expect(isUploadUrlReferencedElsewhere).toHaveBeenCalledWith("/uploads/galeri/x.jpg", {
+      excludeEntityType: "cms_gallery",
+      excludeId: "gal-1",
+    })
+    expect(deleteUploadByUrl).toHaveBeenCalledWith("/uploads/galeri/x.jpg")
+  })
+
+  it("paylaşılan medya URL’sini diskten silmez", async () => {
+    requireCms.mockResolvedValue({
+      ok: true,
+      admin: { id: "superadmin-1", role: "SUPERADMIN", isActive: true },
+    })
+    isUploadUrlReferencedElsewhere.mockResolvedValue(true)
+
+    mutateCms.mockImplementation(async (options: any) => {
+      options.updater({
+        galleryManagement: {
+          items: [{ id: "gal-copy", imageUrl: "/uploads/galeri/x.jpg", deletedAt: "2026-07-27" }],
+        },
+      })
+      return { ok: true, data: {}, admin: {} }
+    })
+
+    const result = await purgeTrashItemAction("cms_gallery", "gal-copy")
+    expect(result).toEqual({ ok: true })
+    expect(deleteUploadByUrl).not.toHaveBeenCalled()
   })
 })

@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "id": "inq-1785101800031-ftbdox",
+    "createdAt": "2026-07-26T21:36:40.031Z",
+    "updatedAt": "2026-07-26T21:37:02.744Z",
+    "type": "CONTACT",
+    "name": "Ömer EREN",
+    "email": "a@m.com",
+    "phone": "0545 434 23 42",
+    "subject": "TEst",
+    "message": "DEneme mesajıdır.",
+    "status": "NEW",
+    "isRead": true,
+    "ip": "::1",
+    "deletedAt": "2026-07-26T21:37:16.458Z",
+    "deletedBy": "admin-seed-superadmin"
+  }
+]

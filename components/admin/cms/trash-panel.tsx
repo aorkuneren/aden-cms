@@ -21,6 +21,7 @@ export type TrashItem = {
   title: string
   deletedAt: string
   deletedBy: string | null
+  previewUrl?: string | null
 }
 
 const ENTITY_LABELS: Record<TrashEntityType, string> = {
@@ -96,6 +97,12 @@ export function TrashPanel({ initialItems, canPurge }: { initialItems: TrashItem
           <div className="divide-y divide-slate-200 dark:divide-neutral-800">
             {items.map((item) => (
               <div key={`${item.entityType}-${item.id}`} className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center">
+                {item.previewUrl ? (
+                  <div className="relative size-14 shrink-0 overflow-hidden rounded-md bg-slate-100 dark:bg-neutral-800">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={item.previewUrl} alt="" className="size-full object-cover" />
+                  </div>
+                ) : null}
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
                     <h2 className="truncate font-medium text-slate-900 dark:text-white">{item.title}</h2>
