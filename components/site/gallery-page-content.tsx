@@ -198,7 +198,7 @@ export function GalleryPageContent({
                 type="button"
                 onClick={() => setViewMode("grid")}
                 className={cn(
-                  "p-2 rounded-full transition-colors flex items-center justify-center",
+                  "min-h-11 min-w-11 p-2 rounded-full transition-colors flex items-center justify-center",
                   viewMode === "grid" ? "bg-[#1f3a2e] text-white" : "text-[#4f4f57] hover:bg-[#f8f5ef]"
                 )}
                 aria-label={viewGridLabel}
@@ -210,7 +210,7 @@ export function GalleryPageContent({
                 type="button"
                 onClick={() => setViewMode("list")}
                 className={cn(
-                  "p-2 rounded-full transition-colors flex items-center justify-center",
+                  "min-h-11 min-w-11 p-2 rounded-full transition-colors flex items-center justify-center",
                   viewMode === "list" ? "bg-[#1f3a2e] text-white" : "text-[#4f4f57] hover:bg-[#f8f5ef]"
                 )}
                 aria-label={viewListLabel}

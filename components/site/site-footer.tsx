@@ -459,7 +459,7 @@ export function SiteFooter({
                           rel="noreferrer"
                           aria-label={item.label}
                           title={item.label}
-                          className="text-[#8c8880] transition-colors duration-200 hover:text-[#18261e]"
+                          className="inline-flex h-11 w-11 items-center justify-center text-[#8c8880] transition-colors duration-200 hover:text-[#18261e]"
                         >
                           <item.icon className="h-5 w-5" />
                         </a>
