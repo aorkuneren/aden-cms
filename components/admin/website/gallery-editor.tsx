@@ -133,17 +133,41 @@ export function GalleryEditor({
 
   const clearStatus = () => setStatus(null)
 
+  const persistGalleryConfig = (
+    nextCategories: GalleryCategory[],
+    nextItems: GalleryItem[],
+    successMsg: string,
+    rollback?: { categories: GalleryCategory[]; items: GalleryItem[] }
+  ) => {
+    startTransition(async () => {
+      const res = await saveGalleryAction({ categories: nextCategories, items: nextItems })
+      if (res.ok) {
+        setStatus({ type: "ok", msg: successMsg })
+        router.refresh()
+      } else {
+        if (rollback) {
+          setCategories(rollback.categories)
+          setItems(rollback.items)
+        }
+        setStatus({ type: "err", msg: res.error })
+      }
+    })
+  }
+
   // Kategori Ekleme
   const addCategory = () => {
     if (!newCatName.trim()) return
+    const snapshot = { categories, items }
     const freshCat: GalleryCategory = {
       id: rid("cat"),
       name: newCatName.trim(),
       isActive: true,
     }
-    setCategories((prev) => [...prev, freshCat])
+    const nextCategories = [...categories, freshCat]
+    setCategories(nextCategories)
     setNewCatName("")
     clearStatus()
+    persistGalleryConfig(nextCategories, items, "Kategori eklendi.", snapshot)
   }
 
   // Kategori Düzenleme & Silme
@@ -152,12 +176,31 @@ export function GalleryEditor({
     clearStatus()
   }
 
-  const removeCategory = (id: string) => {
-    setCategories((prev) => prev.filter((c) => c.id !== id))
-    // O kategoriye ait görselleri varsayılana çek
-    const fallbackId = categories.find((c) => c.id !== id)?.id || "genel"
-    setItems((prev) => prev.map((i) => (i.categoryId === id ? { ...i, categoryId: fallbackId } : i)))
+  const toggleCategoryActive = (id: string, isActive: boolean) => {
+    const snapshot = { categories, items }
+    const nextCategories = categories.map((c) => (c.id === id ? { ...c, isActive } : c))
+    setCategories(nextCategories)
     clearStatus()
+    persistGalleryConfig(
+      nextCategories,
+      items,
+      isActive ? "Kategori aktif." : "Kategori pasif.",
+      snapshot
+    )
+  }
+
+  const removeCategory = (id: string) => {
+    const snapshot = { categories, items }
+    const nextCategories = categories.filter((c) => c.id !== id)
+    // O kategoriye ait görselleri varsayılana çek
+    const fallbackId = nextCategories[0]?.id || "genel"
+    const nextItems = items.map((i) =>
+      i.categoryId === id ? { ...i, categoryId: fallbackId } : i
+    )
+    setCategories(nextCategories)
+    setItems(nextItems)
+    clearStatus()
+    persistGalleryConfig(nextCategories, nextItems, "Kategori silindi.", snapshot)
   }
 
   // Vitrin İşlemi (Toggle Featured)
@@ -234,14 +277,7 @@ export function GalleryEditor({
 
   // Tümünü Kaydet (Kategoriler & Sıralama)
   const saveAll = () => {
-    startTransition(async () => {
-      const res = await saveGalleryAction({ categories, items })
-      if (res.ok) {
-        setStatus({ type: "ok", msg: "Galeri yapılandırması başarıyla kaydedildi." })
-      } else {
-        setStatus({ type: "err", msg: res.error })
-      }
-    })
+    persistGalleryConfig(categories, items, "Galeri yapılandırması başarıyla kaydedildi.")
   }
 
   // Toplu Seçim İşlemleri
@@ -883,12 +919,27 @@ export function GalleryEditor({
                       <Input
                         value={cat.name}
                         onChange={(e) => updateCategory(cat.id, { name: e.target.value })}
+                        onBlur={(e) => {
+                          const name = e.target.value.trim()
+                          const snapshot = { categories, items }
+                          const nextCategories = categories.map((c) =>
+                            c.id === cat.id ? { ...c, name: name || c.name } : c
+                          )
+                          setCategories(nextCategories)
+                          persistGalleryConfig(nextCategories, items, "Kategori güncellendi.", snapshot)
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault()
+                            ;(e.target as HTMLInputElement).blur()
+                          }
+                        }}
                         className="h-8 text-xs font-medium"
                       />
                       <div className="flex items-center gap-1">
                         <Switch
                           checked={cat.isActive}
-                          onCheckedChange={(v) => updateCategory(cat.id, { isActive: v })}
+                          onCheckedChange={(v) => toggleCategoryActive(cat.id, v)}
                         />
                         <Button
                           type="button"
