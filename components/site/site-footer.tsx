@@ -325,7 +325,7 @@ export function SiteFooter({
 
   return (
     <footer className="mt-16 border-t border-[#e3dccf] bg-[#eeebe4]">
-      <div className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:py-12">
+      <div className="mx-auto w-full max-w-7xl px-[var(--site-gutter-x)] py-10 pb-[calc(2.5rem+var(--site-bottom-chrome))] md:pb-10 lg:py-12 lg:pb-12">
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
           {columns.map((column) => {
             if (column.type === "LOGO") {

@@ -141,7 +141,7 @@ export function GallerySection({
                 alt={`${activeCategory?.label} galeri görseli ${index + 1}`}
                 fill
                 sizes="(max-width: 767px) 50vw, (max-width: 1023px) 34vw, 25vw"
-                className="object-cover transition-transform duration-700 group-hover:scale-110"
+                className="max-w-full object-cover transition-transform duration-700 group-hover:scale-110"
               />
               <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#1f3a2e]/60 via-[#1f3a2e]/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 

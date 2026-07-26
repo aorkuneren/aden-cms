@@ -24,7 +24,7 @@ export function PageIntro({
     return (
       <div className={cn("grid gap-4 md:grid-cols-12 md:items-end md:gap-8", className)}>
         <div className="md:col-span-6">
-          <h1 className="text-3xl font-semibold leading-tight tracking-tight text-[#171717] md:text-4xl lg:text-5xl">
+          <h1 className="text-[clamp(1.75rem,2vw+1rem,3rem)] font-semibold leading-tight tracking-tight text-[#171717]">
             {title}
           </h1>
         </div>
@@ -40,7 +40,7 @@ export function PageIntro({
   return (
     <div className={cn("grid gap-4 md:grid-cols-12 md:items-end", className)}>
       <div className="md:col-span-8">
-        <h1 className="mt-4 text-3xl font-semibold leading-tight tracking-tight text-[#171717] md:text-4xl lg:text-5xl">
+        <h1 className="mt-4 text-[clamp(1.75rem,2vw+1rem,3rem)] font-semibold leading-tight tracking-tight text-[#171717]">
           {title}
         </h1>
         <p className="mt-4 max-w-3xl text-sm leading-7 text-[#616168] md:text-base">

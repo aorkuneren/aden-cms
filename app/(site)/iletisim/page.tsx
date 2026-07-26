@@ -71,7 +71,7 @@ export default async function ContactPage() {
   const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 py-8 pb-28 sm:px-6 md:py-10 md:pb-16 space-y-8">
+    <div className="mx-auto w-full max-w-7xl px-[var(--site-gutter-x)] py-8 pb-[calc(var(--site-bottom-chrome)+1rem)] md:py-10 md:pb-16 space-y-8">
       <BreadcrumbJsonLd
         items={[
           { name: "Ana Sayfa", url: "https://www.adenbungalov.com" },
@@ -204,11 +204,11 @@ export default async function ContactPage() {
               </span>
               <span className="text-[10px] text-[#777780] font-semibold">{address}</span>
             </div>
-            <div className="overflow-hidden">
+            <div className="w-full overflow-hidden">
               <iframe
                 title="Aden Bungalov Harita Konumu"
                 src={mapSrc}
-                className="h-[430px] w-full border-0 block"
+                className="block h-[min(430px,70vw)] w-full max-w-full border-0"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
               />

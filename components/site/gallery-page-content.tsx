@@ -249,7 +249,7 @@ export function GalleryPageContent({
                         alt={`${item.categoryLabel} galeri görseli ${index + 1}`}
                         fill
                         sizes="(max-width: 767px) 50vw, 33vw"
-                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        className="max-w-full object-cover transition-transform duration-700 group-hover:scale-105"
                        />
                      </div>
                      <div className="flex flex-col justify-center p-5 md:p-8 w-full bg-white relative">
@@ -272,7 +272,7 @@ export function GalleryPageContent({
                         alt={`${item.categoryLabel} galeri görseli ${index + 1}`}
                         fill
                         sizes={viewMode === "grid" ? "(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw" : "(max-width: 767px) 50vw, (max-width: 1023px) 34vw, 25vw"}
-                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                        className="max-w-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
                       <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#1f3a2e]/60 via-[#1f3a2e]/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                       
@@ -363,7 +363,7 @@ export function GalleryPageContent({
                     width={1600}
                     height={1200}
                     sizes="100vw"
-                    className="h-auto max-h-[min(78dvh,860px)] w-full object-contain"
+                    className="h-auto max-h-[min(78dvh,860px)] w-full max-w-full object-contain"
                     priority
                     unoptimized
                   />
