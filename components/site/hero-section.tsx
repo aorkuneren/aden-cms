@@ -39,6 +39,7 @@ export function HeroSection({
   pauseOnHover = true,
 }: HeroSectionProps) {
   const [isPaused, setIsPaused] = useState(false)
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
   const normalizedSlides = useMemo(() => {
     const seen = new Set<string>()
     return (inputSlides || [])
@@ -74,10 +75,15 @@ export function HeroSection({
   const [activeSlide, setActiveSlide] = useState(0)
 
   useEffect(() => {
-    const prefersReduced =
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    if (prefersReduced) return
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)")
+    const sync = () => setPrefersReducedMotion(media.matches)
+    sync()
+    media.addEventListener("change", sync)
+    return () => media.removeEventListener("change", sync)
+  }, [])
+
+  useEffect(() => {
+    if (prefersReducedMotion) return
     if (!autoplayEnabled) return
     if (normalizedSlides.length < 2) return
     if (pauseOnHover && isPaused) return
@@ -86,7 +92,14 @@ export function HeroSection({
       setActiveSlide((prev) => (prev + 1) % normalizedSlides.length)
     }, intervalMs)
     return () => window.clearInterval(timer)
-  }, [normalizedSlides.length, autoplayEnabled, autoplaySeconds, pauseOnHover, isPaused])
+  }, [
+    normalizedSlides.length,
+    autoplayEnabled,
+    autoplaySeconds,
+    pauseOnHover,
+    isPaused,
+    prefersReducedMotion,
+  ])
 
   const activeSlideIndex = normalizedSlides.length > 0 ? activeSlide % normalizedSlides.length : 0
   const activeSlideItem = normalizedSlides[activeSlideIndex] || normalizedSlides[0] || null
@@ -127,10 +140,11 @@ export function HeroSection({
               key={`${slide.videoUrl}-${index}`}
               src={slide.videoUrl}
               poster={slide.imageUrl || undefined}
-              autoPlay
-              loop
+              autoPlay={!prefersReducedMotion}
+              loop={!prefersReducedMotion}
               muted
               playsInline
+              preload={prefersReducedMotion ? "none" : "metadata"}
               className={cn(
                 "absolute inset-0 size-full object-cover transition-opacity duration-700",
                 index === activeSlideIndex ? "opacity-100" : "opacity-0"
