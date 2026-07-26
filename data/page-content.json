@@ -1,0 +1,144 @@
+{
+  "ana-sayfa": {
+    "about": {
+      "eyebrow": "Hakkımızda",
+      "title": "Hakkımızda",
+      "description": "Sapanca İlmeye bölgesinde bulunan tesisimiz 2024 yılında hizmete başlamış olup 10 adet Bungalov ile hizmet vermektedir. 5 çeşit Bungalov mevcut olup her biri farklı mimari de tasarlanmıştır. Tüm Bungalovlarımız Sapanca gölü manzaralı olup, her Bungalov kendi özel bahçesine sahiptir. Tesisimizin giriş kısmında resepsiyon ve otopark alanı mevcuttur. Ayrıca tesisimizde bulunan jenaratör ve Su depolarıyla misafirlerimize kesintisiz bir hizmet sunmaktayız. Sapanca’nın doğası ve eşsiz göl manzarası eşliğinde keyifli bir tatil geçirebilirsiniz.",
+      "imageUrl1": "/uploads/hakkimizda/1783601564-6a4f999cb3c57-1785007967327-kfiqd.webp",
+      "imageUrl2": "/uploads/hakkimizda/1736516657-678124310ee18-1785007973000-kldcg.webp",
+      "imageUrl3": "/uploads/hakkimizda/1783601673-6a4f9a099b875-1785007998146-3vlov.webp",
+      "imageUrl4": "/uploads/hakkimizda/1736428451-677fcba3bec47-1785008025651-1hxzj.webp",
+      "buttonLabel": "Devamını oku",
+      "buttonVisible": "false"
+    },
+    "featured-bungalows": {
+      "eyebrow": "Bungalovlarımız",
+      "title": "Bungalovlarımız",
+      "description": "Sizlere en iyi deneyimi sunmak için özenle tasarlanmış bungalovlarımızda; ücretsiz yüksek hızlı Wi-Fi, rahat çift kişilik yataklar ve ferah yaşam alanları standarttır.",
+      "emptyStateText": "Şu anda yayında aktif bungalow bulunmuyor.",
+      "limit": "6",
+      "autoplayEnabled": "true",
+      "autoplaySeconds": "5",
+      "pauseOnHover": "true",
+      "showDots": "true",
+      "loop": "true"
+    },
+    "why-aden": {
+      "eyebrow": "Neden Aden Bungalov?",
+      "title": "Tatiliniz İçin Neden Bizi Seçmelisiniz?",
+      "description": "Sapanca'da bungalov kiralarken beklentilerinizin ötesine geçiyoruz. İşte Aden Bungalov'da sizi bekleyen ayrıcalıklar:"
+    },
+    "gallery": {
+      "title": "Cennetten Bir Köşe",
+      "description": "Aden Bungalov'un modern mimarisini, huzur dolu bahçelerini, özel havuzlarını ve Sapanca'nın eşsiz göl manzarasını fotoğraf galerimizde keşfedin."
+    },
+    "cta": {
+      "eyebrow": "Aden Bungalov",
+      "title": "Doğanın Kalbindeki Yerinizi Ayırtmak İçin Geç Kalmayın!",
+      "description": "Şehrin gürültüsünü geride bırakmanın ve kendinize bir iyilik yapmanın zamanı gelmedi mi? İhtiyacınız olan huzur, konfor ve doğa Aden Bungalov'da sizi bekliyor.",
+      "responseTitle": "Hızlı Dönüş",
+      "responseDescription": "Rezervasyon taleplerine aynı gün içinde geri dönüş sağlıyoruz.",
+      "reservationButtonEnabled": "true",
+      "reservationButtonLabel": "Online Rezervasyon Yap",
+      "phoneButtonEnabled": "true",
+      "phoneButtonPrefix": "Bizi Arayın:",
+      "imageUrl1": "",
+      "imageUrl2": ""
+    },
+    "faq": {
+      "eyebrow": "SSS",
+      "title": "Sıkça Sorulan Sorular",
+      "description": "Konaklama süreci, tesis detayları ve rezervasyon adımlarıyla ilgili en çok sorulan soruları tek alanda bulabilirsiniz.",
+      "supportTitle": "Hala sorularınız mı var?",
+      "supportDescription": "Aradığınız yanıtı bulamadıysanız ekibimizle hemen iletişime geçin.",
+      "supportButtonLabel": "İletişime Geç"
+    }
+  },
+  "galeri": {
+    "page-hero": {
+      "title": "Foto Galeri",
+      "description": "Aden Bungalov galerisi: tüm kategorilerdeki görselleri keşfedin."
+    }
+  },
+  "bungalovlarimiz": {
+    "listing-hero": {
+      "eyebrow": "Bungalovlarımız",
+      "title": "Bungalovlarımız",
+      "description": "Tüm suit seçeneklerimizi karşılaştırın, müsaitliği kontrol edin ve hızlıca talep oluşturun.",
+      "emptyStateText": "Şu anda listelenecek aktif bungalov bulunmuyor."
+    },
+    "listing-behavior": {
+      "limit": "9",
+      "loadMode": "load-more"
+    },
+    "listing-grid": {
+      "emptyStateText": "Şu anda listelenecek aktif bungalov bulunmuyor."
+    }
+  },
+  "rezervasyon-talep": {
+    "request-hero": {
+      "eyebrow": "Online Rezervasyon",
+      "title": "Rezervasyon Talep",
+      "description": "Üyelikli veya üyeliksiz talep akışını kullanarak konaklama isteğinizi iletin. Talebiniz sonrası ekip en kısa sürede sizinle iletişime geçer."
+    }
+  },
+  "kurumsal": {
+    "corporate-hero": {
+      "eyebrow": "Kurumsal",
+      "title": "Kurumsal",
+      "description": "Rezervasyon öncesi ihtiyaç duyulan resmi metinler ve işletme bilgilerine buradan ulaşabilirsiniz.",
+      "introVisible": "true",
+      "intro": "Bu alan; Hakkımızda, banka hesap bilgileri, kiralama şartları, KVKK, iptal politikası ve gizlilik metinlerini tek noktada erişilebilir kılar."
+    },
+    "corporate-legal": {
+      "hakkimizda_title": "Hakkımızda",
+      "hakkimizda_description": "Aden Bungalov — Sapanca doğasında premium bungalov konaklama deneyimi.",
+      "hakkimizda_content": "<p>Aden Bungalov, Sapanca'nın eşsiz doğasında; göl ve orman manzarası eşliğinde huzurlu, konforlu ve güvenli bir konaklama deneyimi sunar. Modern mimarisi, özel havuzlu bungalovları ve misafir odaklı hizmet anlayışıyla çift ve aile konaklamaları için ideal bir kaçış noktasıdır.</p>\n<p>Tesisimizde her bungalov; ısıtmalı özel havuz, özel bahçe, barbekü alanı ve doğayla iç içe geniş yaşam alanlarıyla tasarlanmıştır. Amacımız, şehrin yoğunluğundan uzakta, doğanın kalbinde unutulmaz anlar yaşamanızı sağlamaktır.</p>\n<h3>Neden Aden Bungalov?</h3>\n<ul>\n<li>Göl ve doğa manzaralı, özel havuzlu bungalovlar</li>\n<li>Oda kahvaltı konsepti ile güne keyifli başlangıç</li>\n<li>Ücretsiz Wi-Fi ve modern iç tasarım</li>\n<li>Barbekü alanı ve özel bahçe</li>\n<li>Hızlı rezervasyon ve WhatsApp destek hattı</li>\n</ul>\n<p>Rezervasyon ve bilgi için: <strong>+90 534 798 97 98</strong></p>",
+      "hesap_numaralarimiz_title": "Hesap Numaralarımız",
+      "hesap_numaralarimiz_description": "Ödeme ve kapora işlemleri için banka ve IBAN bilgilerimiz.",
+      "hesap_numaralarimiz_content": "<p>Rezervasyon kaporası ve ödeme işlemleriniz için aşağıdaki hesap bilgilerini kullanabilirsiniz. Ödeme sonrasında dekontunuzu WhatsApp destek hattımıza ileterek rezervasyon sürecinizi hızlandırabilirsiniz.</p>\n<h3>Banka Bilgileri</h3>\n<ul>\n<li><strong>Hesap Sahibi:</strong> Aden Bungalov</li>\n<li><strong>Banka:</strong> [Banka adını panelden güncelleyin]</li>\n<li><strong>IBAN:</strong> [IBAN bilgisini panelden güncelleyin]</li>\n</ul>\n<p><em>Not: Havale/EFT açıklamasına lütfen rezervasyon tarihinizi ve ad-soyadınızı yazınız.</em></p>\n<p>Sorularınız için: <strong>+90 534 798 97 98</strong></p>",
+      "kiralama_sartlari_title": "Kiralama Şartları",
+      "kiralama_sartlari_description": "Konaklama sürecine dair kullanım koşulları ve misafir sorumlulukları.",
+      "kiralama_sartlari_content": "<p>Aden Bungalov'da konaklamanız süresince aşağıdaki kiralama şartları geçerlidir. Rezervasyon oluşturarak bu şartları kabul etmiş sayılırsınız.</p>\n<h3>Giriş ve Çıkış</h3>\n<ul>\n<li>Giriş (check-in) saati: <strong>14:00</strong></li>\n<li>Çıkış (check-out) saati: <strong>11:00</strong></li>\n<li>Minimum konaklama süresi sezona göre değişebilir.</li>\n</ul>\n<h3>Genel Kurallar</h3>\n<ul>\n<li>Rezervasyon, kapora ödemesinin tesisimize ulaşmasıyla kesinleşir.</li>\n<li>Bungalov kapasitesinin üzerinde misafir kabul edilmez.</li>\n<li>Tesise evcil hayvan kabul koşulları için önceden bilgi alınmalıdır.</li>\n<li>Konaklama süresince tesise ve eşyalara verilen zararlar misafir tarafından karşılanır.</li>\n<li>Sigara kullanımı yalnızca açık alanlarda serbesttir.</li>\n<li>Gürültü ve çevreye rahatsızlık verecek davranışlardan kaçınılmalıdır.</li>\n</ul>\n<p>Detaylı bilgi ve özel talepleriniz için: <strong>+90 534 798 97 98</strong></p>",
+      "kvkk_aydinlatma_metni_title": "KVKK Aydınlatma Metni",
+      "kvkk_aydinlatma_metni_description": "6698 sayılı Kanun kapsamında kişisel verilerin işlenmesine ilişkin aydınlatma.",
+      "kvkk_aydinlatma_metni_content": "<p>6698 sayılı Kişisel Verilerin Korunması Kanunu (\"KVKK\") uyarınca, veri sorumlusu sıfatıyla Aden Bungalov tarafından kişisel verileriniz aşağıda açıklanan kapsamda işlenmektedir.</p>\n<h3>İşlenen Veriler ve Amaçları</h3>\n<ul>\n<li>Kimlik ve iletişim bilgileriniz (ad-soyad, telefon, e-posta) rezervasyon ve konaklama süreçlerinin yürütülmesi amacıyla,</li>\n<li>Ödeme bilgileriniz finansal işlemlerin gerçekleştirilmesi amacıyla,</li>\n<li>Talep ve şikâyetleriniz müşteri memnuniyetinin sağlanması amacıyla işlenir.</li>\n</ul>\n<h3>Verilerin Aktarılması</h3>\n<p>Kişisel verileriniz, yasal yükümlülükler ve hizmetin ifası kapsamında yetkili kamu kurumları ve iş ortaklarımızla, yalnızca gerekli olduğu ölçüde paylaşılabilir.</p>\n<h3>Haklarınız</h3>\n<p>KVKK'nın 11. maddesi uyarınca; verilerinizin işlenip işlenmediğini öğrenme, düzeltilmesini veya silinmesini talep etme ve işlemeye itiraz etme haklarına sahipsiniz. Taleplerinizi <strong>+90 534 798 97 98</strong> üzerinden bize iletebilirsiniz.</p>",
+      "iptal_politikasi_title": "İptal Politikası",
+      "iptal_politikasi_description": "Rezervasyon iptali, değişiklik ve iade süreçleri.",
+      "iptal_politikasi_content": "<p>Rezervasyon iptal, değişiklik ve iade işlemleri aşağıdaki koşullara göre yürütülür.</p>\n<h3>İptal Koşulları</h3>\n<ul>\n<li>Giriş tarihinden <strong>7 gün</strong> ve öncesinde yapılan iptallerde kapora iadesi yapılır.</li>\n<li>Giriş tarihine 7 günden az kala yapılan iptallerde kapora iade edilmez.</li>\n<li>Tarih değişikliği talepleri, müsaitlik durumuna göre ve en az 7 gün önceden bildirilmek kaydıyla değerlendirilir.</li>\n</ul>\n<h3>Mücbir Sebepler</h3>\n<p>Doğal afet, resmi kısıtlama gibi mücbir sebeplerde tarafların hak ve yükümlülükleri iyi niyet çerçevesinde yeniden değerlendirilir.</p>\n<p>İptal ve değişiklik talepleriniz için: <strong>+90 534 798 97 98</strong></p>",
+      "gizlilik_bildirimi_title": "Gizlilik Bildirimi",
+      "gizlilik_bildirimi_description": "Web sitesi gizlilik ve veri koruma politikamız.",
+      "gizlilik_bildirimi_content": "<p>Aden Bungalov olarak gizliliğinize önem veriyoruz. Bu bildirim, web sitemiz üzerinden toplanan bilgilerin nasıl kullanıldığını açıklar.</p>\n<h3>Toplanan Bilgiler</h3>\n<p>Rezervasyon ve iletişim formları aracılığıyla paylaştığınız ad-soyad, telefon ve e-posta bilgileriniz yalnızca talebinizin karşılanması amacıyla kullanılır.</p>\n<h3>Bilgi Güvenliği</h3>\n<p>Kişisel verileriniz, yetkisiz erişime karşı uygun teknik ve idari tedbirlerle korunur. Verileriniz ticari amaçla üçüncü taraflara satılmaz.</p>\n<h3>İletişim</h3>\n<p>Gizlilik uygulamalarımıza ilişkin sorularınız için <strong>+90 534 798 97 98</strong> numarasından bize ulaşabilirsiniz.<br/>Adres: İlmiye Mah. İlmiye 2. Sok. No:12, 54600 Sapanca / Sakarya</p>",
+      "cerez_politikasi_title": "Çerez Politikası",
+      "cerez_politikasi_description": "Web sitesinde kullanılan çerez kategorileri ve tercih yönetimi.",
+      "cerez_politikasi_content": "<p>Web sitemiz, kullanıcı deneyimini iyileştirmek ve hizmetlerimizi geliştirmek amacıyla çerezler (cookies) kullanır.</p>\n<h3>Çerez Türleri</h3>\n<ul>\n<li><strong>Zorunlu çerezler:</strong> Sitenin temel işlevleri için gereklidir.</li>\n<li><strong>Performans çerezleri:</strong> Site kullanımını anonim olarak analiz eder.</li>\n<li><strong>İşlevsel çerezler:</strong> Tercihlerinizi hatırlar.</li>\n</ul>\n<p>Tarayıcı ayarlarınızdan çerez tercihlerinizi dilediğiniz zaman değiştirebilir veya çerezleri silebilirsiniz. Zorunlu çerezlerin engellenmesi bazı özelliklerin çalışmamasına yol açabilir.</p>"
+    }
+  },
+  "iletisim": {
+    "contact-hero": {
+      "eyebrow": "İletişim",
+      "title": "İletişim",
+      "description": "İletişim, şikayet, talep ve öneri/istek bildirimlerinizi aşağıdaki formdan iletebilirsiniz."
+    },
+    "contact-info": {
+      "communicationLabel": "İletişim",
+      "complaintLabel": "Şikayet",
+      "requestLabel": "Talep",
+      "suggestionLabel": "Öneri / İstek",
+      "communication": "Genel bilgi ve fiyat soruları",
+      "complaint": "Hizmet deneyimi ile ilgili bildirimler",
+      "request": "Rezervasyon, tarih değişikliği, özel istekler",
+      "suggestion": "Geliştirme fikirleri ve memnuniyet notları"
+    },
+    "contact-region": {
+      "title": "Bölge Bilgisi",
+      "description": "Aden Bungalov, Sapanca / Sakarya bölgesinde doğa ve göl manzaralı konaklama deneyimi sunar. Rezervasyon taleplerine mobil odaklı hızlı geri dönüş hedeflenir."
+    },
+    "form-settings": {
+      "formTitle": "Bize Mesaj Gönderin",
+      "successMessage": "Mesajınız başarıyla iletildi.",
+      "errorMessage": "Mesaj gönderiminde hata oluştu.",
+      "submitLabel": "Mesajı Gönder"
+    }
+  }
+}

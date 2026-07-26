@@ -1,0 +1,580 @@
+[
+  {
+    "id": "bng-orman-suit",
+    "name": "Orman Suit Bungalov",
+    "image": "/uploads/1736516657-678124310ee18-1785001090009.webp",
+    "galleryImages": [
+      "/uploads/1736516657-678124310ee18-1785001090009.webp",
+      "/uploads/1736368403-677ee1137f01d-1785001016099.webp",
+      "/uploads/1736368406-677ee11699191-1785001024483.webp",
+      "/uploads/1736368409-677ee119c10d4-1785001032561.webp",
+      "/uploads/1736366954-677edb6a8f50e-1785001111579.webp",
+      "/uploads/1736366956-677edb6c4fb45-1785001113679.webp",
+      "/uploads/1736366959-677edb6f0a8de-1785001120090.webp",
+      "/uploads/1736366962-677edb72092de-1785001128188.webp",
+      "/uploads/1736366965-677edb756ba3f-1785001136723.webp"
+    ],
+    "capacity": 4,
+    "description": "Ormanın içinde, vadiye bakan camlı cephesiyle iki kişilik suit bungalov. Özel şömine, jakuzi ve geniş ahşap terasıyla çift konaklamaları için tasarlandı.",
+    "nightlyPrice": 4500,
+    "status": "AKTIF",
+    "features": [
+      "Jakuzi",
+      "Şömine",
+      "Özel Teras",
+      "Ücretsiz Wi-Fi",
+      "Minibar",
+      "Orman Manzarası",
+      "Isıtmalı Havuz",
+      "Bahçe",
+      "Wi-Fi",
+      "Otopark",
+      "Deniz Manzarası",
+      "Kahvaltı",
+      "Çift Kişilik Oda",
+      "Özel Havuz",
+      "Mini Buzdolabı",
+      "Mutfak Gereçleri",
+      "Klima",
+      "L Koltuk",
+      "Çift Kişilik Yatak",
+      "Yemek Masası",
+      "Sallanan Sandalye",
+      "Boy Aynası",
+      "Komodin",
+      "Elbise Dolabı",
+      "Televizyon",
+      "Çarşaf Takımı",
+      "Şampuan ve Sabun",
+      "Duşakabin",
+      "Havlu Seti",
+      "Fön Makinesi",
+      "Sıcak Su",
+      "Bahçe Oturma Grubu",
+      "Salıncak",
+      "Barbekü",
+      "Veranda / Teras"
+    ],
+    "rules": [
+      {
+        "id": "minimum-konaklama",
+        "title": "Minimum Konaklama",
+        "description": "Bu tesis için minimum 2 gece konaklama kuralı uygulanmaktadır.",
+        "visible": true
+      },
+      {
+        "id": "giris-cikis-saatleri",
+        "title": "Giriş & Çıkış Saatleri",
+        "description": "Giriş saati 14:00, çıkış saati 11:00'dir. Çıkış gününde saat 14:00 sonrası yeni giriş yapılabilir.",
+        "visible": true
+      },
+      {
+        "id": "evcil-hayvan-politikasi",
+        "title": "Evcil Hayvan Politikası",
+        "description": "Tesisimiz evcil hayvan dostudur. (Küçük/orta ırk dostlarımız kabul edilir)",
+        "visible": true
+      },
+      {
+        "id": "sessizlik-saatleri",
+        "title": "Sessizlik Saatleri",
+        "description": "Bahçe ve veranda alanlarında 23:00 sonrası yüksek sesli müzik ve gürültü kısıtlaması mevcuttur.",
+        "visible": true
+      },
+      {
+        "id": "sigara-kullanimi",
+        "title": "Sigara Kullanımı",
+        "description": "Veranda ve bahçe alanında serbesttir. İç mekanlarda sigara kullanımı yasaktır.",
+        "visible": true
+      },
+      {
+        "id": "odeme-kapora",
+        "title": "Ödeme & Kapora",
+        "description": "₺3.000 tutarında ön kapora ödemesi ile rezervasyonunuz kesinleşir. Kalan tutar girişte tahsil edilir.",
+        "visible": true
+      }
+    ],
+    "nearbyPlaces": [
+      {
+        "id": "selale-yuruyus-parkuru",
+        "title": "Şelale Yürüyüş Parkuru",
+        "description": "1.2 km",
+        "visible": true
+      },
+      {
+        "id": "koy-kahvalticisi",
+        "title": "Köy Kahvaltıcısı",
+        "description": "800 m",
+        "visible": true
+      },
+      {
+        "id": "gol-seyir-terasi",
+        "title": "Göl Seyir Terası",
+        "description": "3 km",
+        "visible": true
+      }
+    ],
+    "createdAt": "2026-01-10 09:00:00",
+    "updatedAt": "2026-07-25T18:06:45.612Z",
+    "slug": "orman-suit-bungalov",
+    "bedrooms": 1,
+    "areaSqm": 50,
+    "poolType": "Isıtmalı Yuvarlak Havuz",
+    "internet": "Fiber Wi-Fi",
+    "address": "",
+    "seoTitle": "Orman Suit Bungalov | Aden Bungalov Sapanca",
+    "seoDescription": "Orman Suit Bungalov; 4 kişilik, 1 yatak odalı, ısıtmalı yuvarlak havuz, 50 m², Fiber Wi-Fi. Ormanın içinde, vadiye bakan camlı cephesiyle iki kişilik…",
+    "isFeatured": false,
+    "sortOrder": 0,
+    "deletedAt": "2026-07-26T11:22:20.722Z",
+    "deletedBy": "admin-seed-superadmin"
+  },
+  {
+    "id": "bng-dere-kenari",
+    "name": "Dere Kenarı Bungalov",
+    "image": "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1600&q=80",
+    "galleryImages": [
+      "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1600&q=80"
+    ],
+    "capacity": 4,
+    "description": "Dere sesiyle uyanacağınız, iki yatak odalı geniş aile bungalovu. Çocuklu aileler için güvenli bahçe alanı ve mangal ünitesi bulunur.",
+    "nightlyPrice": 5800,
+    "status": "AKTIF",
+    "features": [
+      "Mangal Alanı",
+      "Özel Bahçe",
+      "Ücretsiz Wi-Fi",
+      "Klima",
+      "Bulaşık Makinesi",
+      "Dere Manzarası"
+    ],
+    "rules": [
+      {
+        "id": "minimum-konaklama",
+        "title": "Minimum Konaklama",
+        "description": "Bu tesis için minimum 2 gece konaklama kuralı uygulanmaktadır.",
+        "visible": true
+      },
+      {
+        "id": "giris-cikis-saatleri",
+        "title": "Giriş & Çıkış Saatleri",
+        "description": "Giriş saati 14:00, çıkış saati 11:00'dir. Çıkış gününde saat 14:00 sonrası yeni giriş yapılabilir.",
+        "visible": true
+      },
+      {
+        "id": "evcil-hayvan-politikasi",
+        "title": "Evcil Hayvan Politikası",
+        "description": "Tesisimiz evcil hayvan dostudur. (Küçük/orta ırk dostlarımız kabul edilir)",
+        "visible": true
+      },
+      {
+        "id": "sessizlik-saatleri",
+        "title": "Sessizlik Saatleri",
+        "description": "Bahçe ve veranda alanlarında 23:00 sonrası yüksek sesli müzik ve gürültü kısıtlaması mevcuttur.",
+        "visible": true
+      },
+      {
+        "id": "sigara-kullanimi",
+        "title": "Sigara Kullanımı",
+        "description": "Veranda ve bahçe alanında serbesttir. İç mekanlarda sigara kullanımı yasaktır.",
+        "visible": true
+      },
+      {
+        "id": "odeme-kapora",
+        "title": "Ödeme & Kapora",
+        "description": "₺3.000 tutarında ön kapora ödemesi ile rezervasyonunuz kesinleşir. Kalan tutar girişte tahsil edilir.",
+        "visible": true
+      },
+      {
+        "id": "mangal-kullanimi",
+        "title": "Mangal Kullanımı",
+        "description": "Mangal ünitesi 22:00'dan sonra kullanılamaz.",
+        "visible": true
+      }
+    ],
+    "nearbyPlaces": [
+      {
+        "id": "balik-restorani",
+        "title": "Balık Restoranı",
+        "description": "500 m",
+        "visible": true
+      },
+      {
+        "id": "bisiklet-kiralama",
+        "title": "Bisiklet Kiralama",
+        "description": "1 km",
+        "visible": true
+      },
+      {
+        "id": "piknik-alani",
+        "title": "Piknik Alanı",
+        "description": "300 m",
+        "visible": true
+      }
+    ],
+    "createdAt": "2026-01-10 09:00:00",
+    "updatedAt": "2026-01-10 09:00:00",
+    "slug": "dere-kenari-bungalov",
+    "bedrooms": 2,
+    "areaSqm": null,
+    "poolType": "Özel Isıtmalı Havuz",
+    "internet": "Fiber Wi-Fi",
+    "deletedAt": null,
+    "deletedBy": null
+  },
+  {
+    "id": "bng-tepe-manzara",
+    "name": "Tepe Manzara Bungalov",
+    "image": "https://images.unsplash.com/photo-1542718610-a1d656d1884c?auto=format&fit=crop&w=1600&q=80",
+    "galleryImages": [
+      "https://images.unsplash.com/photo-1542718610-a1d656d1884c?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1595877244574-e90ce41ce089?auto=format&fit=crop&w=1600&q=80"
+    ],
+    "capacity": 2,
+    "description": "Tepenin en üst noktasında, gün batımına karşı konumlanmış romantik bungalov. Panoramik cam cephe ve açık hava küveti ile.",
+    "nightlyPrice": 5200,
+    "status": "AKTIF",
+    "features": [
+      "Açık Hava Küveti",
+      "Panoramik Manzara",
+      "Özel Teras",
+      "Ücretsiz Wi-Fi",
+      "Klima",
+      "Kahve Makinesi"
+    ],
+    "rules": [
+      {
+        "id": "minimum-konaklama",
+        "title": "Minimum Konaklama",
+        "description": "Bu tesis için minimum 2 gece konaklama kuralı uygulanmaktadır.",
+        "visible": true
+      },
+      {
+        "id": "giris-cikis-saatleri",
+        "title": "Giriş & Çıkış Saatleri",
+        "description": "Giriş saati 14:00, çıkış saati 11:00'dir. Çıkış gününde saat 14:00 sonrası yeni giriş yapılabilir.",
+        "visible": true
+      },
+      {
+        "id": "evcil-hayvan-politikasi",
+        "title": "Evcil Hayvan Politikası",
+        "description": "Tesisimiz evcil hayvan dostudur. (Küçük/orta ırk dostlarımız kabul edilir)",
+        "visible": true
+      },
+      {
+        "id": "sessizlik-saatleri",
+        "title": "Sessizlik Saatleri",
+        "description": "Bahçe ve veranda alanlarında 23:00 sonrası yüksek sesli müzik ve gürültü kısıtlaması mevcuttur.",
+        "visible": true
+      },
+      {
+        "id": "sigara-kullanimi",
+        "title": "Sigara Kullanımı",
+        "description": "Veranda ve bahçe alanında serbesttir. İç mekanlarda sigara kullanımı yasaktır.",
+        "visible": true
+      },
+      {
+        "id": "odeme-kapora",
+        "title": "Ödeme & Kapora",
+        "description": "₺3.000 tutarında ön kapora ödemesi ile rezervasyonunuz kesinleşir. Kalan tutar girişte tahsil edilir.",
+        "visible": true
+      },
+      {
+        "id": "misafir-kapasitesi",
+        "title": "Misafir Kapasitesi",
+        "description": "Bu bungalovda en fazla 2 misafir konaklayabilir.",
+        "visible": true
+      }
+    ],
+    "nearbyPlaces": [
+      {
+        "id": "gun-batimi-seyir-noktasi",
+        "title": "Gün Batımı Seyir Noktası",
+        "description": "200 m",
+        "visible": true
+      },
+      {
+        "id": "yamac-parasutu-kalkis-alani",
+        "title": "Yamaç Paraşütü Kalkış Alanı",
+        "description": "2 km",
+        "visible": true
+      }
+    ],
+    "createdAt": "2026-01-10 09:00:00",
+    "updatedAt": "2026-01-10 09:00:00",
+    "slug": "tepe-manzara-bungalov",
+    "bedrooms": 1,
+    "areaSqm": null,
+    "poolType": "Özel Isıtmalı Havuz",
+    "internet": "Fiber Wi-Fi",
+    "deletedAt": null,
+    "deletedBy": null
+  },
+  {
+    "id": "bng-ahsap-loft",
+    "name": "Ahşap Loft Bungalov",
+    "image": "https://images.unsplash.com/photo-1587061949409-02df41d5e562?auto=format&fit=crop&w=1600&q=80",
+    "galleryImages": [
+      "https://images.unsplash.com/photo-1587061949409-02df41d5e562?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=1600&q=80"
+    ],
+    "capacity": 3,
+    "description": "Çift katlı ahşap loft tasarımı, üst katta ebeveyn yatak odası ve alt katta oturma alanı. Uzun konaklamalar için mutfak donanımlı.",
+    "nightlyPrice": 4900,
+    "status": "AKTIF",
+    "features": [
+      "Tam Donanımlı Mutfak",
+      "Çalışma Alanı",
+      "Ücretsiz Wi-Fi",
+      "Klima",
+      "Çamaşır Makinesi",
+      "Şömine"
+    ],
+    "rules": [
+      {
+        "id": "minimum-konaklama",
+        "title": "Minimum Konaklama",
+        "description": "Bu tesis için minimum 2 gece konaklama kuralı uygulanmaktadır.",
+        "visible": true
+      },
+      {
+        "id": "giris-cikis-saatleri",
+        "title": "Giriş & Çıkış Saatleri",
+        "description": "Giriş saati 14:00, çıkış saati 11:00'dir. Çıkış gününde saat 14:00 sonrası yeni giriş yapılabilir.",
+        "visible": true
+      },
+      {
+        "id": "evcil-hayvan-politikasi",
+        "title": "Evcil Hayvan Politikası",
+        "description": "Tesisimiz evcil hayvan dostudur. (Küçük/orta ırk dostlarımız kabul edilir)",
+        "visible": true
+      },
+      {
+        "id": "sessizlik-saatleri",
+        "title": "Sessizlik Saatleri",
+        "description": "Bahçe ve veranda alanlarında 23:00 sonrası yüksek sesli müzik ve gürültü kısıtlaması mevcuttur.",
+        "visible": true
+      },
+      {
+        "id": "sigara-kullanimi",
+        "title": "Sigara Kullanımı",
+        "description": "Veranda ve bahçe alanında serbesttir. İç mekanlarda sigara kullanımı yasaktır.",
+        "visible": true
+      },
+      {
+        "id": "odeme-kapora",
+        "title": "Ödeme & Kapora",
+        "description": "₺3.000 tutarında ön kapora ödemesi ile rezervasyonunuz kesinleşir. Kalan tutar girişte tahsil edilir.",
+        "visible": true
+      }
+    ],
+    "nearbyPlaces": [
+      {
+        "id": "market",
+        "title": "Market",
+        "description": "1.5 km",
+        "visible": true
+      },
+      {
+        "id": "kahve-dukkani",
+        "title": "Kahve Dükkânı",
+        "description": "900 m",
+        "visible": true
+      },
+      {
+        "id": "doga-yuruyusu-baslangici",
+        "title": "Doğa Yürüyüşü Başlangıcı",
+        "description": "400 m",
+        "visible": true
+      }
+    ],
+    "createdAt": "2026-01-10 09:00:00",
+    "updatedAt": "2026-01-10 09:00:00",
+    "slug": "ahsap-loft-bungalov",
+    "bedrooms": 1,
+    "areaSqm": null,
+    "poolType": "Özel Isıtmalı Havuz",
+    "internet": "Fiber Wi-Fi",
+    "deletedAt": null,
+    "deletedBy": null
+  },
+  {
+    "id": "bng-bahce-aile",
+    "name": "Bahçe Aile Bungalovu",
+    "image": "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1600&q=80",
+    "galleryImages": [
+      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1600&q=80"
+    ],
+    "capacity": 6,
+    "description": "Kalabalık aileler ve arkadaş grupları için üç yatak odalı en geniş bungalovumuz. Özel havuz erişimi ve büyük yemek masası ile.",
+    "nightlyPrice": 7400,
+    "status": "AKTIF",
+    "features": [
+      "Özel Havuz Erişimi",
+      "Mangal Alanı",
+      "Tam Donanımlı Mutfak",
+      "Ücretsiz Wi-Fi",
+      "Klima",
+      "Çocuk Oyun Alanı"
+    ],
+    "rules": [
+      {
+        "id": "minimum-konaklama",
+        "title": "Minimum Konaklama",
+        "description": "Bu tesis için minimum 2 gece konaklama kuralı uygulanmaktadır.",
+        "visible": true
+      },
+      {
+        "id": "giris-cikis-saatleri",
+        "title": "Giriş & Çıkış Saatleri",
+        "description": "Giriş saati 14:00, çıkış saati 11:00'dir. Çıkış gününde saat 14:00 sonrası yeni giriş yapılabilir.",
+        "visible": true
+      },
+      {
+        "id": "evcil-hayvan-politikasi",
+        "title": "Evcil Hayvan Politikası",
+        "description": "Tesisimiz evcil hayvan dostudur. (Küçük/orta ırk dostlarımız kabul edilir)",
+        "visible": true
+      },
+      {
+        "id": "sessizlik-saatleri",
+        "title": "Sessizlik Saatleri",
+        "description": "Bahçe ve veranda alanlarında 23:00 sonrası yüksek sesli müzik ve gürültü kısıtlaması mevcuttur.",
+        "visible": true
+      },
+      {
+        "id": "sigara-kullanimi",
+        "title": "Sigara Kullanımı",
+        "description": "Veranda ve bahçe alanında serbesttir. İç mekanlarda sigara kullanımı yasaktır.",
+        "visible": true
+      },
+      {
+        "id": "odeme-kapora",
+        "title": "Ödeme & Kapora",
+        "description": "₺3.000 tutarında ön kapora ödemesi ile rezervasyonunuz kesinleşir. Kalan tutar girişte tahsil edilir.",
+        "visible": true
+      },
+      {
+        "id": "etkinlik-parti",
+        "title": "Etkinlik & Parti",
+        "description": "Tesis içinde etkinlik ve parti düzenlenemez.",
+        "visible": true
+      }
+    ],
+    "nearbyPlaces": [
+      {
+        "id": "cocuk-parki",
+        "title": "Çocuk Parkı",
+        "description": "250 m",
+        "visible": true
+      },
+      {
+        "id": "restoran",
+        "title": "Restoran",
+        "description": "700 m",
+        "visible": true
+      },
+      {
+        "id": "otopark",
+        "title": "Otopark",
+        "description": "Bungalov önü",
+        "visible": true
+      }
+    ],
+    "createdAt": "2026-01-10 09:00:00",
+    "updatedAt": "2026-01-10 09:00:00",
+    "slug": "bahce-aile-bungalovu",
+    "bedrooms": 3,
+    "areaSqm": null,
+    "poolType": "Özel Isıtmalı Havuz",
+    "internet": "Fiber Wi-Fi",
+    "deletedAt": null,
+    "deletedBy": null
+  },
+  {
+    "id": "bng-mini-kacamak",
+    "name": "Mini Kaçamak Bungalov",
+    "image": "https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=1600&q=80",
+    "galleryImages": [
+      "https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=1600&q=80"
+    ],
+    "capacity": 2,
+    "description": "Kısa hafta sonu kaçamakları için kompakt ve ekonomik seçenek. Sade tasarımı ve sıcak ahşap dokusuyla huzurlu bir mola.",
+    "nightlyPrice": 3200,
+    "status": "AKTIF",
+    "features": [
+      "Ücretsiz Wi-Fi",
+      "Klima",
+      "Özel Teras",
+      "Kahve Makinesi"
+    ],
+    "rules": [
+      {
+        "id": "minimum-konaklama",
+        "title": "Minimum Konaklama",
+        "description": "Bu tesis için minimum 2 gece konaklama kuralı uygulanmaktadır.",
+        "visible": true
+      },
+      {
+        "id": "giris-cikis-saatleri",
+        "title": "Giriş & Çıkış Saatleri",
+        "description": "Giriş saati 14:00, çıkış saati 11:00'dir. Çıkış gününde saat 14:00 sonrası yeni giriş yapılabilir.",
+        "visible": true
+      },
+      {
+        "id": "evcil-hayvan-politikasi",
+        "title": "Evcil Hayvan Politikası",
+        "description": "Tesisimiz evcil hayvan dostudur. (Küçük/orta ırk dostlarımız kabul edilir)",
+        "visible": true
+      },
+      {
+        "id": "sessizlik-saatleri",
+        "title": "Sessizlik Saatleri",
+        "description": "Bahçe ve veranda alanlarında 23:00 sonrası yüksek sesli müzik ve gürültü kısıtlaması mevcuttur.",
+        "visible": true
+      },
+      {
+        "id": "sigara-kullanimi",
+        "title": "Sigara Kullanımı",
+        "description": "Veranda ve bahçe alanında serbesttir. İç mekanlarda sigara kullanımı yasaktır.",
+        "visible": true
+      },
+      {
+        "id": "odeme-kapora",
+        "title": "Ödeme & Kapora",
+        "description": "₺3.000 tutarında ön kapora ödemesi ile rezervasyonunuz kesinleşir. Kalan tutar girişte tahsil edilir.",
+        "visible": true
+      },
+      {
+        "id": "misafir-kapasitesi",
+        "title": "Misafir Kapasitesi",
+        "description": "Bu bungalovda en fazla 2 misafir konaklayabilir.",
+        "visible": true
+      }
+    ],
+    "nearbyPlaces": [
+      {
+        "id": "kahvalti-salonu",
+        "title": "Kahvaltı Salonu",
+        "description": "150 m",
+        "visible": true
+      },
+      {
+        "id": "yuruyus-parkuru",
+        "title": "Yürüyüş Parkuru",
+        "description": "600 m",
+        "visible": true
+      }
+    ],
+    "createdAt": "2026-01-10 09:00:00",
+    "updatedAt": "2026-01-10 09:00:00",
+    "slug": "mini-kacamak-bungalov",
+    "bedrooms": 1,
+    "areaSqm": null,
+    "poolType": "Özel Isıtmalı Havuz",
+    "internet": "Fiber Wi-Fi",
+    "deletedAt": null,
+    "deletedBy": null
+  }
+]

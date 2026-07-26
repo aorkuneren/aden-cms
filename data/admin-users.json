@@ -1,0 +1,10 @@
+[
+  {
+    "id": "admin-seed-superadmin",
+    "email": "grafik@iyv.org.tr",
+    "name": "Yönetici",
+    "role": "SUPERADMIN",
+    "passwordHash": "$2b$10$hxf.CH0JVZ8OrUMXYhaY/ujxDYhcho/mivQEJc/oZNHB4FWvdQdLy",
+    "isActive": true
+  }
+]

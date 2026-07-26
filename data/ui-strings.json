@@ -1,0 +1,18 @@
+{
+  "notFound.title": "Aradığınız sayfaya ulaşamadık",
+  "notFound.description": "Bağlantı değişmiş veya sayfa kaldırılmış olabilir. Ana sayfaya dönebilir ya da konaklama seçeneklerimizi inceleyebilirsiniz.",
+  "notFound.ctaHome": "Ana sayfaya dön",
+  "notFound.ctaBungalows": "Bungalovları incele",
+  "maintenance.title": "Sistem Güncelleniyor",
+  "maintenance.description": "Şu an sistemlerimizi sizin için güncelliyoruz, lütfen kısa bir süre sonra tekrar deneyin.",
+  "gallery.filterAll": "Tümü",
+  "gallery.zoom": "Büyüt",
+  "gallery.empty": "Bu kategori için henüz herhangi bir galeri görseli eklenmemiş.",
+  "gallery.viewGrid": "Izgara Görünümü",
+  "gallery.viewList": "Liste Görünümü",
+  "footer.cookiePreferences": "Çerez Tercihleri",
+  "header.login": "Giriş Yap",
+  "header.register": "Hesap Oluştur",
+  "listing.filterAll": "Tümü",
+  "listing.emptyFallback": "Filtre kriterlerine uygun bungalow bulunamadı."
+}

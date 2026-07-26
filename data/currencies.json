@@ -1,0 +1,26 @@
+[
+  {
+    "code": "TRY",
+    "symbol": "₺",
+    "isActive": true,
+    "isDefault": true
+  },
+  {
+    "code": "EUR",
+    "symbol": "€",
+    "isActive": true,
+    "isDefault": false
+  },
+  {
+    "code": "GBP",
+    "symbol": "£",
+    "isActive": true,
+    "isDefault": false
+  },
+  {
+    "code": "USD",
+    "symbol": "$",
+    "isActive": true,
+    "isDefault": false
+  }
+]

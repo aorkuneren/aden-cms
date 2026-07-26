@@ -1,0 +1,14 @@
+[
+  {
+    "code": "TR",
+    "name": "Türkçe",
+    "isActive": true,
+    "isDefault": true
+  },
+  {
+    "code": "EN",
+    "name": "English",
+    "isActive": true,
+    "isDefault": false
+  }
+]

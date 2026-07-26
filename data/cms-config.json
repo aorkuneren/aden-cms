@@ -1,0 +1,775 @@
+{
+  "siteManagement": {
+    "seoTitle": "TEST DEMO",
+    "seoDescription": "Sapanca doğasında premium bungalov konaklama deneyimi.",
+    "seoKeywords": "sapanca bungalov, aden bungalov, bungalov rezervasyon",
+    "logoDarkUrl": "https://lelkql21mmmqiml3.public.blob.vercel-storage.com/uploads/1762727561555-vpforc3l3/1774136296579-logo-b.png",
+    "logoLightUrl": "https://lelkql21mmmqiml3.public.blob.vercel-storage.com/uploads/1762727561555-vpforc3l3/1774136299079-logo-w.png",
+    "pageSeoItems": [
+      {
+        "id": "seo-home",
+        "slug": "/",
+        "label": "Anasayfa",
+        "title": "",
+        "description": "",
+        "keywords": ""
+      },
+      {
+        "id": "seo-bungalovlarimiz",
+        "slug": "/bungalovlarimiz",
+        "label": "Bungalovlarımız",
+        "title": "",
+        "description": "",
+        "keywords": ""
+      },
+      {
+        "id": "seo-galeri",
+        "slug": "/galeri",
+        "label": "Galeri",
+        "title": "",
+        "description": "",
+        "keywords": ""
+      },
+      {
+        "id": "seo-kurumsal",
+        "slug": "/kurumsal",
+        "label": "Kurumsal",
+        "title": "",
+        "description": "",
+        "keywords": ""
+      },
+      {
+        "id": "seo-iletisim",
+        "slug": "/iletisim",
+        "label": "İletişim",
+        "title": "",
+        "description": "",
+        "keywords": ""
+      },
+      {
+        "id": "seo-rezervasyon-talep",
+        "slug": "/bungalovlarimiz",
+        "label": "Rezervasyon Talep",
+        "title": "",
+        "description": "",
+        "keywords": ""
+      }
+    ],
+    "menuGroups": [
+      {
+        "id": "menu-group-ana-menu",
+        "key": "",
+        "title": "Ana Menü",
+        "location": "OTHER",
+        "description": "",
+        "status": "published",
+        "isActive": true,
+        "items": [
+          {
+            "id": "menu-main-0",
+            "text": "Anasayfa",
+            "href": "/",
+            "target": "SELF",
+            "isActive": true
+          },
+          {
+            "id": "menu-main-1",
+            "text": "Bungalovlarımız",
+            "href": "/bungalovlarimiz",
+            "target": "SELF",
+            "isActive": true
+          },
+          {
+            "id": "menu-main-2",
+            "text": "Galeri",
+            "href": "/galeri",
+            "target": "SELF",
+            "isActive": true
+          },
+          {
+            "id": "menu-main-3",
+            "text": "Kurumsal",
+            "href": "/kurumsal",
+            "target": "SELF",
+            "isActive": true
+          },
+          {
+            "id": "menu-main-4",
+            "text": "İletişim",
+            "href": "/iletisim",
+            "target": "SELF",
+            "isActive": true
+          }
+        ],
+        "publishedAt": null,
+        "updatedBy": "admin-seed-superadmin",
+        "updatedAt": "2026-07-25T21:49:33.896Z",
+        "createdBy": "admin-seed-superadmin",
+        "createdAt": "2026-07-25T21:49:33.896Z"
+      },
+      {
+        "id": "menu-group-hizli-erisim",
+        "key": "",
+        "title": "Hızlı Erişim",
+        "location": "OTHER",
+        "description": "",
+        "status": "published",
+        "isActive": true,
+        "items": [
+          {
+            "id": "footer-link-rezervasyon",
+            "text": "Rezervasyon",
+            "href": "/bungalovlarimiz",
+            "target": "SELF",
+            "isActive": true
+          },
+          {
+            "id": "footer-link-hesap-numaralarimiz",
+            "text": "Hesap Numaralarımız",
+            "href": "/kurumsal/hesap-numaralarimiz",
+            "target": "SELF",
+            "isActive": true
+          },
+          {
+            "id": "footer-link-kiralama",
+            "text": "Kiralama Şartları",
+            "href": "/kurumsal/kiralama-sartlari",
+            "target": "SELF",
+            "isActive": true
+          },
+          {
+            "id": "footer-link-kvkk",
+            "text": "KVKK Aydınlatma Metni",
+            "href": "/kurumsal/kvkk-aydinlatma-metni",
+            "target": "SELF",
+            "isActive": true
+          },
+          {
+            "id": "footer-link-iptal",
+            "text": "İptal Politikası",
+            "href": "/kurumsal/iptal-politikasi",
+            "target": "SELF",
+            "isActive": true
+          },
+          {
+            "id": "footer-link-gizlilik",
+            "text": "Gizlilik Bildirimi",
+            "href": "/kurumsal/gizlilik-bildirimi",
+            "target": "SELF",
+            "isActive": true
+          },
+          {
+            "id": "custom-1784986971294-5d2par",
+            "itemType": "custom_link",
+            "title": "Test",
+            "url": "https://",
+            "target": "BLANK",
+            "isActive": true,
+            "showOnDesktop": true,
+            "showOnMobile": true
+          }
+        ],
+        "publishedAt": "2026-07-25T13:42:59.537Z",
+        "updatedBy": "admin-seed-superadmin",
+        "updatedAt": "2026-07-25T21:49:33.896Z",
+        "createdBy": "admin-seed-superadmin",
+        "createdAt": "2026-07-25T21:49:33.896Z"
+      },
+      {
+        "id": "menu-group-bungalovlar",
+        "key": "",
+        "title": "Bungalovlar",
+        "location": "OTHER",
+        "description": "",
+        "status": "published",
+        "isActive": true,
+        "items": [
+          {
+            "id": "dyn-1785016172073-r05knn",
+            "itemType": "dynamic_bungalow_list",
+            "title": "Bungalovlar",
+            "isActive": true,
+            "showOnDesktop": true,
+            "showOnMobile": true,
+            "dynamicSettings": {
+              "source": "all_active",
+              "limit": 6,
+              "sort": "manual"
+            }
+          }
+        ],
+        "publishedAt": "2026-07-25T21:49:34.092Z",
+        "updatedBy": "admin-seed-superadmin",
+        "updatedAt": "2026-07-25T21:49:34.092Z",
+        "createdBy": "admin-seed-superadmin",
+        "createdAt": "2026-07-25T21:49:33.896Z"
+      },
+      {
+        "id": "menu-group-sozlesmeler",
+        "key": "",
+        "title": "Sözleşmeler",
+        "location": "OTHER",
+        "description": "",
+        "status": "published",
+        "isActive": true,
+        "items": [
+          {
+            "id": "menu-contract-0",
+            "text": "Kiralama Şartları",
+            "href": "/kurumsal/kiralama-sartlari",
+            "target": "SELF",
+            "isActive": true
+          },
+          {
+            "id": "menu-contract-1",
+            "text": "KVKK Aydınlatma Metni",
+            "href": "/kurumsal/kvkk-aydinlatma-metni",
+            "target": "SELF",
+            "isActive": true
+          },
+          {
+            "id": "menu-contract-2",
+            "text": "İptal Politikası",
+            "href": "/kurumsal/iptal-politikasi",
+            "target": "SELF",
+            "isActive": true
+          },
+          {
+            "id": "menu-contract-3",
+            "text": "Gizlilik Bildirimi",
+            "href": "/kurumsal/gizlilik-bildirimi",
+            "target": "SELF",
+            "isActive": true
+          }
+        ],
+        "publishedAt": null,
+        "updatedBy": "admin-seed-superadmin",
+        "updatedAt": "2026-07-25T21:49:33.896Z",
+        "createdBy": "admin-seed-superadmin",
+        "createdAt": "2026-07-25T21:49:33.896Z"
+      }
+    ],
+    "socialProfiles": [
+      {
+        "id": "social-1773446621342-9x86m9",
+        "platform": "Instagram",
+        "icon": "instagram",
+        "url": ""
+      },
+      {
+        "id": "social-1773446621342-s8yx3g",
+        "platform": "Facebook",
+        "icon": "facebook",
+        "url": ""
+      }
+    ],
+    "footerManagement": {
+      "enabled": true,
+      "logoUrl": "",
+      "contactItems": [
+        {
+          "id": "footer-contact-location",
+          "enabled": true,
+          "icon": "map-pin",
+          "text": "Sapanca / Sakarya",
+          "link": ""
+        },
+        {
+          "id": "footer-contact-phone",
+          "enabled": true,
+          "icon": "phone-call",
+          "text": "",
+          "link": ""
+        },
+        {
+          "id": "footer-contact-email",
+          "enabled": true,
+          "icon": "mail",
+          "text": "",
+          "link": ""
+        }
+      ],
+      "socialItems": [
+        {
+          "id": "footer-social-instagram",
+          "enabled": true,
+          "icon": "instagram",
+          "text": "Instagram",
+          "link": ""
+        },
+        {
+          "id": "footer-social-facebook",
+          "enabled": true,
+          "icon": "facebook",
+          "text": "Facebook",
+          "link": ""
+        }
+      ],
+      "columns": [
+        {
+          "id": "footer-col-logo",
+          "enabled": true,
+          "title": "Logo",
+          "type": "LOGO",
+          "menuType": "ANA_MENU",
+          "menuGroupId": "",
+          "bungalowLimit": 7
+        },
+        {
+          "id": "footer-col-ana-menu",
+          "enabled": true,
+          "title": "Ana Menü",
+          "type": "MENU_GROUP",
+          "menuType": "ANA_MENU",
+          "menuGroupId": "menu-group-ana-menu",
+          "bungalowLimit": 7
+        },
+        {
+          "id": "footer-col-hizli-erisim",
+          "enabled": true,
+          "title": "Hızlı Erişim",
+          "type": "MENU_GROUP",
+          "menuType": "HIZLI_ERISIM",
+          "menuGroupId": "menu-group-hizli-erisim",
+          "bungalowLimit": 7
+        },
+        {
+          "id": "footer-col-bungalovlar",
+          "enabled": true,
+          "title": "Bungalov Listesi",
+          "type": "BUNGALOV_LIST",
+          "menuType": "BUNGALOVLAR",
+          "menuGroupId": "menu-group-bungalovlar",
+          "bungalowLimit": 7
+        },
+        {
+          "id": "footer-col-contact",
+          "enabled": true,
+          "title": "İletişim",
+          "type": "CONTACT",
+          "menuType": "OZEL_MENU",
+          "menuGroupId": "",
+          "bungalowLimit": 7
+        }
+      ],
+      "copyrightText": "Copyright © 2023 Tüm Hakları Saklıdır.",
+      "title": "Hızlı Erişim",
+      "quickLinks": [
+        {
+          "id": "footer-link-rezervasyon",
+          "label": "Rezervasyon",
+          "href": "/bungalovlarimiz",
+          "isActive": true
+        },
+        {
+          "id": "footer-link-hesap-numaralarimiz",
+          "label": "Hesap Numaralarımız",
+          "href": "/kurumsal/hesap-numaralarimiz",
+          "isActive": true
+        },
+        {
+          "id": "footer-link-kiralama",
+          "label": "Kiralama Şartları",
+          "href": "/kurumsal/kiralama-sartlari",
+          "isActive": true
+        },
+        {
+          "id": "footer-link-kvkk",
+          "label": "KVKK Aydınlatma Metni",
+          "href": "/kurumsal/kvkk-aydinlatma-metni",
+          "isActive": true
+        },
+        {
+          "id": "footer-link-iptal",
+          "label": "İptal Politikası",
+          "href": "/kurumsal/iptal-politikasi",
+          "isActive": true
+        },
+        {
+          "id": "footer-link-gizlilik",
+          "label": "Gizlilik Bildirimi",
+          "href": "/kurumsal/gizlilik-bildirimi",
+          "isActive": true
+        },
+        {
+          "id": "footer-link-iletisim",
+          "label": "İletişim",
+          "href": "/iletisim",
+          "isActive": true
+        }
+      ]
+    }
+  },
+  "headerManagement": {
+    "topHeaderEnabled": true,
+    "topHeaderText": "İlmiye, İlmiye2 Sok No.12, 54600 Sapanca/Sakarya",
+    "topHeaderPhone": "+905347989798",
+    "topHeaderItems": [
+      {
+        "id": "top-header-location",
+        "enabled": true,
+        "icon": "map-pin",
+        "text": "İlmiye, İlmiye2 Sok No.12, 54600 Sapanca/Sakarya",
+        "url": ""
+      },
+      {
+        "id": "top-header-item-1774142804231-mkhwom",
+        "enabled": true,
+        "icon": "phone",
+        "text": "0534 798 97 98",
+        "url": ""
+      }
+    ],
+    "topHeaderRight": {
+      "showLanguage": false,
+      "showCurrency": false,
+      "currencyLabel": "TRY"
+    },
+    "menuItems": [
+      {
+        "id": "menu-1773446621342-5j4m04",
+        "label": "Anasayfa",
+        "href": "/",
+        "isActive": true
+      },
+      {
+        "id": "menu-1773446621342-q3qsx2",
+        "label": "Bungalovlarımız",
+        "href": "/bungalovlarimiz",
+        "isActive": true
+      },
+      {
+        "id": "menu-1774136649956-uyfoa0",
+        "label": "Galeri",
+        "href": "/galeri",
+        "isActive": true
+      },
+      {
+        "id": "menu-1773446621342-8gf5pb",
+        "label": "Kurumsal",
+        "href": "/kurumsal",
+        "isActive": true
+      },
+      {
+        "id": "menu-1773446621342-c1w2pv",
+        "label": "İletişim",
+        "href": "/iletisim",
+        "isActive": true
+      }
+    ],
+    "menuType": "ANA_MENU",
+    "menuGroupId": "menu-group-ana-menu",
+    "actionButtons": [
+      {
+        "id": "header-action-1774142828160-guub25",
+        "enabled": true,
+        "icon": "message-circle",
+        "label": "Whatsapp",
+        "url": "https://wa.me/+905347989798",
+        "target": "BLANK"
+      },
+      {
+        "id": "header-action-reservation",
+        "enabled": true,
+        "icon": "calendar-check-2",
+        "label": "Rezervasyon",
+        "url": "/bungalovlarimiz",
+        "target": "SELF"
+      }
+    ],
+    "buttons": {
+      "whatsapp": {
+        "enabled": true,
+        "label": "WhatsApp",
+        "url": "https://wa.me/905347989798"
+      },
+      "phone": {
+        "enabled": true,
+        "label": "Hemen Ara",
+        "url": "tel:+905347989798"
+      },
+      "reservation": {
+        "enabled": true,
+        "label": "Online Rezervasyon",
+        "url": "/bungalovlarimiz"
+      }
+    }
+  },
+  "sliderManagement": [
+    {
+      "id": "slider-1773879812563-kaoole",
+      "imageUrl": "/uploads/1736429760-677fd0c0d8a17-1784996399232.webp",
+      "title": "Sapanca'da Mavi ve Yeşilin Buluşma Noktası",
+      "description": "Doğanın kalbinde, göl manzarası eşliğinde konfor ve huzuru bir arada yaşayın.",
+      "tags": [
+        "Göl Manzarası",
+        "Yuvarlak Havuz",
+        "Barbekü Alanı"
+      ],
+      "isActive": true,
+      "videoUrl": "",
+      "mediaType": "IMAGE",
+      "buttonText": "",
+      "buttonUrl": "",
+      "secondaryButtonText": "",
+      "secondaryButtonUrl": "",
+      "badgeText": "",
+      "overlayOpacity": 50
+    }
+  ],
+  "galleryManagement": {
+    "categories": [
+      {
+        "id": "gallery-category-bungalovlar",
+        "name": "Bungalovlar",
+        "isActive": true
+      },
+      {
+        "id": "gallery-category-odalar-suit",
+        "name": "Odalar/Suit",
+        "isActive": true
+      }
+    ],
+    "items": [
+      {
+        "id": "gallery-1774131148268-1tjbi8",
+        "imageUrl": "https://www.adenbungalov.com/upload/1736368801-677ee2a1c5e4b.webp",
+        "title": "",
+        "description": "",
+        "categoryId": "gallery-category-odalar-suit",
+        "isActive": true,
+        "isFeatured": false
+      },
+      {
+        "id": "gallery-1774133330123-lyw0ij",
+        "imageUrl": "https://www.adenbungalov.com/upload/1736368799-677ee29f8d305.webp",
+        "title": "",
+        "description": "",
+        "categoryId": "gallery-category-bungalovlar",
+        "isActive": true,
+        "isFeatured": true
+      },
+      {
+        "id": "gallery-1774133330790-lu4u6r",
+        "imageUrl": "https://www.adenbungalov.com/upload/1736368808-677ee2a88e180.webp",
+        "title": "",
+        "description": "",
+        "categoryId": "gallery-category-odalar-suit",
+        "isActive": true,
+        "isFeatured": false
+      },
+      {
+        "id": "gallery-1774133331014-jxszcl",
+        "imageUrl": "https://www.adenbungalov.com/upload/1736368816-677ee2b009fe8.webp",
+        "title": "",
+        "description": "",
+        "categoryId": "gallery-category-bungalovlar",
+        "isActive": true,
+        "isFeatured": true
+      },
+      {
+        "id": "gallery-1774133331181-muhqfp",
+        "imageUrl": "https://www.adenbungalov.com/upload/1736368817-677ee2b1b43ed.webp",
+        "title": "",
+        "description": "",
+        "categoryId": "gallery-category-odalar-suit",
+        "isActive": true,
+        "isFeatured": false
+      },
+      {
+        "id": "gallery-1774133372510-9c25lw",
+        "imageUrl": "https://www.adenbungalov.com/upload/1736368883-677ee2f3a488b.webp",
+        "title": "",
+        "description": "",
+        "categoryId": "gallery-category-bungalovlar",
+        "isActive": true,
+        "isFeatured": true
+      },
+      {
+        "id": "gallery-1774133372685-ft1k4c",
+        "imageUrl": "https://www.adenbungalov.com/upload/1736368881-677ee2f145b0a.webp",
+        "title": "",
+        "description": "",
+        "categoryId": "gallery-category-odalar-suit",
+        "isActive": true,
+        "isFeatured": false
+      },
+      {
+        "id": "gallery-1774133372860-3mqldw",
+        "imageUrl": "https://www.adenbungalov.com/upload/1736368878-677ee2ee5c2c4.webp",
+        "title": "",
+        "description": "",
+        "categoryId": "gallery-category-odalar-suit",
+        "isActive": true,
+        "isFeatured": true
+      },
+      {
+        "id": "gallery-1774133373069-74s0el",
+        "imageUrl": "https://www.adenbungalov.com/upload/1736368865-677ee2e16f857.webp",
+        "title": "",
+        "description": "",
+        "categoryId": "gallery-category-bungalovlar",
+        "isActive": true,
+        "isFeatured": true
+      },
+      {
+        "id": "gallery-1774133373361-3ym4s6",
+        "imageUrl": "https://www.adenbungalov.com/upload/1736368848-677ee2d02eb68.webp",
+        "title": "",
+        "description": "",
+        "categoryId": "gallery-category-bungalovlar",
+        "isActive": true,
+        "isFeatured": true
+      }
+    ]
+  },
+  "faqManagement": [
+    {
+      "id": "faq-1773449256809-ajes50",
+      "question": "Aden Bungalov tam olarak nerede bulunuyor?",
+      "answer": "Tesisimiz; Sakarya'nın Sapanca ilçesinde, doğayla iç içe ve göl manzarasına hakim olan İlmiye Mahallesi'nde (İlmiye 2. Sokak No:12) konumlanmaktadır.",
+      "isActive": true
+    },
+    {
+      "id": "faq-1773449256809-s9tgk3",
+      "question": "Konaklama fiyatlarına kahvaltı dahil mi?",
+      "answer": "Evet, Aden Bungalov'da tatil deneyiminizi zenginleştirmek için \"Oda Kahvaltı\" konseptiyle hizmet vermekteyiz. Her sabah güne enfes bir kahvaltı ile başlayabilirsiniz.",
+      "isActive": true
+    },
+    {
+      "id": "faq-1773449256809-yz9ym7",
+      "question": "Bungalovların içerisinde Wi-Fi bağlantısı var mı?",
+      "answer": "Elbette. Doğa ile iç içe olurken dünyadan kopmamanız adına tüm suitlerimizde misafirlerimizin kullanımına açık, ücretsiz ve hızlı Wi-Fi bağlantısı mevcuttur.",
+      "isActive": true
+    },
+    {
+      "id": "faq-1773449256809-64pvng",
+      "question": "Bungalovlarınızın kişi kapasitesi nedir? Kalabalık aileler için uygun mu?",
+      "answer": "Suitlerimiz 2 kişiden başlayarak 5 kişiye kadar konaklama imkanı sunmaktadır. Özellikle 2 ebeveyn yatak odası barındıran Family Suit veya ferah yapısıyla White Suit gibi seçeneklerimiz kalabalık aileler ve gruplar için idealdir.",
+      "isActive": true
+    },
+    {
+      "id": "faq-1773449256809-kf15va",
+      "question": "Tesisinizde mangal / barbekü yapma imkanımız var mı?",
+      "answer": "Evet, her bungalovumuzun kendine ait bahçesinde sevdiklerinizle keyifli akşam yemekleri organize edebileceğiniz özel barbekü alanlarımız mevcuttur.",
+      "isActive": true
+    },
+    {
+      "id": "faq-1773449256809-vxv0us",
+      "question": "Aden Bungalov'a ulaşım nasıl sağlanıyor?",
+      "answer": "Tesisimize özel araçla kolayca ulaşabilirsiniz. Sapanca merkezden kısa sürede erişim sağlanır; toplu taşıma ve transfer desteği için rezervasyon öncesinde ekibimizden yönlendirme alabilirsiniz.",
+      "isActive": true
+    }
+  ],
+  "whyAdenManagement": [
+    {
+      "id": "why-1773449256809-vmlp1j",
+      "title": "Eşsiz Göl Manzarası",
+      "description": "",
+      "icon": "Waves",
+      "imageUrl": "",
+      "isActive": true
+    },
+    {
+      "id": "why-1773449256809-1valrz",
+      "title": "Özel Havuz Keyfi",
+      "description": "",
+      "icon": "Sparkles",
+      "imageUrl": "",
+      "isActive": true
+    },
+    {
+      "id": "why-1773449256809-bwyqz4",
+      "title": "Oda Kahvaltı Hizmeti",
+      "description": "",
+      "icon": "BellRing",
+      "imageUrl": "",
+      "isActive": true
+    },
+    {
+      "id": "why-1773449256809-ctrnzd",
+      "title": "Barbekü Alanı",
+      "description": "",
+      "icon": "CarFront",
+      "imageUrl": "",
+      "isActive": true
+    },
+    {
+      "id": "why-1773449256809-jjelw4",
+      "title": "Üstün Temizlik Anlayışı",
+      "description": "",
+      "icon": "ShieldCheck",
+      "imageUrl": "",
+      "isActive": true
+    },
+    {
+      "id": "why-1773449256809-z6f0si",
+      "title": "Ebeveyn Yatak Odaları",
+      "description": "",
+      "icon": "Users",
+      "imageUrl": "",
+      "isActive": true
+    },
+    {
+      "id": "why-1773449256809-0h52qu",
+      "title": "Ulaşım Yardımı",
+      "description": "",
+      "icon": "MapPin",
+      "imageUrl": "",
+      "isActive": true
+    },
+    {
+      "id": "why-1773449256809-vnw6fm",
+      "title": "Modern İç Tasarım",
+      "description": "",
+      "icon": "Sparkles",
+      "imageUrl": "",
+      "isActive": true
+    },
+    {
+      "id": "why-1773449256809-7qffr4",
+      "title": "Çift ve Aile Konaklama",
+      "description": "",
+      "icon": "Users",
+      "imageUrl": "",
+      "isActive": true
+    },
+    {
+      "id": "why-1773449256809-xdm32t",
+      "title": "Hızlı Rezervasyon Akışı",
+      "description": "",
+      "icon": "BellRing",
+      "imageUrl": "",
+      "isActive": true
+    },
+    {
+      "id": "why-1773449256809-h2mjxz",
+      "title": "WhatsApp Destek Hattı",
+      "description": "",
+      "icon": "MessageCircle",
+      "imageUrl": "",
+      "isActive": true
+    },
+    {
+      "id": "why-1773449256809-oguazv",
+      "title": "Misafir Odaklı Hizmet",
+      "description": "",
+      "icon": "HeartHandshake",
+      "imageUrl": "",
+      "isActive": true
+    },
+    {
+      "id": "why-1773449256809-jlwuiz",
+      "title": "Otopark İmkanı",
+      "description": "",
+      "icon": "CarFront",
+      "imageUrl": "",
+      "isActive": true
+    }
+  ],
+  "sliderSettings": {
+    "autoplayEnabled": true,
+    "autoplaySeconds": 5,
+    "pauseOnHover": true
+  }
+}
