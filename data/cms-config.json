@@ -538,7 +538,9 @@
         "description": "",
         "categoryId": "gallery-category-odalar-suit",
         "isActive": true,
-        "isFeatured": false
+        "isFeatured": false,
+        "deletedAt": "2026-07-26T22:23:32.979Z",
+        "deletedBy": "admin-seed-superadmin"
       },
       {
         "id": "gallery-1774133330123-lyw0ij",
@@ -547,7 +549,9 @@
         "description": "",
         "categoryId": "gallery-category-bungalovlar",
         "isActive": true,
-        "isFeatured": true
+        "isFeatured": true,
+        "deletedAt": null,
+        "deletedBy": null
       },
       {
         "id": "gallery-1774133330790-lu4u6r",
@@ -556,7 +560,9 @@
         "description": "",
         "categoryId": "gallery-category-odalar-suit",
         "isActive": true,
-        "isFeatured": false
+        "isFeatured": false,
+        "deletedAt": null,
+        "deletedBy": null
       },
       {
         "id": "gallery-1774133331014-jxszcl",
@@ -565,7 +571,9 @@
         "description": "",
         "categoryId": "gallery-category-bungalovlar",
         "isActive": true,
-        "isFeatured": true
+        "isFeatured": true,
+        "deletedAt": null,
+        "deletedBy": null
       },
       {
         "id": "gallery-1774133331181-muhqfp",
@@ -574,7 +582,9 @@
         "description": "",
         "categoryId": "gallery-category-odalar-suit",
         "isActive": true,
-        "isFeatured": false
+        "isFeatured": false,
+        "deletedAt": null,
+        "deletedBy": null
       },
       {
         "id": "gallery-1774133372510-9c25lw",
@@ -583,7 +593,9 @@
         "description": "",
         "categoryId": "gallery-category-bungalovlar",
         "isActive": true,
-        "isFeatured": true
+        "isFeatured": true,
+        "deletedAt": null,
+        "deletedBy": null
       },
       {
         "id": "gallery-1774133372685-ft1k4c",
@@ -592,7 +604,9 @@
         "description": "",
         "categoryId": "gallery-category-odalar-suit",
         "isActive": true,
-        "isFeatured": false
+        "isFeatured": false,
+        "deletedAt": null,
+        "deletedBy": null
       },
       {
         "id": "gallery-1774133372860-3mqldw",
@@ -601,7 +615,9 @@
         "description": "",
         "categoryId": "gallery-category-odalar-suit",
         "isActive": true,
-        "isFeatured": true
+        "isFeatured": true,
+        "deletedAt": null,
+        "deletedBy": null
       },
       {
         "id": "gallery-1774133373069-74s0el",
@@ -610,7 +626,9 @@
         "description": "",
         "categoryId": "gallery-category-bungalovlar",
         "isActive": true,
-        "isFeatured": true
+        "isFeatured": true,
+        "deletedAt": null,
+        "deletedBy": null
       },
       {
         "id": "gallery-1774133373361-3ym4s6",
@@ -619,7 +637,9 @@
         "description": "",
         "categoryId": "gallery-category-bungalovlar",
         "isActive": true,
-        "isFeatured": true
+        "isFeatured": true,
+        "deletedAt": null,
+        "deletedBy": null
       }
     ]
   },

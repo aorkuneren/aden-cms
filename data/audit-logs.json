@@ -1,5 +1,39 @@
 [
   {
+    "id": "log-1785104613040-0vmad",
+    "createdAt": "2026-07-26T22:23:33.040Z",
+    "actorUserId": "admin-seed-superadmin",
+    "actorName": "Yönetici",
+    "action": "Tekil Galeri Görseli Silindi (çöp kutusu)",
+    "entityType": "cms_gallery",
+    "entityId": "gallery-1774131148268-1tjbi8",
+    "details": null
+  },
+  {
+    "id": "log-1785101836460-jlq2a",
+    "createdAt": "2026-07-26T21:37:16.460Z",
+    "actorUserId": "admin-seed-superadmin",
+    "actorName": "Yönetici",
+    "action": "İletişim mesajı silindi",
+    "entityType": "inquiry",
+    "entityId": "inq-1785101800031-ftbdox",
+    "details": null
+  },
+  {
+    "id": "log-1785101800034-qpoir",
+    "createdAt": "2026-07-26T21:36:40.034Z",
+    "actorUserId": "system",
+    "actorName": "Sistem / Anonim",
+    "action": "Yeni iletişim mesajı alındı",
+    "entityType": "inquiry",
+    "entityId": "inq-1785101800031-ftbdox",
+    "details": {
+      "type": "CONTACT",
+      "name": "Ömer EREN"
+    },
+    "ip": "::1"
+  },
+  {
     "id": "log-1785066721559-ir190",
     "createdAt": "2026-07-26T11:52:01.559Z",
     "actorUserId": "system",
