@@ -228,7 +228,7 @@ export default async function BungalovDetayPage({ params, searchParams }: Detail
         </article>
 
         {/* Right Sidebar: Sticky Reservation Card */}
-        <aside className="lg:sticky lg:top-24">
+        <aside className="min-w-0 lg:sticky lg:top-24">
           <StickyReservationCard
             bungalowId={bungalov.id}
             bungalowName={bungalov.name}

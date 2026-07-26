@@ -345,7 +345,7 @@ export function StickyReservationCard({
           {/* Header Altına Kadar Uzanan, Köşesiz (rounded-none), Slide Up & Slide Down Animasyonlu Panel */}
           <div
             className={cn(
-              "fixed top-16 sm:top-20 bottom-0 inset-x-0 z-50 w-full rounded-none bg-white shadow-2xl flex flex-col border-t border-[#e2dcd2] overflow-hidden",
+              "fixed inset-x-0 bottom-0 z-50 w-full rounded-none bg-white shadow-2xl flex flex-col border-t border-[#e2dcd2] overflow-hidden top-[calc(4rem+env(safe-area-inset-top,0px))] sm:top-[calc(5rem+env(safe-area-inset-top,0px))]",
               isClosing
                 ? "animate-out slide-out-to-bottom duration-300 ease-in"
                 : "animate-in slide-in-from-bottom duration-300 ease-out"
@@ -365,7 +365,8 @@ export function StickyReservationCard({
                 <button
                   type="button"
                   onClick={closeDrawer}
-                  className="h-9 w-9 rounded-full bg-slate-100 hover:bg-slate-200 text-[#18261e] flex items-center justify-center transition cursor-pointer"
+                  className="touch-target h-11 w-11 rounded-full bg-slate-100 hover:bg-slate-200 text-[#18261e] flex items-center justify-center transition cursor-pointer"
+                  aria-label="Müsaitlik panelini kapat"
                 >
                   <X className="h-5 w-5" />
                 </button>
@@ -373,7 +374,7 @@ export function StickyReservationCard({
             </div>
 
             {/* 2 SÜTUNLU ÇALIŞMA ALANI (GRID) */}
-            <div className="p-6 sm:p-8 overflow-y-auto min-h-0 flex-1">
+            <div className="min-h-0 flex-1 overflow-y-auto px-6 pt-6 sm:px-8 sm:pt-8 pb-[calc(1.5rem+var(--site-bottom-chrome))] md:pb-8">
               <div className="mx-auto max-w-7xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
                 {/* SOL SÜTUN: TAKVİM & TARİH SEÇİMİ (lg:col-span-7) */}
@@ -414,7 +415,7 @@ export function StickyReservationCard({
                         type="button"
                         disabled={guests <= 1}
                         onClick={() => setGuests((prev) => Math.max(1, prev - 1))}
-                        className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#dcd4c8] bg-white text-[#18261e] font-bold shadow-2xs hover:bg-[#f6f1e8] disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
+                        className="touch-target flex h-11 w-11 items-center justify-center rounded-lg border border-[#dcd4c8] bg-white text-[#18261e] font-bold shadow-2xs hover:bg-[#f6f1e8] disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
                         aria-label="Misafir sayısını azalt"
                       >
                         <Minus className="h-4 w-4 text-[#18261e]" />
@@ -433,7 +434,7 @@ export function StickyReservationCard({
                         type="button"
                         disabled={guests >= capacityLimit}
                         onClick={() => setGuests((prev) => Math.min(capacityLimit, prev + 1))}
-                        className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#dcd4c8] bg-white text-[#18261e] font-bold shadow-2xs hover:bg-[#f6f1e8] disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
+                        className="touch-target flex h-11 w-11 items-center justify-center rounded-lg border border-[#dcd4c8] bg-white text-[#18261e] font-bold shadow-2xs hover:bg-[#f6f1e8] disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
                         aria-label="Misafir sayısını artır"
                       >
                         <Plus className="h-4 w-4 text-[#18261e]" />

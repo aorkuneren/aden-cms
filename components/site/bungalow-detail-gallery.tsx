@@ -102,9 +102,11 @@ export function BungalowDetailGallery({ images, bungalowName }: BungalowDetailGa
               <img
                 src={normalizedImages[sourceIndex] || featured}
                 alt={`${bungalowName} galeri ${sourceIndex + 1}`}
-                className={`w-full object-cover transition duration-500 hover:scale-[1.02] ${
-                  slotIndex === 0 ? "h-[290px] md:h-[544px]" : "h-[144px] md:h-[268px]"
-                }`}
+                className={`${
+                  slotIndex === 0
+                    ? "aspect-[4/3] h-auto w-full object-cover md:aspect-auto md:h-[min(544px,50vw)]"
+                    : "aspect-[4/3] h-auto w-full object-cover md:aspect-auto md:h-[min(268px,25vw)]"
+                } transition duration-500 hover:scale-[1.02]`}
                 fetchPriority={slotIndex === 0 ? "high" : undefined}
                 loading={slotIndex === 0 ? undefined : "lazy"}
                 decoding="async"
