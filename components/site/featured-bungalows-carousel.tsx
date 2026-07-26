@@ -106,12 +106,16 @@ export function FeaturedBungalowsCarousel({
               key={item.id}
               type="button"
               onClick={() => emblaApi?.scrollTo(index)}
-              className={cn(
-                "h-2 rounded-full transition-all",
-                activeIndex === index ? "w-7 bg-[#1f3a2e]" : "w-2 bg-[#c9c0b3] hover:bg-[#b6ab9b]"
-              )}
+              className="touch-target p-1"
               aria-label={`Bungalov ${index + 1}`}
-            />
+            >
+              <span
+                className={cn(
+                  "block h-2 rounded-full transition-all",
+                  activeIndex === index ? "w-7 bg-[#1f3a2e]" : "w-2 bg-[#c9c0b3] hover:bg-[#b6ab9b]"
+                )}
+              />
+            </button>
           ))}
         </div>
       ) : null}

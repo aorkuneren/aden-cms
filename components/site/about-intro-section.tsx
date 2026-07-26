@@ -48,7 +48,7 @@ export function AboutIntroSection({
             {buttonVisible ? (
               <Button
                 asChild
-                className="h-10 rounded-full bg-[#1f3a2e] px-5 text-sm font-medium text-white hover:bg-[#1a3127]"
+                className="min-h-11 rounded-full bg-[#1f3a2e] px-5 text-sm font-medium text-white hover:bg-[#1a3127]"
               >
                 <Link href={buttonHref}>{buttonLabel}</Link>
               </Button>
