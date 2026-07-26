@@ -21,12 +21,14 @@ type BungalowCardProps = {
   imageSizes?: string
 }
 
-function buildDetailHref(id: string, checkIn?: string, checkOut?: string) {
+function buildDetailHref(slugOrId: string, checkIn?: string, checkOut?: string) {
   const params = new URLSearchParams()
   if (checkIn) params.set("checkIn", checkIn)
   if (checkOut) params.set("checkOut", checkOut)
   const suffix = params.toString()
-  return suffix.length > 0 ? `/bungalovlarimiz/${id}?${suffix}` : `/bungalovlarimiz/${id}`
+  return suffix.length > 0
+    ? `/bungalovlarimiz/${slugOrId}?${suffix}`
+    : `/bungalovlarimiz/${slugOrId}`
 }
 
 export function BungalowCard({
@@ -38,7 +40,7 @@ export function BungalowCard({
   variant = "default",
   imageSizes,
 }: BungalowCardProps) {
-  const detailHref = buildDetailHref(bungalow.id, checkIn, checkOut)
+  const detailHref = buildDetailHref(bungalow.slug || bungalow.id, checkIn, checkOut)
   const nightlyLabel = formatNightlyPrice(Number(bungalow.nightlyPrice || 0))
   const waHref = buildWhatsappHref(
     whatsappHref,

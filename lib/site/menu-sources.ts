@@ -50,9 +50,9 @@ export function getPageEntry(slug: string | null | undefined): MenuSourceEntry |
   return slug ? PAGE_MAP.get(slug) ?? null : null
 }
 
-/** Bungalov kaydı → /bungalovlarimiz/{id}. */
-function bungalowHref(id: string) {
-  return `/bungalovlarimiz/${id}`
+/** Bungalov kaydı → /bungalovlarimiz/{slug}. */
+function bungalowHref(slugOrId: string) {
+  return `/bungalovlarimiz/${slugOrId}`
 }
 
 /** Sistemdeki bungalovları listeler (admin seçici + resolver için). */
@@ -61,7 +61,7 @@ export async function listBungalows(): Promise<MenuSourceEntry[]> {
   return filterActive(Array.isArray(rows) ? rows : []).map((b) => ({
     referenceId: String(b?.id ?? ""),
     title: String(b?.name ?? "İsimsiz Bungalov"),
-    href: bungalowHref(String(b?.id ?? "")),
+    href: bungalowHref(String(b?.slug || b?.id || "")),
     status: String(b?.status ?? "AKTIF"),
     meta: {
       image: String(b?.image ?? ""),

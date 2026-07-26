@@ -1,6 +1,6 @@
 import Link from "next/link"
 import type { Metadata } from "next"
-import { notFound } from "next/navigation"
+import { notFound, permanentRedirect } from "next/navigation"
 import { ChevronRight } from "lucide-react"
 import { BungalowAmenitiesTabs } from "@/components/site/bungalow-amenities-tabs"
 import { BungalowDetailGallery } from "@/components/site/bungalow-detail-gallery"
@@ -13,6 +13,9 @@ import { splitBungalowFeaturesByCategory } from "@/lib/bungalov-feature-categori
 import { readFeatureCatalog } from "@/lib/bungalov-feature-catalog"
 import { bungalovQueries, settingsQueries } from "@/lib/data/queries"
 import { isReservationsModuleEnabled } from "@/lib/module-check"
+import { buildPageMetadata } from "@/lib/seo/resolve-metadata"
+import { slugifyTr } from "@/lib/seo/path"
+import { resolveRedirect } from "@/lib/seo/seo-redirect-service"
 import { toSiteBungalov } from "@/lib/site/b2c"
 import { getSiteContactConfig } from "@/lib/site/contact-config"
 import { SITE_ORIGIN } from "@/lib/site/site-config"
@@ -43,10 +46,7 @@ function normalizeImages(values: string[]) {
 
 function buildDetailGalleryImages(mainImage: string, galleryImages: string[]) {
   const normalizedMainImage = String(mainImage || "").trim()
-  return normalizeImages([
-    normalizedMainImage,
-    ...galleryImages,
-  ])
+  return normalizeImages([normalizedMainImage, ...galleryImages])
 }
 
 export async function generateMetadata({
@@ -57,47 +57,40 @@ export async function generateMetadata({
   const { id } = await params
   const row = await bungalovQueries.findUnique(id)
   if (!row || row.status === "PASIF") {
-    return {
-      title: "Bungalov Bulunamadı",
-    }
+    return { title: "Bungalov Bulunamadı" }
   }
 
-  // H4 — panelden yönetilen SEO alanları (yoksa isim/açıklamaya düşer)
-  const title = row.seoTitle?.trim() || `${row.name} | Aden Bungalov Sapanca`
-  const description = (
-    row.seoDescription?.trim() ||
-    row.description ||
-    `${row.name} Sapanca konaklama detayları, özellikleri, gecelik fiyatı ve online rezervasyon talebi.`
-  ).slice(0, 158)
-
-  return {
-    title: { absolute: title },
-    description,
-    alternates: {
-      canonical: `/bungalovlarimiz/${id}`,
-    },
-    openGraph: {
-      title,
-      description,
-      url: `https://www.adenbungalov.com/bungalovlarimiz/${id}`,
-      images: row.image ? [{ url: row.image }] : undefined,
-    },
-  }
+  return buildPageMetadata("bungalow", row.id, {
+    title: row.name,
+    description: row.description || undefined,
+    featuredImageUrl: row.image || undefined,
+  })
 }
 
 export default async function BungalovDetayPage({ params, searchParams }: DetailPageProps) {
-  const { id } = await params
+  const { id: param } = await params
   const query = await searchParams
+
+  // url-history redirect
+  const hist = await resolveRedirect(`/bungalovlarimiz/${param}`)
+  if (hist) {
+    permanentRedirect(hist.toPath)
+  }
 
   const [isReservationsEnabled, row, contact, settings, featureCatalog] = await Promise.all([
     isReservationsModuleEnabled(),
-    bungalovQueries.findUnique(id),
+    bungalovQueries.findUnique(param),
     getSiteContactConfig(),
     settingsQueries.findFirst(),
     readFeatureCatalog(),
   ])
   if (!row || row.status === "PASIF") {
     notFound()
+  }
+
+  const canonicalSlug = slugifyTr(row.slug || row.name) || row.id
+  if (param !== canonicalSlug) {
+    permanentRedirect(`/bungalovlarimiz/${canonicalSlug}`)
   }
 
   const bungalov = toSiteBungalov(row as unknown as Record<string, unknown>)
@@ -109,7 +102,7 @@ export default async function BungalovDetayPage({ params, searchParams }: Detail
     String(row.image || ""),
     ...(Array.isArray(row.galleryImages) ? row.galleryImages.map(String) : []),
   ])
-  const canonicalUrl = `${SITE_ORIGIN}/bungalovlarimiz/${bungalov.id}`
+  const canonicalUrl = `${SITE_ORIGIN}/bungalovlarimiz/${canonicalSlug}`
   const capacityLimit = Math.max(1, Number(bungalov.capacity || 0))
   const adultsFromQuery = Number(query.adults || "2")
   const childrenFromQuery = Number(query.children || "0")
@@ -134,7 +127,7 @@ export default async function BungalovDetayPage({ params, searchParams }: Detail
         items={[
           { name: "Ana Sayfa", url: "https://www.adenbungalov.com" },
           { name: "Bungalovlarımız", url: "https://www.adenbungalov.com/bungalovlarimiz" },
-          { name: bungalov.name, url: `https://www.adenbungalov.com/bungalovlarimiz/${bungalov.id}` },
+          { name: bungalov.name, url: `https://www.adenbungalov.com/bungalovlarimiz/${canonicalSlug}` },
         ]}
       />
       <BungalowJsonLd

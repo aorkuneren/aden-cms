@@ -644,6 +644,37 @@ export async function saveSeoAction(payload: unknown): Promise<ActionResult> {
     return { ok: false, error: "SEO verisi geçersiz." }
   }
   await patchSiteManagement(parsed.data)
+
+  // Sayfa SEO’larını merkezi seo-meta deposuna yaz
+  try {
+    const { getCurrentAdmin } = await import("@/lib/admin/auth")
+    const { saveSeo, findByEntity } = await import("@/lib/seo/seo-meta-service")
+    const admin = await getCurrentAdmin()
+    const items = parsed.data.pageSeoItems ?? []
+    for (const item of items) {
+      const existing = await findByEntity("page", item.id, "tr")
+      await saveSeo({
+        entityType: "page",
+        entityId: item.id,
+        revision: existing?.revision,
+        actorId: admin?.id ?? null,
+        allowAdvanced: false,
+        fallbackTitle: item.label || item.slug,
+        patch: {
+          metaTitle: String(item.title || "").trim(),
+          metaDescription: String(item.description || "").trim(),
+          path: item.slug,
+          focusKeyword: existing?.focusKeyword ?? null,
+        },
+      })
+    }
+  } catch (err) {
+    return {
+      ok: false,
+      error: err instanceof Error ? err.message : "Sayfa SEO kaydı yazılamadı.",
+    }
+  }
+
   return { ok: true }
 }
 

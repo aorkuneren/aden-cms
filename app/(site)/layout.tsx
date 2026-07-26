@@ -304,6 +304,7 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
     .map((item) => ({
       id: String(item.id || ""),
       name: String(item.name || ""),
+      slug: String(item.slug || item.id || ""),
     }))
     .filter((item) => item.id.length > 0 && item.name.trim().length > 0)
     .slice(0, 7)

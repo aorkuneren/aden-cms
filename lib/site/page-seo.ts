@@ -1,4 +1,7 @@
-import { websiteCmsQueries } from "@/lib/data/queries"
+import { buildPageMetadata } from "@/lib/seo/resolve-metadata"
+import { getPageDefByPath } from "@/lib/seo/page-ids"
+import { normalizePath } from "@/lib/seo/path"
+import { resolveSeo } from "@/lib/seo/seo-meta-service"
 
 type PageSeoFallback = {
   title: string
@@ -6,36 +9,37 @@ type PageSeoFallback = {
   keywords?: string
 }
 
-function normalizePathname(pathname: string): string {
-  const normalized = pathname.trim().replace(/\/+$/, "")
-  return normalized || "/"
-}
-
-function nonEmptyString(value: unknown): string | undefined {
-  if (typeof value !== "string") return undefined
-
-  const trimmed = value.trim()
-  return trimmed || undefined
-}
-
+/**
+ * @deprecated Tercihen `buildPageMetadata("page", entityId)` kullanın.
+ * Geriye dönük köprü: path → sabit entityId → seo-meta.
+ */
 export async function resolvePageSeo(
   pathname: string,
   fallback: PageSeoFallback
 ): Promise<PageSeoFallback> {
-  const normalizedPathname = normalizePathname(pathname)
+  const def = getPageDefByPath(pathname)
+  if (!def) {
+    return fallback
+  }
 
   try {
-    const config = await websiteCmsQueries.getConfig()
-    const item = config.siteManagement.pageSeoItems.find(
-      (candidate) => normalizePathname(candidate.slug) === normalizedPathname
-    )
-
+    const resolved = await resolveSeo("page", def.entityId, {
+      fallback: {
+        title: fallback.title,
+        siteName: "Aden Bungalov",
+        bodyHtml: fallback.description,
+        path: normalizePath(pathname),
+        baseUrl: "https://www.adenbungalov.com",
+      },
+    })
     return {
-      title: nonEmptyString(item?.title) || fallback.title,
-      description: nonEmptyString(item?.description) || fallback.description,
-      keywords: nonEmptyString(item?.keywords) || fallback.keywords,
+      title: resolved.metaTitle || fallback.title,
+      description: resolved.metaDescription || fallback.description,
+      keywords: fallback.keywords,
     }
   } catch {
     return fallback
   }
 }
+
+export { buildPageMetadata, getPageDefByPath }

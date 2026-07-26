@@ -25,6 +25,7 @@ export type CorporateSlug =
 
 export type SiteBungalov = {
   id: string
+  slug: string
   name: string
   status: string
   image: string | null
@@ -146,8 +147,11 @@ export function toSiteBungalov(value: Record<string, unknown>): SiteBungalov {
         )
       )
     : []
+  const id = String(value.id ?? "")
+  const slugRaw = typeof value.slug === "string" ? value.slug.trim() : ""
   return {
-    id: String(value.id ?? ""),
+    id,
+    slug: slugRaw || id,
     name: String(value.name ?? ""),
     status: String(value.status ?? "AKTIF"),
     image: normalizedDbImage || BUNGALOW_PLACEHOLDER_IMAGE,

@@ -10,6 +10,8 @@ import { mutateJson, revalidateSite } from "@/lib/cms/store"
 import { logAuditEvent } from "@/lib/audit"
 import { upsertFeatureCatalog } from "@/lib/bungalov-feature-catalog"
 import { upsertContentCatalog } from "@/lib/bungalov-content-catalog"
+import { saveSeo, checkPublishable, findByEntity } from "@/lib/seo/seo-meta-service"
+import { slugifyTr } from "@/lib/seo/path"
 import {
   BUNGALOW_FEATURE_CATEGORY_KEYS,
   createEmptyFeatureCatalog,
@@ -69,6 +71,7 @@ const bungalovInputSchema = z.object({
   address: z.string().nullable().optional(),
   seoTitle: z.string().nullable().optional(),
   seoDescription: z.string().nullable().optional(),
+  focusKeyword: z.string().nullable().optional(),
   isFeatured: z.boolean().optional(),
   sortOrder: z.number().int().optional(),
   /** Kategori bazlı özellik haritası — özel önerileri kataloğa yazmak için. */
@@ -76,20 +79,7 @@ const bungalovInputSchema = z.object({
 })
 
 function slugifyBungalovName(text: string) {
-  return text
-    .toString()
-    .toLocaleLowerCase("tr-TR")
-    .trim()
-    .replace(/ç/g, "c")
-    .replace(/ğ/g, "g")
-    .replace(/ı/g, "i")
-    .replace(/ö/g, "o")
-    .replace(/ş/g, "s")
-    .replace(/ü/g, "u")
-    .replace(/\s+/g, "-")
-    .replace(/[^\w-]+/g, "")
-    .replace(/-{2,}/g, "-")
-    .replace(/^-|-$/g, "")
+  return slugifyTr(text)
 }
 
 /** Başlığı boş kalan satırlar kaydedilmez; sıra korunur. */
@@ -119,6 +109,23 @@ export async function saveBungalovAction(input: unknown): Promise<ActionResult> 
     rules: cleanContentItems(bungalovFields.rules),
     nearbyPlaces: cleanContentItems(bungalovFields.nearbyPlaces),
   }
+
+  if (data.status === "AKTIF") {
+    const gate = checkPublishable({
+      entityType: "bungalow",
+      metaTitle: (data.seoTitle || "").trim(),
+      metaDescription: (data.seoDescription || "").trim(),
+      focusKeyword: (data.focusKeyword || "").trim() || null,
+      slug: data.slug,
+    })
+    if (!gate.ok) {
+      return {
+        ok: false,
+        error: `Yayınlamak için SEO alanları eksik: ${gate.missing.join(", ")}. Taslak (Pasif) olarak kaydedebilirsiniz.`,
+      }
+    }
+  }
+
   const now = new Date().toISOString()
   let isNew = true
 
@@ -143,6 +150,35 @@ export async function saveBungalovAction(input: unknown): Promise<ActionResult> 
     rules: extractCustomContentPresets("rules", data.rules),
     nearbyPlaces: extractCustomContentPresets("nearbyPlaces", data.nearbyPlaces),
   })
+
+  // Merkezi SEO deposuna yaz
+  try {
+    const existingSeo = await findByEntity("bungalow", data.id, "tr")
+    await saveSeo({
+      entityType: "bungalow",
+      entityId: data.id,
+      revision: existingSeo?.revision,
+      actorId: admin.id,
+      allowAdvanced: admin.role === "SUPERADMIN" || admin.role === "ADMIN",
+      fallbackTitle: data.name,
+      bodyHtml: data.description,
+      featuredImageUrl: data.image,
+      patch: {
+        metaTitle: (data.seoTitle || "").trim(),
+        metaDescription: (data.seoDescription || "").trim(),
+        focusKeyword: (data.focusKeyword || "").trim() || null,
+        slug: data.slug,
+        ogImageUrl: data.image || null,
+        schemaType: "LodgingBusiness",
+        robotsIndex: data.status === "AKTIF",
+      },
+    })
+  } catch (err) {
+    return {
+      ok: false,
+      error: err instanceof Error ? err.message : "SEO kaydı yazılamadı.",
+    }
+  }
 
   await logAuditEvent({
     actorUserId: admin.id,

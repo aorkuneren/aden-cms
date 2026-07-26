@@ -1,5 +1,20 @@
 # Aden CMS - Değişiklik Günlüğü (Changelog)
 
+## [v2.2.0] - 2026-07-27 — SEO by Design (MVP)
+
+### Yeni
+- Merkezi polimorfik SEO deposu: `data/seo-meta.json` + `lib/seo/*` (repository/service)
+- URL geçmişi ve 301: `data/url-history.json`, middleware + `/api/seo/redirect-lookup`
+- Panel SEO sekmesi: SERP/sosyal önizleme, skor, karakter sayaçları (`components/admin/seo/*`)
+- Bungalov yayın kilidi: aktif kayıt için meta title/description/odak kelime zorunlu
+- Dinamik sitemap (slug URL’ler) ve staging `SEO_NOINDEX` / preview robots
+- Backfill: `npx tsx scripts/seo-backfill.ts`
+- Editör rehberi: `docs/seo-editor-guide.md`
+
+### Spec / Plan
+- `docs/superpowers/specs/2026-07-27-seo-by-design-design.md`
+- `docs/superpowers/plans/2026-07-27-seo-by-design.md`
+
 ## [v2.1.0] - 2026-07-25 — Menü Yönetim Sistemi
 
 ### 🚀 Yeni Eklentiler

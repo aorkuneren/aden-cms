@@ -48,7 +48,7 @@ type SiteFooterProps = {
   menuGroups?: CmsMenuGroup[]
   socialProfiles?: SiteFooterSocialProfile[]
   footerManagement?: CmsFooterManagement | null
-  bungalowItems: Array<{ id: string; name: string }>
+  bungalowItems: Array<{ id: string; name: string; slug?: string }>
   cookiePreferencesLabel?: string
 }
 
@@ -377,7 +377,10 @@ export function SiteFooter({
                     {items.length > 0 ? (
                       items.map((item) => (
                         <li key={item.id}>
-                          <Link href={`/bungalovlarimiz/${item.id}`} className="transition hover:text-[#1f3120]">
+                          <Link
+                            href={`/bungalovlarimiz/${item.slug || item.id}`}
+                            className="transition hover:text-[#1f3120]"
+                          >
                             {item.name}
                           </Link>
                         </li>

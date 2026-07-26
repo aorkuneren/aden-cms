@@ -39,6 +39,7 @@ function toForm(raw: any): BungalovFormData {
     address: String(raw?.address ?? ""),
     seoTitle: String(raw?.seoTitle ?? ""),
     seoDescription: String(raw?.seoDescription ?? ""),
+    focusKeyword: String(raw?.focusKeyword ?? ""),
     isFeatured: Boolean(raw?.isFeatured),
     sortOrder: Number(raw?.sortOrder ?? 0) || 0,
   }
@@ -87,6 +88,21 @@ export default async function BungalovEditPage({
     const found = filterActive(Array.isArray(list) ? list : []).find((b) => String(b.id) === id)
     if (!found) notFound()
     initial = toForm(found)
+    try {
+      const { findByEntity } = await import("@/lib/seo/seo-meta-repository")
+      const seo = await findByEntity("bungalow", id, "tr")
+      if (seo) {
+        initial = {
+          ...initial,
+          seoTitle: seo.metaTitle || initial.seoTitle,
+          seoDescription: seo.metaDescription || initial.seoDescription,
+          focusKeyword: seo.focusKeyword || initial.focusKeyword,
+          slug: seo.slug || initial.slug,
+        }
+      }
+    } catch {
+      /* seo-meta yoksa legacy alanlar yeterli */
+    }
   }
 
   return (

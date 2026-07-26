@@ -9,6 +9,7 @@ import { saveBungalovAction, addFeatureCatalogItemAction, addContentCatalogItemA
 import { MediaDropzone } from "@/components/admin/media-dropzone"
 import { ContentItemEditor } from "@/components/admin/bungalov/content-item-editor"
 import { SortableImageGrid } from "@/components/admin/bungalov/sortable-image-grid"
+import { SeoTab } from "@/components/admin/seo/seo-tab"
 import {
   mergeContentCatalogWithDefaults,
   type BungalovContentCatalog,
@@ -16,11 +17,11 @@ import {
   type BungalovContentPreset,
 } from "@/lib/bungalov-content"
 import {
-  SEO_DESCRIPTION_LIMIT,
-  SEO_TITLE_LIMIT,
   buildBungalovSeo,
   fillEmptyBungalovSeo,
 } from "@/lib/bungalov-seo"
+import { calculateSeoScore } from "@/lib/seo/score"
+import { slugifyTr } from "@/lib/seo/path"
 import {
   mergeFeatureCategoriesWithCatalog,
   splitBungalowFeaturesByCategory,
@@ -60,25 +61,13 @@ export type BungalovFormData = {
   address: string
   seoTitle: string
   seoDescription: string
+  focusKeyword: string
   isFeatured: boolean
   sortOrder: number
 }
 
 function slugify(text: string): string {
-  return text
-    .toString()
-    .toLocaleLowerCase("tr-TR")
-    .trim()
-    .replace(/ç/g, "c")
-    .replace(/ğ/g, "g")
-    .replace(/ı/g, "i")
-    .replace(/ö/g, "o")
-    .replace(/ş/g, "s")
-    .replace(/ü/g, "u")
-    .replace(/\s+/g, "-")
-    .replace(/[^\w-]+/g, "")
-    .replace(/-{2,}/g, "-")
-    .replace(/^-|-$/g, "")
+  return slugifyTr(text)
 }
 
 /** Kapak ayrı upload olmadığı için, tanımlı kapak galeride yoksa başa eklenir. */
@@ -313,21 +302,49 @@ export function BungalovForm({
     set({
       seoTitle: generated.seoTitle,
       seoDescription: generated.seoDescription,
+      focusKeyword: data.focusKeyword || data.name.split(/\s+/)[0] || "",
     })
   }
 
-  const save = () => {
+  const seoScore = calculateSeoScore(
+    {
+      metaTitle: data.seoTitle,
+      metaDescription: data.seoDescription,
+      focusKeyword: data.focusKeyword,
+      slug: data.slug,
+      path: null,
+    },
+    { pageTitle: data.name, bodyHtml: data.description }
+  )
+
+  const canPublish =
+    data.status !== "AKTIF" ||
+    Boolean(data.seoTitle.trim() && data.seoDescription.trim() && data.focusKeyword.trim() && data.slug.trim())
+
+  const save = (asDraft = false) => {
     const withSeo = fillEmptyBungalovSeo(seoSource, {
       seoTitle: data.seoTitle,
       seoDescription: data.seoDescription,
     })
     const synced = withCoverInGallery({
       ...data,
+      status: asDraft ? "PASIF" : data.status,
       slug: data.slug.trim() || slugify(data.name),
       seoTitle: withSeo.seoTitle,
       seoDescription: withSeo.seoDescription,
+      focusKeyword: data.focusKeyword.trim(),
     })
     setData(synced)
+
+    if (!asDraft && synced.status === "AKTIF") {
+      if (!synced.seoTitle.trim() || !synced.seoDescription.trim() || !synced.focusKeyword.trim()) {
+        setStatus({
+          type: "err",
+          msg: "Yayınlamak için SEO sekmesinde meta başlık, açıklama ve odak kelime zorunludur.",
+        })
+        return
+      }
+    }
 
     startTransition(async () => {
       const res = await saveBungalovAction({
@@ -380,7 +397,20 @@ export function BungalovForm({
               </Link>
             </Button>
           ) : null}
-          <Button onClick={save} disabled={pending} className="bg-emerald-600 hover:bg-emerald-700">
+          <Button
+            variant="outline"
+            onClick={() => save(true)}
+            disabled={pending}
+            className="hidden sm:inline-flex"
+          >
+            Taslak kaydet
+          </Button>
+          <Button
+            onClick={() => save(false)}
+            disabled={pending || !canPublish}
+            className="bg-emerald-600 hover:bg-emerald-700"
+            title={!canPublish ? "Yayın için SEO zorunlu alanlarını doldurun" : undefined}
+          >
             <Save className="mr-1 size-4" />{" "}
             {pending ? "Kaydediliyor..." : created ? "Değişiklikleri Kaydet" : "Oluştur & Kaydet"}
           </Button>
@@ -791,67 +821,44 @@ export function BungalovForm({
           </div>
         </TabsContent>
 
-        {/* TAB 5: SEO & GOOGLE CANLI ÖNİZLEME */}
+        {/* TAB 5: SEO */}
         <TabsContent value="seo" className="space-y-6">
+          <SeoTab
+            entityType="bungalow"
+            value={{
+              metaTitle: data.seoTitle,
+              metaDescription: data.seoDescription,
+              focusKeyword: data.focusKeyword,
+              slug: data.slug,
+              ogTitle: "",
+              ogDescription: "",
+              ogImageUrl: data.image,
+              canonicalUrl: "",
+              robotsIndex: true,
+              robotsFollow: true,
+              schemaType: "LodgingBusiness",
+              schemaJsonText: "",
+            }}
+            onChange={(patch) => {
+              set({
+                ...(patch.metaTitle !== undefined ? { seoTitle: patch.metaTitle } : {}),
+                ...(patch.metaDescription !== undefined ? { seoDescription: patch.metaDescription } : {}),
+                ...(patch.focusKeyword !== undefined ? { focusKeyword: patch.focusKeyword } : {}),
+                ...(patch.slug !== undefined ? { slug: patch.slug } : {}),
+                ...(patch.ogImageUrl !== undefined ? { image: patch.ogImageUrl || data.image } : {}),
+              })
+            }}
+            score={seoScore}
+            canEditAdvanced={false}
+            onAutoFill={handleGenerateSeo}
+          />
+
           <Card>
-            <CardHeader className="flex flex-row items-start justify-between gap-3 space-y-0">
-              <div className="space-y-1.5">
-                <CardTitle className="text-base">Arama Motoru (SEO) Yapılandırması</CardTitle>
-                <CardDescription>
-                  Boş bırakırsanız kaydetme sırasında otomatik doldurulur. Dolu alanlar korunur.
-                </CardDescription>
-              </div>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={handleGenerateSeo}
-                disabled={!data.name.trim()}
-                className="shrink-0 text-xs"
-              >
-                <Sparkles className="mr-1 size-3.5 text-emerald-600" /> SEO Oluştur
-              </Button>
+            <CardHeader>
+              <CardTitle className="text-base">Konum</CardTitle>
+              <CardDescription>Adres bilgisi SEO açıklamasına da yansıyabilir.</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-1.5">
-                <div className="flex items-center justify-between gap-2">
-                  <Label>SEO Başlığı (Title Tag)</Label>
-                  <span
-                    className={`text-[11px] ${
-                      data.seoTitle.length > SEO_TITLE_LIMIT ? "font-semibold text-amber-600" : "text-slate-400"
-                    }`}
-                  >
-                    {data.seoTitle.length}/{SEO_TITLE_LIMIT}
-                  </span>
-                </div>
-                <Input
-                  value={data.seoTitle}
-                  onChange={(e) => set({ seoTitle: e.target.value })}
-                  placeholder={data.name ? `${data.name} | Aden Bungalov Sapanca` : "Bungalov Başlığı"}
-                />
-              </div>
-
-              <div className="space-y-1.5">
-                <div className="flex items-center justify-between gap-2">
-                  <Label>Meta Açıklaması (Description Tag)</Label>
-                  <span
-                    className={`text-[11px] ${
-                      data.seoDescription.length > SEO_DESCRIPTION_LIMIT
-                        ? "font-semibold text-amber-600"
-                        : "text-slate-400"
-                    }`}
-                  >
-                    {data.seoDescription.length}/{SEO_DESCRIPTION_LIMIT}
-                  </span>
-                </div>
-                <Textarea
-                  rows={3}
-                  value={data.seoDescription}
-                  onChange={(e) => set({ seoDescription: e.target.value })}
-                  placeholder="Bungalov rezervasyon ve konaklama fırsatları..."
-                />
-              </div>
-
+            <CardContent>
               <div className="space-y-1.5">
                 <Label>Fiziksel Adres / Konum Tarifi</Label>
                 <Input
@@ -859,32 +866,6 @@ export function BungalovForm({
                   onChange={(e) => set({ address: e.target.value })}
                   placeholder="Sapanca / Sakarya"
                 />
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Google Canlı Arama Sonucu Simülasyonu */}
-          <Card className="bg-slate-50 dark:bg-neutral-900">
-            <CardHeader>
-              <CardTitle className="text-sm text-slate-500">Google Arama Canlı Önizlemesi</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="max-w-xl rounded-lg border bg-white p-4 shadow-sm dark:border-neutral-800 dark:bg-neutral-950">
-                <div className="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400">
-                  <span>https://adenbungalov.com</span>
-                  <span>›</span>
-                  <span>bungalovlarimiz</span>
-                  <span>›</span>
-                  <span>{data.slug || slugify(data.name) || "bungalov-url"}</span>
-                </div>
-                <h4 className="mt-1 text-lg font-medium text-blue-800 hover:underline dark:text-blue-400">
-                  {data.seoTitle || data.name || "Bungalov Adı — Aden Bungalov"}
-                </h4>
-                <p className="mt-1 text-xs text-slate-600 dark:text-slate-300">
-                  {data.seoDescription ||
-                    data.description.slice(0, SEO_DESCRIPTION_LIMIT) ||
-                    "Sapanca doğasında premium konaklama tecrübesi..."}
-                </p>
               </div>
             </CardContent>
           </Card>

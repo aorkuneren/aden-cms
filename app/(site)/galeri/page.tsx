@@ -4,7 +4,8 @@ import { PageIntro } from "@/components/site/page-intro"
 import { bungalovQueries, websiteCmsQueries } from "@/lib/data/queries"
 import { getCmsField, getCmsPageContent } from "@/lib/site/page-content"
 import type { CmsGalleryManagement, CmsGalleryItem } from "@/lib/site/website-cms-types"
-import { resolvePageSeo } from "@/lib/site/page-seo"
+import { buildPageMetadata } from "@/lib/seo/resolve-metadata"
+import { PAGE_ENTITY_IDS } from "@/lib/seo/page-ids"
 import { getUiStrings, t } from "@/lib/cms/ui-strings"
 
 import { BreadcrumbJsonLd } from "@/components/site/json-ld"
@@ -13,23 +14,11 @@ export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await resolvePageSeo("/galeri", {
+  return buildPageMetadata("page", PAGE_ENTITY_IDS.galeri.entityId, {
     title: "Foto Galeri | Sapanca Aden Bungalov Görselleri",
     description:
       "Sapanca Aden Bungalov fotoğraf galerisi: özel havuzlu ve jakuzili bungalovlar, doğa manzaralı teraslar, iç mekân ve tesis olanaklarından kareler.",
   })
-
-  return {
-    title: { absolute: seo.title },
-    description: seo.description,
-    keywords: seo.keywords,
-    alternates: { canonical: "/galeri" },
-    openGraph: {
-      title: seo.title,
-      description: seo.description,
-      url: "https://www.adenbungalov.com/galeri",
-    },
-  }
 }
 
 const HERO_FALLBACK =
