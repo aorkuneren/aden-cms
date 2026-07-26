@@ -3,6 +3,7 @@
 import { requireCms } from "@/lib/admin/permissions"
 import { mutateCms } from "@/lib/cms/mutate-cms"
 import { restoreDeleted } from "@/lib/cms/soft-delete"
+import { collectMediaUrls, deleteUploadByUrl } from "@/lib/media/delete"
 
 const CMS_CONFIG_FILE = "cms-config.json"
 const BUNGALOVS_FILE = "bungalovs.json"
@@ -87,6 +88,7 @@ export async function purgeTrashItemAction(entityType: string, id: string): Prom
   }
 
   const source = sourceFor(entityType)
+  let mediaUrls: string[] = []
   const result = await mutateCms<any>({
     action: "delete",
     file: source.file,
@@ -95,12 +97,22 @@ export async function purgeTrashItemAction(entityType: string, id: string): Prom
     auditAction: "Geri Dönüşüm Kaydı Kalıcı Olarak Silindi",
     updater: (current) => {
       const items = source.collection(current)
+      const target = items.find((item) => String(item.id) === String(id))
+      if (target) {
+        mediaUrls = collectMediaUrls(entityType, target)
+      }
       return source.replaceCollection(
         current,
         items.filter((item) => String(item.id) !== String(id))
       )
     },
   })
+
+  if (result.ok) {
+    for (const url of mediaUrls) {
+      await deleteUploadByUrl(url)
+    }
+  }
 
   return result.ok ? { ok: true } : result
 }

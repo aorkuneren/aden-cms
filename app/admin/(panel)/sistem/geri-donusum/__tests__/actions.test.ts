@@ -6,6 +6,14 @@ const requireCms = vi.fn()
 vi.mock("@/lib/cms/mutate-cms", () => ({ mutateCms }))
 vi.mock("@/lib/admin/permissions", () => ({ requireCms }))
 
+const deleteUploadByUrl = vi.fn().mockResolvedValue({ deleted: true })
+const collectMediaUrls = vi.fn().mockReturnValue(["/uploads/galeri/x.jpg"])
+
+vi.mock("@/lib/media/delete", () => ({
+  deleteUploadByUrl,
+  collectMediaUrls,
+}))
+
 const { purgeTrashItemAction, restoreTrashItemAction } = await import("../actions")
 
 describe("geri dönüşüm aksiyonları", () => {
@@ -66,5 +74,27 @@ describe("geri dönüşüm aksiyonları", () => {
 
     const options = mutateCms.mock.calls[0]?.[0]
     expect(options.updater([{ id: "bungalow-1" }, { id: "bungalow-2" }])).toEqual([{ id: "bungalow-2" }])
+  })
+
+  it("SUPERADMIN purge sonrası yerel medya URL’lerini siler", async () => {
+    requireCms.mockResolvedValue({
+      ok: true,
+      admin: { id: "superadmin-1", role: "SUPERADMIN", isActive: true },
+    })
+
+    mutateCms.mockImplementation(async (options: any) => {
+      const current = {
+        galleryManagement: {
+          items: [{ id: "gal-1", imageUrl: "/uploads/galeri/x.jpg", deletedAt: "2026-07-27" }],
+        },
+      }
+      options.updater(current)
+      return { ok: true, data: {}, admin: {} }
+    })
+
+    const result = await purgeTrashItemAction("cms_gallery", "gal-1")
+    expect(result).toEqual({ ok: true })
+    expect(collectMediaUrls).toHaveBeenCalled()
+    expect(deleteUploadByUrl).toHaveBeenCalledWith("/uploads/galeri/x.jpg")
   })
 })
