@@ -221,7 +221,7 @@ export function SiteHeader({
   }, [topHeaderEnabled])
 
   return (
-    <header className={cn("z-50 w-full", isHome ? "fixed inset-x-0 top-0" : "sticky top-0")}>
+    <header className={cn("z-50 w-full pt-safe", isHome ? "fixed inset-x-0 top-0" : "sticky top-0")}>
       {topHeaderEnabled ? (
         <div
           className={cn(
@@ -234,7 +234,7 @@ export function SiteHeader({
               : "max-h-20 border-[#ece4d7] opacity-100"
           )}
         >
-          <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-4 py-2.5 sm:px-6">
+          <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-[var(--site-gutter-x)] py-2.5">
             <div className="flex min-w-0 flex-wrap items-center gap-3 text-xs sm:text-sm">
               {resolvedTopHeaderItems.map((item) => {
                 const Icon = resolveTopHeaderIcon(item.icon)
@@ -243,7 +243,7 @@ export function SiteHeader({
                 const itemContent = (
                   <span className="inline-flex min-w-0 items-center gap-1.5">
                     <Icon className="h-3.5 w-3.5 shrink-0 opacity-80" />
-                    <span className="truncate">{item.text}</span>
+                    <span className="max-w-[40vw] truncate sm:max-w-none">{item.text}</span>
                   </span>
                 )
                 if (!href) {
@@ -364,7 +364,7 @@ export function SiteHeader({
                       type="button"
                       suppressHydrationWarning
                       className={cn(
-                        "inline-flex h-8 items-center gap-1 rounded-full border px-2 text-xs transition cursor-pointer",
+                        "inline-flex min-h-11 min-w-11 items-center justify-center gap-1 rounded-full border px-2 text-xs transition cursor-pointer",
                         isHome
                           ? "border-white/35 bg-white/10 text-white hover:bg-white/15"
                           : "border-[#ded5c7] bg-white text-[#2f2f37] hover:bg-[#f7f2e8]"
@@ -391,7 +391,7 @@ export function SiteHeader({
                       type="button"
                       suppressHydrationWarning
                       className={cn(
-                        "inline-flex h-8 items-center gap-1 rounded-full border px-2 transition cursor-pointer",
+                        "inline-flex min-h-11 min-w-11 items-center justify-center gap-1 rounded-full border px-2 transition cursor-pointer",
                         isHome
                           ? "border-white/35 bg-white/10 text-white hover:bg-white/15"
                           : "border-[#ded5c7] bg-white text-[#2f2f37] hover:bg-[#f7f2e8]"
@@ -421,7 +421,7 @@ export function SiteHeader({
           isHome ? "border-white/15 bg-[#0a1320]/40 text-white" : "border-[#ece4d7] bg-[#fffdfa]/95 text-[#151515]"
         )}
       >
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-[var(--site-gutter-x)] py-3">
           <Link href="/" className="flex min-w-0 items-center">
             {companyLogo ? (
               <span className="inline-flex h-12 items-center overflow-hidden">
@@ -429,7 +429,7 @@ export function SiteHeader({
                 <img
                   src={companyLogo}
                   alt={companyName}
-                  className="h-full w-auto max-w-[220px] object-contain"
+                  className="h-full w-auto max-w-[min(220px,55vw)] object-contain"
                   loading="eager"
                   decoding="async"
                 />
@@ -553,7 +553,7 @@ export function SiteHeader({
               <SheetContent
                 id="site-mobile-menu-sheet"
                 side="right"
-                className="w-[88vw] border-l-[#ebe4d7] bg-[#fffdfa] sm:max-w-sm"
+                className="w-[88vw] border-l-[#ebe4d7] bg-[#fffdfa] pb-safe sm:max-w-sm"
               >
                 <SheetHeader>
                   <SheetTitle className="text-[#161616]">{companyName}</SheetTitle>
@@ -609,7 +609,7 @@ export function SiteHeader({
                     const isInternal = isInternalHref(item.href)
                     const openInNewTab = item.target === "BLANK" || !isInternal
                     const className = cn(
-                      "block rounded-xl px-3 py-2 text-sm font-medium text-[#43434a]",
+                      "flex min-h-11 items-center rounded-xl px-3 py-2 text-sm font-medium text-[#43434a]",
                       isActive ? "bg-[#efe8dc] text-[#1a1a1a]" : "hover:bg-[#f4eee4]"
                     )
 
