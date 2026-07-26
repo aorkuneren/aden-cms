@@ -234,7 +234,7 @@ export function SiteHeader({
               : "max-h-20 border-[#ece4d7] opacity-100"
           )}
         >
-          <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-[var(--site-gutter-x)] py-2.5">
+          <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 pl-[max(var(--site-gutter-x),env(safe-area-inset-left,0px))] pr-[max(var(--site-gutter-x),env(safe-area-inset-right,0px))] py-2.5">
             <div className="flex min-w-0 flex-wrap items-center gap-3 text-xs sm:text-sm">
               {resolvedTopHeaderItems.map((item) => {
                 const Icon = resolveTopHeaderIcon(item.icon)
@@ -421,7 +421,7 @@ export function SiteHeader({
           isHome ? "border-white/15 bg-[#0a1320]/40 text-white" : "border-[#ece4d7] bg-[#fffdfa]/95 text-[#151515]"
         )}
       >
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-[var(--site-gutter-x)] py-3">
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 pl-[max(var(--site-gutter-x),env(safe-area-inset-left,0px))] pr-[max(var(--site-gutter-x),env(safe-area-inset-right,0px))] py-3">
           <Link href="/" className="flex min-w-0 items-center">
             {companyLogo ? (
               <span className="inline-flex h-12 items-center overflow-hidden">
@@ -574,7 +574,7 @@ export function SiteHeader({
                             href={item.href}
                             target={isExternalItem ? "_blank" : undefined}
                             rel={isExternalItem ? "noreferrer" : undefined}
-                            className="inline-flex items-center gap-2 text-xs font-medium text-[#32323a]"
+                            className="inline-flex min-h-11 items-center gap-2 py-1 text-xs font-medium text-[#32323a]"
                           >
                             <Icon className="h-3.5 w-3.5" />
                             {item.text}
@@ -591,12 +591,12 @@ export function SiteHeader({
                   </div>
                   {isCustomerEnabled ? (
                     <div className="mt-3 flex items-center justify-around border-t border-[#e5dcce] pt-2.5 text-xs font-semibold text-[#2b5a44]">
-                      <Link href="/giris" className="inline-flex items-center gap-1.5 hover:text-[#162b21]">
+                      <Link href="/giris" className="inline-flex min-h-11 items-center gap-1.5 py-1 hover:text-[#162b21]">
                         <LogIn className="h-4 w-4" />
                         <span>{loginLabel}</span>
                       </Link>
                       <span className="h-3.5 w-px bg-[#d8cfbf]" />
-                      <Link href="/kayit-ol" className="inline-flex items-center gap-1.5 hover:text-[#162b21]">
+                      <Link href="/kayit-ol" className="inline-flex min-h-11 items-center gap-1.5 py-1 hover:text-[#162b21]">
                         <UserPlus className="h-4 w-4" />
                         <span>{registerLabel}</span>
                       </Link>
