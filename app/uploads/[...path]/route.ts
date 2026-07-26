@@ -1,6 +1,6 @@
 import fs from "fs/promises"
 import { NextResponse } from "next/server"
-import { guessMimeType, resolveUploadFilePath } from "@/lib/media/serve"
+import { guessMimeType, resolveSafeUploadFilePath } from "@/lib/media/serve"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -10,7 +10,7 @@ export async function GET(
   context: { params: Promise<{ path: string[] }> }
 ) {
   const { path: segments } = await context.params
-  const abs = resolveUploadFilePath(segments)
+  const abs = await resolveSafeUploadFilePath(segments)
   if (!abs) {
     return new NextResponse("Not Found", { status: 404 })
   }
@@ -26,7 +26,7 @@ export async function GET(
       },
     })
   } catch (err: any) {
-    if (err?.code === "ENOENT") {
+    if (err?.code === "ENOENT" || err?.code === "EISDIR") {
       return new NextResponse("Not Found", { status: 404 })
     }
     console.error("[uploads] serve failed", abs, err)
