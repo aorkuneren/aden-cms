@@ -74,6 +74,10 @@ export function HeroSection({
   const [activeSlide, setActiveSlide] = useState(0)
 
   useEffect(() => {
+    const prefersReduced =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    if (prefersReduced) return
     if (!autoplayEnabled) return
     if (normalizedSlides.length < 2) return
     if (pauseOnHover && isPaused) return
@@ -112,7 +116,7 @@ export function HeroSection({
 
   return (
     <section
-      className="relative isolate w-full overflow-hidden aspect-[9/16] sm:aspect-[16/9] lg:aspect-auto lg:h-[min(100svh,56.25vw)]"
+      className="relative isolate w-full overflow-hidden aspect-[9/16] max-h-[100svh] sm:aspect-[16/9] sm:max-h-none lg:aspect-auto lg:h-[min(100svh,56.25vw)]"
       onMouseEnter={pauseOnHover ? () => setIsPaused(true) : undefined}
       onMouseLeave={pauseOnHover ? () => setIsPaused(false) : undefined}
     >
@@ -154,7 +158,7 @@ export function HeroSection({
         ) : null}
       </div>
 
-      <div className="relative mx-auto flex h-full w-full max-w-7xl flex-col justify-end px-4 pb-24 pt-32 sm:px-6 sm:pb-28 sm:pt-36 md:pb-32">
+      <div className="relative mx-auto flex h-full w-full max-w-7xl flex-col justify-end pl-[max(var(--site-gutter-x),env(safe-area-inset-left,0px))] pr-[max(var(--site-gutter-x),env(safe-area-inset-right,0px))] pb-[calc(var(--site-bottom-chrome)+1.5rem)] pt-32 sm:pt-36 md:pb-32">
         {hasHeroCopy ? (
           <div className="max-w-2xl">
             {heroBadge ? (
@@ -168,7 +172,7 @@ export function HeroSection({
             {heroTitle ? (
               <h1
                 data-hero-copy
-                className="text-[2.35rem] font-semibold leading-[1.03] tracking-[-0.025em] text-white sm:text-[3.05rem] md:text-[3.7rem]"
+                className="text-[clamp(1.75rem,4vw+1rem,3.7rem)] font-semibold leading-[1.03] tracking-[-0.025em] text-white"
               >
                 {heroTitle}
               </h1>
@@ -224,7 +228,7 @@ export function HeroSection({
               type="button"
               key={index}
               onClick={() => setActiveSlide(index)}
-              className="touch-target p-1 focus-visible:outline-none"
+              className="touch-target p-1"
               aria-label={`Görsel ${index + 1}`}
             >
               <span
