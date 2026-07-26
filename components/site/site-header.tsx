@@ -221,7 +221,7 @@ export function SiteHeader({
   }, [topHeaderEnabled])
 
   return (
-    <header className={cn("z-50 w-full pt-safe", isHome ? "fixed inset-x-0 top-0" : "sticky top-0")}>
+    <header className={cn("z-50 w-full pt-safe", isHome ? "fixed inset-x-0 top-0" : "sticky top-0 bg-[#fffdfa]")}>
       {topHeaderEnabled ? (
         <div
           className={cn(

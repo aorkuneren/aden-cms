@@ -105,7 +105,7 @@ export function BungalowCard({
               <span className="text-2xl font-semibold text-[#d5e87a]">{nightlyLabel}</span>
               <Link
                 href={detailHref}
-                className="inline-flex items-center gap-1 text-sm font-medium text-white/92 transition hover:text-white"
+                className="inline-flex min-h-11 items-center gap-1 py-1 text-sm font-medium text-white/92 transition hover:text-white"
               >
                 Detayları İncele
                 <ArrowRight className="h-4 w-4" />
