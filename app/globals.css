@@ -298,8 +298,8 @@ html.lightbox-scroll-lock body[data-scroll-locked] {
     padding-top: max(0px, env(safe-area-inset-top, 0px));
   }
   .px-safe {
-    padding-left: max(0px, env(safe-area-inset-left, 0px));
-    padding-right: max(0px, env(safe-area-inset-right, 0px));
+    padding-left: max(0.5rem, env(safe-area-inset-left, 0px));
+    padding-right: max(0.5rem, env(safe-area-inset-right, 0px));
   }
   .pb-safe {
     padding-bottom: max(1rem, env(safe-area-inset-bottom, 0px));
