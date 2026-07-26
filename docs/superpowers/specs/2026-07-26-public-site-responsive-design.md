@@ -1,7 +1,7 @@
 # Public Site — Mobile-First Responsive Dönüşüm
 
 **Tarih:** 2026-07-26  
-**Durum:** Onaylandı — uygulama planı hazır  
+**Durum:** Uygulama tamamlandı — manuel cihaz onayı bekleniyor  
 **Kapsam:** Yalnızca ziyaretçi sitesi (`app/(site)/**`, `components/site/**`, `app/globals.css`, `app/layout.tsx`)  
 **Yaklaşım:** Token + shell merkezli sistem (A)  
 **Kısıt:** Mevcut tasarım dili, marka renkleri ve içerik hiyerarşisi korunur; yeni harici kütüphane eklenmez.
