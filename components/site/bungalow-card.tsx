@@ -17,6 +17,8 @@ type BungalowCardProps = {
   checkOut?: string
   whatsappHref?: string
   variant?: "default" | "showcase"
+  /** Next/Image `sizes` override — carousel slide genişliğine uyum için. */
+  imageSizes?: string
 }
 
 function buildDetailHref(id: string, checkIn?: string, checkOut?: string) {
@@ -34,6 +36,7 @@ export function BungalowCard({
   checkOut,
   whatsappHref,
   variant = "default",
+  imageSizes,
 }: BungalowCardProps) {
   const detailHref = buildDetailHref(bungalow.id, checkIn, checkOut)
   const nightlyLabel = formatNightlyPrice(Number(bungalow.nightlyPrice || 0))
@@ -41,6 +44,8 @@ export function BungalowCard({
     whatsappHref,
     WHATSAPP_CONFIG.bungalowMessage(bungalow.name)
   )
+  const showcaseSizes = imageSizes ?? "(max-width: 768px) 100vw, 50vw"
+  const defaultSizes = imageSizes ?? "(max-width: 768px) 100vw, 33vw"
 
   if (variant === "showcase") {
     return (
@@ -52,7 +57,7 @@ export function BungalowCard({
               alt={bungalow.name}
               fill
               className="object-cover transition duration-500 group-hover:scale-[1.04]"
-              sizes="(max-width: 768px) 100vw, 50vw"
+              sizes={showcaseSizes}
             />
           ) : (
             <div className="flex h-full items-center justify-center text-sm text-[#f4eee4]">
@@ -62,7 +67,7 @@ export function BungalowCard({
           <div className="absolute inset-0 bg-gradient-to-t from-[#101712]/85 via-[#101712]/48 to-[#101712]/12" />
         </div>
 
-        <CardContent className="relative flex h-[340px] flex-col justify-between p-4 sm:h-[360px]">
+        <CardContent className="relative flex min-h-[340px] aspect-[4/5] sm:min-h-[360px] sm:aspect-auto sm:h-[360px] flex-col justify-between p-4">
           <div>
             {availability !== undefined ? (
               <span
@@ -114,14 +119,14 @@ export function BungalowCard({
 
   return (
     <Card className="group gap-0 overflow-hidden rounded-2xl border-[#e6dece] bg-white py-0 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
-      <div className="relative h-56 bg-[#ddd6c7]">
+      <div className="relative aspect-[16/10] h-auto min-h-56 bg-[#ddd6c7]">
         {bungalow.image ? (
           <Image
             src={bungalow.image}
             alt={bungalow.name}
             fill
             className="object-cover transition duration-500 group-hover:scale-105"
-            sizes="(max-width: 768px) 100vw, 33vw"
+            sizes={defaultSizes}
           />
         ) : (
           <div className="flex h-full items-center justify-center text-sm text-[#71685a]">

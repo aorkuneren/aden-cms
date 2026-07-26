@@ -66,7 +66,7 @@ export function AboutIntroSection({
                   <img
                     src={image}
                     alt={`${companyName} hakkında görsel ${index + 1}`}
-                    className="aspect-[4/3] w-full object-cover"
+                    className="site-media aspect-[4/3] w-full object-cover"
                     loading="lazy"
                     decoding="async"
                   />

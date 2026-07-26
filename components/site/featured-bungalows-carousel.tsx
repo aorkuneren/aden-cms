@@ -88,7 +88,11 @@ export function FeaturedBungalowsCarousel({
                   activeIndex === index ? "scale-100" : "scale-[0.94]"
                 )}
               >
-                <BungalowCard bungalow={bungalov} variant="showcase" />
+                <BungalowCard
+                  bungalow={bungalov}
+                  variant="showcase"
+                  imageSizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
+                />
               </div>
             </div>
           ))}

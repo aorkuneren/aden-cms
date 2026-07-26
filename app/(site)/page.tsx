@@ -621,7 +621,7 @@ export default async function SiteHomePage() {
                     <img
                       src={ctaImageUrl1 || aboutImages[0] || heroPrimaryImage}
                       alt="Aden Bungalov CTA görsel 1"
-                      className="h-[290px] w-full object-cover sm:h-[340px] lg:h-[380px]"
+                      className="site-media h-auto w-full aspect-[3/4] object-cover sm:aspect-[3/4] lg:aspect-[3/4]"
                       loading="lazy"
                       decoding="async"
                     />
@@ -633,7 +633,7 @@ export default async function SiteHomePage() {
                       <img
                         src={ctaImageUrl2 || aboutImages[1] || heroSliderImages[0] || heroPrimaryImage}
                         alt="Aden Bungalov CTA görsel 2"
-                        className="h-[150px] w-full object-cover sm:h-[170px] lg:h-[184px]"
+                        className="site-media h-auto w-full aspect-[16/10] object-cover"
                         loading="lazy"
                         decoding="async"
                       />
