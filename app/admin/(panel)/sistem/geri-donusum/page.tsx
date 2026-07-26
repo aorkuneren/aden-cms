@@ -37,7 +37,12 @@ export default async function TrashPage() {
   ])
 
   const items = [
-    ...toTrashItems("cms_slider", config.sliderManagement, (item) => item.title, (item) => item.imageUrl || null),
+    ...toTrashItems(
+      "cms_slider",
+      config.sliderManagement,
+      (item) => item.title,
+      (item) => item.imageUrl || item.videoUrl || null
+    ),
     ...toTrashItems("cms_faq", config.faqManagement, (item) => item.question),
     ...toTrashItems("cms_why_aden", config.whyAdenManagement, (item) => item.title, (item) => item.imageUrl || null),
     ...toTrashItems("cms_gallery", config.galleryManagement?.items, (item) => item.title, (item) => item.imageUrl || null),

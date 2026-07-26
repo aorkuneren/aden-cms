@@ -58,6 +58,14 @@ describe("deleteUploadByUrl", () => {
     })
   })
 
+  it("query/hash içeren URL ile dosyayı siler", async () => {
+    const abs = path.join(tmpRoot, "a.jpg")
+    await fs.writeFile(abs, "x")
+    const { deleteUploadByUrl } = await import("../delete")
+    await expect(deleteUploadByUrl("/uploads/a.jpg?v=2#top")).resolves.toEqual({ deleted: true })
+    await expect(fs.access(abs)).rejects.toThrow()
+  })
+
   it("collectMediaUrls galeri ve bungalov alanlarını toplar", async () => {
     const { collectMediaUrls } = await import("../delete")
     expect(collectMediaUrls("cms_gallery", { imageUrl: "/uploads/a.jpg" })).toEqual(["/uploads/a.jpg"])

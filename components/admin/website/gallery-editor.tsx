@@ -404,23 +404,25 @@ export function GalleryEditor({
   }, [items, categories])
 
   // Filtrelenmiş Görseller
-  const filteredItems = items.filter((item) => {
-    if (selectedCatFilter !== "ALL" && item.categoryId !== selectedCatFilter) {
-      return false
-    }
-    if (statusFilter === "ACTIVE" && !item.isActive) return false
-    if (statusFilter === "PASSIVE" && item.isActive) return false
+  const filteredItems = useMemo(() => {
+    return items.filter((item) => {
+      if (selectedCatFilter !== "ALL" && item.categoryId !== selectedCatFilter) {
+        return false
+      }
+      if (statusFilter === "ACTIVE" && !item.isActive) return false
+      if (statusFilter === "PASSIVE" && item.isActive) return false
 
-    if (featuredFilter && !item.isFeatured) return false
+      if (featuredFilter && !item.isFeatured) return false
 
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase()
-      const tMatch = item.title.toLowerCase().includes(q)
-      const dMatch = item.description.toLowerCase().includes(q)
-      if (!tMatch && !dMatch) return false
-    }
-    return true
-  })
+      if (searchQuery.trim()) {
+        const q = searchQuery.toLowerCase()
+        const tMatch = item.title.toLowerCase().includes(q)
+        const dMatch = item.description.toLowerCase().includes(q)
+        if (!tMatch && !dMatch) return false
+      }
+      return true
+    })
+  }, [items, selectedCatFilter, statusFilter, featuredFilter, searchQuery])
 
   const zoomCategoryName = zoomImage
     ? categories.find((c) => c.id === zoomImage.categoryId)?.name || "Genel"

@@ -2,8 +2,8 @@
 
 import { requireCms } from "@/lib/admin/permissions"
 import { mutateCms } from "@/lib/cms/mutate-cms"
-import { restoreDeleted } from "@/lib/cms/soft-delete"
-import { collectMediaUrls, deleteUploadByUrl } from "@/lib/media/delete"
+import { isActiveRecord, restoreDeleted } from "@/lib/cms/soft-delete"
+import { collectMediaUrls, deleteUploadByUrl, isUploadUrlReferencedElsewhere } from "@/lib/media/delete"
 
 const CMS_CONFIG_FILE = "cms-config.json"
 const BUNGALOVS_FILE = "bungalovs.json"
@@ -89,6 +89,8 @@ export async function purgeTrashItemAction(entityType: string, id: string): Prom
 
   const source = sourceFor(entityType)
   let mediaUrls: string[] = []
+  let purgeError: string | null = null
+
   const result = await mutateCms<any>({
     action: "delete",
     file: source.file,
@@ -98,9 +100,15 @@ export async function purgeTrashItemAction(entityType: string, id: string): Prom
     updater: (current) => {
       const items = source.collection(current)
       const target = items.find((item) => String(item.id) === String(id))
-      if (target) {
-        mediaUrls = collectMediaUrls(entityType, target)
+      if (!target) {
+        purgeError = "Kayıt bulunamadı."
+        return current
       }
+      if (isActiveRecord(target)) {
+        purgeError = "Yalnızca geri dönüşümdeki kayıtlar kalıcı silinebilir."
+        return current
+      }
+      mediaUrls = collectMediaUrls(entityType, target)
       return source.replaceCollection(
         current,
         items.filter((item) => String(item.id) !== String(id))
@@ -108,9 +116,19 @@ export async function purgeTrashItemAction(entityType: string, id: string): Prom
     },
   })
 
+  if (purgeError) {
+    return { ok: false, error: purgeError }
+  }
+
   if (result.ok) {
     for (const url of mediaUrls) {
-      await deleteUploadByUrl(url)
+      const shared = await isUploadUrlReferencedElsewhere(url, {
+        excludeEntityType: entityType,
+        excludeId: id,
+      })
+      if (!shared) {
+        await deleteUploadByUrl(url)
+      }
     }
   }
 

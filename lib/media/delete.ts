@@ -1,5 +1,6 @@
 import fs from "fs/promises"
 import path from "path"
+import { readJson } from "@/lib/cms/store"
 import { resolveUploadRoot } from "@/lib/media/upload"
 
 export type DeleteUploadResult = { deleted: boolean; reason?: string }
@@ -8,9 +9,24 @@ function isManagedUploadUrl(url: string): boolean {
   return typeof url === "string" && url.startsWith("/uploads/")
 }
 
+/** Query/hash parçalarını atar ve percent-encoding'i çözer — aynı dosyanın farklı yazımlarını eşitler. */
+export function normalizeUploadUrl(url: unknown): string | null {
+  if (typeof url !== "string") return null
+  const trimmed = url.trim()
+  if (!trimmed) return null
+  const withoutQuery = trimmed.split(/[?#]/)[0]
+  if (!withoutQuery) return null
+  try {
+    return decodeURIComponent(withoutQuery)
+  } catch {
+    return withoutQuery
+  }
+}
+
 function urlToAbsolutePath(url: string): string | null {
-  if (!isManagedUploadUrl(url)) return null
-  const rel = url.slice("/uploads/".length)
+  const normalized = normalizeUploadUrl(url)
+  if (!normalized || !isManagedUploadUrl(normalized)) return null
+  const rel = normalized.slice("/uploads/".length)
   if (!rel || rel.includes("\0")) return null
   const root = resolveUploadRoot()
   const abs = path.resolve(root, rel)
@@ -67,4 +83,52 @@ export function collectMediaUrls(entityType: string, record: Record<string, unkn
       break
   }
   return urls
+}
+
+const CMS_CONFIG_FILE = "cms-config.json"
+const BUNGALOVS_FILE = "bungalovs.json"
+
+export type ReferenceScanOptions = {
+  excludeEntityType?: string
+  excludeId?: string
+}
+
+/**
+ * Bir upload URL'inin başka bir kayıt tarafından hâlâ kullanılıp kullanılmadığını söyler.
+ * Kopyalanan galeri kayıtları aynı dosyayı paylaştığı için purge sırasında dosyayı
+ * silmeden önce bu kontrol yapılmalıdır.
+ */
+export async function isUploadUrlReferencedElsewhere(
+  url: string,
+  opts: ReferenceScanOptions = {}
+): Promise<boolean> {
+  const target = normalizeUploadUrl(url)
+  if (!target || !isManagedUploadUrl(target)) return false
+
+  const [config, bungalows] = await Promise.all([
+    readJson<Record<string, any>>(CMS_CONFIG_FILE).catch(() => null),
+    readJson<any[]>(BUNGALOVS_FILE).catch(() => null),
+  ])
+
+  const matches = (entityType: string, records: unknown): boolean => {
+    if (!Array.isArray(records)) return false
+    return records.some((record) => {
+      if (!record || typeof record !== "object") return false
+      const isExcluded =
+        opts.excludeEntityType === entityType &&
+        opts.excludeId != null &&
+        String((record as Record<string, unknown>).id) === String(opts.excludeId)
+      if (isExcluded) return false
+      return collectMediaUrls(entityType, record as Record<string, unknown>).some(
+        (candidate) => normalizeUploadUrl(candidate) === target
+      )
+    })
+  }
+
+  return (
+    matches("cms_slider", config?.sliderManagement) ||
+    matches("cms_why_aden", config?.whyAdenManagement) ||
+    matches("cms_gallery", config?.galleryManagement?.items) ||
+    matches("bungalow", bungalows)
+  )
 }
