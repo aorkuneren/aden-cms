@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useSyncExternalStore, useTransition, useMemo } from "react"
+import { useState, useSyncExternalStore, useTransition, useMemo, useRef } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -19,7 +19,6 @@ import {
   Copy,
   ArrowUp,
   ArrowDown,
-  Layers,
   X,
   Star,
   LayoutGrid,
@@ -104,6 +103,10 @@ export function GalleryEditor({
   const [items, setItems] = useState<GalleryItem[]>(initialItems)
   const [pending, startTransition] = useTransition()
   const [status, setStatus] = useState<SaveStatus>(null)
+  const stableSnapshotRef = useRef<{ categories: GalleryCategory[]; items: GalleryItem[] }>({
+    categories: initialCategories,
+    items: initialItems,
+  })
 
   // Görünüm Modu (Izgara / Liste)
   const viewMode = useSyncExternalStore<ViewMode>(
@@ -140,16 +143,31 @@ export function GalleryEditor({
     rollback?: { categories: GalleryCategory[]; items: GalleryItem[] }
   ) => {
     startTransition(async () => {
-      const res = await saveGalleryAction({ categories: nextCategories, items: nextItems })
-      if (res.ok) {
-        setStatus({ type: "ok", msg: successMsg })
-        router.refresh()
-      } else {
+      try {
+        const res = await saveGalleryAction({ categories: nextCategories, items: nextItems })
+        if (res.ok) {
+          stableSnapshotRef.current = { categories: nextCategories, items: nextItems }
+          setStatus({ type: "ok", msg: successMsg })
+          router.refresh()
+        } else {
+          if (rollback) {
+            stableSnapshotRef.current = rollback
+            setCategories(rollback.categories)
+            setItems(rollback.items)
+          }
+          setStatus({ type: "err", msg: res.error })
+        }
+      } catch (err) {
         if (rollback) {
+          stableSnapshotRef.current = rollback
           setCategories(rollback.categories)
           setItems(rollback.items)
         }
-        setStatus({ type: "err", msg: res.error })
+        const msg =
+          err instanceof Error
+            ? err.message
+            : "Kaydetme sırasında beklenmeyen bir hata oluştu."
+        setStatus({ type: "err", msg })
       }
     })
   }
@@ -310,7 +328,7 @@ export function GalleryEditor({
   }
   
   const bulkSetFeatured = (featured: boolean) => {
-     let currentItems = [...items]
+     const currentItems = [...items]
      let successCount = 0
      
      if (featured) {
@@ -386,25 +404,23 @@ export function GalleryEditor({
   }, [items, categories])
 
   // Filtrelenmiş Görseller
-  const filteredItems = useMemo(() => {
-    return items.filter((item) => {
-      if (selectedCatFilter !== "ALL" && item.categoryId !== selectedCatFilter) {
-        return false
-      }
-      if (statusFilter === "ACTIVE" && !item.isActive) return false
-      if (statusFilter === "PASSIVE" && item.isActive) return false
-      
-      if (featuredFilter && !item.isFeatured) return false
+  const filteredItems = items.filter((item) => {
+    if (selectedCatFilter !== "ALL" && item.categoryId !== selectedCatFilter) {
+      return false
+    }
+    if (statusFilter === "ACTIVE" && !item.isActive) return false
+    if (statusFilter === "PASSIVE" && item.isActive) return false
 
-      if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase()
-        const tMatch = item.title.toLowerCase().includes(q)
-        const dMatch = item.description.toLowerCase().includes(q)
-        if (!tMatch && !dMatch) return false
-      }
-      return true
-    })
-  }, [items, selectedCatFilter, statusFilter, searchQuery, featuredFilter])
+    if (featuredFilter && !item.isFeatured) return false
+
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase()
+      const tMatch = item.title.toLowerCase().includes(q)
+      const dMatch = item.description.toLowerCase().includes(q)
+      if (!tMatch && !dMatch) return false
+    }
+    return true
+  })
 
   const zoomCategoryName = zoomImage
     ? categories.find((c) => c.id === zoomImage.categoryId)?.name || "Genel"
@@ -900,9 +916,15 @@ export function GalleryEditor({
                 placeholder="Yeni kategori adı (Örn: Havuz Alanı)..."
                 value={newCatName}
                 onChange={(e) => setNewCatName(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addCategory())}
+                onKeyDown={(e) => {
+                  if (e.key !== "Enter") return
+                  e.preventDefault()
+                  if (pending) return
+                  addCategory()
+                }}
+                disabled={pending}
               />
-              <Button type="button" onClick={addCategory}>
+              <Button type="button" onClick={addCategory} disabled={pending}>
                 <Plus className="size-4" /> Ekle
               </Button>
             </div>
@@ -920,12 +942,31 @@ export function GalleryEditor({
                         value={cat.name}
                         onChange={(e) => updateCategory(cat.id, { name: e.target.value })}
                         onBlur={(e) => {
-                          const name = e.target.value.trim()
-                          const snapshot = { categories, items }
+                          if (pending) return
+
+                          const inputTrimmed = e.target.value.trim()
+                          const stableName =
+                            stableSnapshotRef.current.categories.find((c) => c.id === cat.id)?.name ??
+                            cat.name
+                          const stableTrimmed = stableName.trim()
+                          const nextName = inputTrimmed || stableTrimmed
+
+                          // No-op save guard: trimmed değer değişmediyse (veya boşsa eskiyi koruyorsak) kaydetme.
+                          if (nextName === stableTrimmed) {
+                            if (cat.name !== stableTrimmed) {
+                              setCategories((prev) =>
+                                prev.map((c) => (c.id === cat.id ? { ...c, name: stableTrimmed } : c))
+                              )
+                            }
+                            return
+                          }
+
+                          const snapshot = stableSnapshotRef.current
                           const nextCategories = categories.map((c) =>
-                            c.id === cat.id ? { ...c, name: name || c.name } : c
+                            c.id === cat.id ? { ...c, name: nextName } : c
                           )
                           setCategories(nextCategories)
+                          clearStatus()
                           persistGalleryConfig(nextCategories, items, "Kategori güncellendi.", snapshot)
                         }}
                         onKeyDown={(e) => {
@@ -935,11 +976,16 @@ export function GalleryEditor({
                           }
                         }}
                         className="h-8 text-xs font-medium"
+                        disabled={pending}
                       />
                       <div className="flex items-center gap-1">
                         <Switch
                           checked={cat.isActive}
-                          onCheckedChange={(v) => toggleCategoryActive(cat.id, v)}
+                          onCheckedChange={(v) => {
+                            if (pending) return
+                            toggleCategoryActive(cat.id, v)
+                          }}
+                          disabled={pending}
                         />
                         <Button
                           type="button"
@@ -947,6 +993,7 @@ export function GalleryEditor({
                           size="icon-sm"
                           className="text-destructive hover:text-destructive"
                           onClick={() => removeCategory(cat.id)}
+                          disabled={pending}
                         >
                           <Trash2 className="size-4" />
                         </Button>
@@ -966,7 +1013,9 @@ export function GalleryEditor({
           </div>
 
           <DialogFooter>
-            <Button onClick={() => setCategoryModalOpen(false)}>Tamam</Button>
+            <Button onClick={() => setCategoryModalOpen(false)} disabled={pending}>
+              Tamam
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
