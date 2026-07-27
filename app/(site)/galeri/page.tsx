@@ -25,8 +25,8 @@ const HERO_FALLBACK =
   "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1800&q=80"
 
 const DEFAULT_GALLERY_CATEGORY_TABS: Array<{ id: string; label: string }> = [
-  { id: "gallery-category-bungalovlar", label: "Bungalovlar" },
-  { id: "gallery-category-odalar-suit", label: "Odalar/Suit" },
+  { id: "bungalovlar", label: "Bungalovlar" },
+  { id: "odalar-suit", label: "Odalar/Suit" },
 ]
 
 type GalleryCategoryContent = {
