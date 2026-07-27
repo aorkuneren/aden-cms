@@ -52,6 +52,8 @@ async function main() {
 
     console.log("\nNormalize sayaçlar:")
     console.log("  admin_users", await prisma.adminUser.count())
+    console.log("  gallery_categories", await prisma.galleryCategory.count())
+    console.log("  gallery_items", await prisma.galleryItem.count())
     console.log("  bungalovs", await prisma.bungalov.count())
     console.log("  seo_meta", await prisma.seoMeta.count())
     console.log("  faq_items", await prisma.faqItem.count())
