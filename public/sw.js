@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v4";
+const CACHE_VERSION = "v5";
 const CACHE_NAME = `adenbungalov-pwa-${CACHE_VERSION}`;
 const OFFLINE_URL = "/offline.html";
 const APP_SHELL_FILES = [
@@ -64,6 +64,15 @@ self.addEventListener("fetch", (event) => {
 
   const requestUrl = new URL(event.request.url);
   if (requestUrl.origin !== self.location.origin) {
+    return;
+  }
+
+  // Admin paneli ve Next.js build asset'leri için SW cache'i devre dışı bırak.
+  // Aksi halde deploy sonrası eski JS chunk'ları Server Action ID mismatch üretebilir.
+  if (
+    requestUrl.pathname.startsWith("/admin") ||
+    requestUrl.pathname.startsWith("/_next/")
+  ) {
     return;
   }
 
