@@ -24,17 +24,52 @@ export type FinalizeGalleryResult = {
   changed: boolean
 }
 
+export function buildGallerySeoBaseSlug(
+  categoryName: string,
+  title: string
+): { categorySlug: string; baseSlug: string } {
+  const categorySlug = toSeoSlug(categoryName, "genel")
+  const titleTrim = String(title || "").trim()
+  const baseSlug = titleTrim
+    ? toSeoSlug(titleTrim, categorySlug, 40)
+    : categorySlug
+  return { categorySlug, baseSlug }
+}
+
 export function buildGallerySeoUrl(opts: {
   categoryName: string
   title: string
   timestamp: number
 }): string {
-  const categorySlug = toSeoSlug(opts.categoryName, "genel")
-  const titleTrim = String(opts.title || "").trim()
-  const base = titleTrim
-    ? toSeoSlug(titleTrim, categorySlug, 40)
-    : categorySlug
-  return `/uploads/galeri/${categorySlug}/${base}-${opts.timestamp}.webp`
+  const { categorySlug, baseSlug } = buildGallerySeoBaseSlug(opts.categoryName, opts.title)
+  return `/uploads/galeri/${categorySlug}/${baseSlug}-${opts.timestamp}.webp`
+}
+
+/** Zaten hedef SEO webp path'inde mi (staging / legacy klasör değil, slug eşleşiyor)? */
+export function isAlreadyFinalizedGallerySeoPath(
+  imageUrl: string,
+  categoryName: string,
+  title: string
+): boolean {
+  const normalized = normalizeUploadUrl(imageUrl) || String(imageUrl || "").trim()
+  if (!normalized.startsWith("/uploads/galeri/")) return false
+
+  const rest = normalized.slice("/uploads/galeri/".length)
+  const slashIdx = rest.indexOf("/")
+  if (slashIdx === -1) return false
+
+  const folder = rest.slice(0, slashIdx)
+  const filename = rest.slice(slashIdx + 1)
+
+  if (folder === "_staging" || folder.startsWith("gallery-category-")) return false
+  if (!filename.endsWith(".webp")) return false
+
+  const { categorySlug, baseSlug } = buildGallerySeoBaseSlug(categoryName, title)
+  if (folder !== categorySlug) return false
+  if (!filename.startsWith(`${baseSlug}-`)) return false
+
+  const suffix = filename.slice(`${baseSlug}-`.length)
+  return /^\d+\.webp$/.test(suffix)
 }
 
 function isLocalUploadsUrl(url: string): boolean {
@@ -61,17 +96,23 @@ export async function finalizeGalleryImage(
   if (/^https?:\/\//i.test(rawUrl)) return { imageUrl: rawUrl, changed: false }
   if (!isLocalUploadsUrl(rawUrl)) return { imageUrl: rawUrl, changed: false }
 
+  const normalizedCurrent = normalizeUploadUrl(rawUrl) || rawUrl
+  if (
+    isAlreadyFinalizedGallerySeoPath(
+      normalizedCurrent,
+      input.categoryName,
+      input.title
+    )
+  ) {
+    return { imageUrl: normalizedCurrent, changed: false }
+  }
+
   const timestamp = input.timestamp ?? Date.now()
   const targetUrl = buildGallerySeoUrl({
     categoryName: input.categoryName,
     title: input.title,
     timestamp,
   })
-
-  const normalizedCurrent = normalizeUploadUrl(rawUrl) || rawUrl
-  if (normalizedCurrent === targetUrl) {
-    return { imageUrl: targetUrl, changed: false }
-  }
 
   const srcAbs = urlToAbs(rawUrl)
   if (!srcAbs) throw new Error("Geçersiz görsel yolu.")

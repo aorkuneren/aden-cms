@@ -1,7 +1,10 @@
 import fs from "fs/promises"
 import path from "path"
 import { mutateJson, readJson } from "@/lib/cms/store"
-import { finalizeGalleryImage } from "@/lib/media/finalize-gallery"
+import {
+  finalizeGalleryImage,
+  isAlreadyFinalizedGallerySeoPath,
+} from "@/lib/media/finalize-gallery"
 import { toSeoSlug, uniqueCategoryId } from "@/lib/media/slug"
 import { resolveUploadRoot } from "@/lib/media/upload"
 import type { CmsGalleryCategory, CmsGalleryItem, WebsiteCmsConfig } from "@/lib/site/website-cms-types"
@@ -121,11 +124,25 @@ export async function migrateGallerySeoPaths(): Promise<GalleryMigrateResult> {
         return item
       }
 
+      const categoryName = resolveCategoryName(
+        galleryItem.categoryId,
+        workingCategories
+      )
+      if (
+        isAlreadyFinalizedGallerySeoPath(
+          galleryItem.imageUrl,
+          categoryName,
+          galleryItem.title
+        )
+      ) {
+        return item
+      }
+
       try {
         const finalized = await finalizeGalleryImage({
           imageUrl: galleryItem.imageUrl,
           title: galleryItem.title,
-          categoryName: resolveCategoryName(galleryItem.categoryId, workingCategories),
+          categoryName,
           itemId: galleryItem.id,
           timestamp: baseTs + index,
         })

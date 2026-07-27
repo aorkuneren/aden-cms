@@ -85,4 +85,72 @@ describe("finalizeGalleryImage", () => {
     })
     expect(res.imageUrl).toBe("/uploads/galeri/bungalovlar/bungalovlar-1785136658667.webp")
   })
+
+  it("zaten SEO webp path ise dokunmaz (re-save idempotent)", async () => {
+    const seoUrl = "/uploads/galeri/bungalovlar/aden-aile-suit-1785136677955.webp"
+    const seoAbs = path.join(tmpRoot, seoUrl.replace("/uploads/", ""))
+    await fs.mkdir(path.dirname(seoAbs), { recursive: true })
+    await sharp({
+      create: { width: 4, height: 4, channels: 3, background: { r: 1, g: 2, b: 3 } },
+    })
+      .webp()
+      .toFile(seoAbs)
+
+    const { finalizeGalleryImage } = await import("../finalize-gallery")
+    const res = await finalizeGalleryImage({
+      imageUrl: seoUrl,
+      title: "Aden Aile Suit",
+      categoryName: "Bungalovlar",
+      timestamp: 9999999999999,
+    })
+    expect(res).toEqual({ imageUrl: seoUrl, changed: false })
+  })
+
+  it("gallery-category-* path hâlâ dönüştürülür", async () => {
+    const legacyRel = path.join("galeri", "gallery-category-bungalovlar", "foto.jpg")
+    const legacyAbs = path.join(tmpRoot, legacyRel)
+    await fs.mkdir(path.dirname(legacyAbs), { recursive: true })
+    await sharp({
+      create: { width: 8, height: 8, channels: 3, background: { r: 10, g: 20, b: 30 } },
+    })
+      .jpeg()
+      .toFile(legacyAbs)
+
+    const { finalizeGalleryImage } = await import("../finalize-gallery")
+    const ts = 1785136677955
+    const res = await finalizeGalleryImage({
+      imageUrl: "/uploads/galeri/gallery-category-bungalovlar/foto.jpg",
+      title: "Aden Aile Suit",
+      categoryName: "Bungalovlar",
+      timestamp: ts,
+    })
+    expect(res.changed).toBe(true)
+    expect(res.imageUrl).toBe(
+      "/uploads/galeri/bungalovlar/aden-aile-suit-1785136677955.webp"
+    )
+  })
+
+  it("kategori slug değiştiyse yeniden finalize eder", async () => {
+    const oldUrl = "/uploads/galeri/eski-kategori/aden-aile-suit-1785136677955.webp"
+    const oldAbs = path.join(tmpRoot, oldUrl.replace("/uploads/", ""))
+    await fs.mkdir(path.dirname(oldAbs), { recursive: true })
+    await sharp({
+      create: { width: 4, height: 4, channels: 3, background: { r: 1, g: 2, b: 3 } },
+    })
+      .webp()
+      .toFile(oldAbs)
+
+    const { finalizeGalleryImage } = await import("../finalize-gallery")
+    const ts = 1785136680000
+    const res = await finalizeGalleryImage({
+      imageUrl: oldUrl,
+      title: "Aden Aile Suit",
+      categoryName: "Bungalovlar",
+      timestamp: ts,
+    })
+    expect(res.changed).toBe(true)
+    expect(res.imageUrl).toBe(
+      "/uploads/galeri/bungalovlar/aden-aile-suit-1785136680000.webp"
+    )
+  })
 })
