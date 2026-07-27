@@ -49,7 +49,7 @@ function safeSegment(input: string, fallback: string): string {
 /**
  * Yükleme hedefine göre uploads köküne göreli klasör yolunu döndürür.
  * - bungalov -> `bungalov/{id}`
- * - galeri   -> `galeri/{kategori}`
+ * - galeri   -> `galeri/_staging`
  * - slider   -> `slider`
  * - neden-aden -> `neden-aden`
  * - hakkimizda -> `hakkimizda`
@@ -61,7 +61,7 @@ function resolveSubdir(target: UploadTarget): string {
     case "bungalov":
       return path.join("bungalov", safeSegment(target.id, "genel"))
     case "galeri":
-      return path.join("galeri", safeSegment(target.category, "genel"))
+      return path.join("galeri", "_staging")
     case "slider":
       return "slider"
     case "neden-aden":
