@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v5";
+const CACHE_VERSION = "v6";
 const CACHE_NAME = `adenbungalov-pwa-${CACHE_VERSION}`;
 const OFFLINE_URL = "/offline.html";
 const APP_SHELL_FILES = [
@@ -87,6 +87,13 @@ self.addEventListener("fetch", (event) => {
 
           return await fetch(event.request);
         } catch (err) {
+          // Gerçek offline değilse (sunucu/preview 503) offline.html gösterme —
+          // Hostinger preview / geçici domain hatalarını gizlemesin.
+          if (self.navigator && self.navigator.onLine !== false) {
+            console.warn("[PWA] Network failed while online; skipping offline page.", err);
+            return Response.error();
+          }
+
           console.warn("[PWA] Network failed, serving offline page.", err);
           const cache = await caches.open(CACHE_NAME);
           const offlineResponse = await cache.match(OFFLINE_URL);
