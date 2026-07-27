@@ -1,6 +1,6 @@
 import fs from "fs/promises"
 import path from "path"
-import { mutateJson, readJson } from "@/lib/cms/store"
+import { mutateJson, readJson, revalidateSite } from "@/lib/cms/store"
 import {
   finalizeGalleryImage,
   isAlreadyFinalizedGallerySeoPath,
@@ -176,6 +176,10 @@ export async function migrateGallerySeoPaths(): Promise<GalleryMigrateResult> {
         items: workingItems as CmsGalleryItem[],
       },
     }))
+  }
+
+  if (Object.keys(remapped.idMap).length > 0 || itemsChanged) {
+    revalidateSite()
   }
 
   return {

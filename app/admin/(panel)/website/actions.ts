@@ -379,6 +379,34 @@ export async function saveGalleryAction(payload: unknown): Promise<ActionResult>
     return { ok: false, error: "Galeri verisi geçersiz: " + (parsed.error.issues[0]?.message ?? "") }
   }
 
+  const cfg = await readJson<Record<string, any>>(CMS_CONFIG_FILE).catch(() => ({}))
+  const existingCategories = Array.isArray(cfg?.galleryManagement?.categories)
+    ? cfg.galleryManagement.categories
+    : []
+  const categoryById = new Map<string, { name?: string }>()
+  for (const cat of [...parsed.data.categories, ...existingCategories]) {
+    categoryById.set(String(cat.id), cat)
+  }
+
+  const finalizedItems = []
+  for (const item of parsed.data.items) {
+    const cat = categoryById.get(String(item.categoryId))
+    const categoryName = String(cat?.name || item.categoryId || "genel")
+    try {
+      const finalized = await finalizeGalleryImage({
+        imageUrl: item.imageUrl,
+        title: item.title,
+        categoryName,
+        itemId: item.id,
+      })
+      finalizedItems.push({ ...item, imageUrl: finalized.imageUrl })
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Görsel işlenemedi."
+      const label = item.title?.trim() || item.id
+      return { ok: false, error: `Galeri görseli kaydedilemedi (${label}): ${message}` }
+    }
+  }
+
   await mutateJson<Record<string, any>>(CMS_CONFIG_FILE, (cfg = {}) => {
     const gallery = cfg.galleryManagement ?? {}
     const categories = Array.isArray(gallery.categories) ? gallery.categories : []
@@ -389,7 +417,7 @@ export async function saveGalleryAction(payload: unknown): Promise<ActionResult>
       galleryManagement: {
         ...gallery,
         categories: [...parsed.data.categories, ...filterDeleted(categories)],
-        items: [...parsed.data.items, ...filterDeleted(items)],
+        items: [...finalizedItems, ...filterDeleted(items)],
       },
     }
   })

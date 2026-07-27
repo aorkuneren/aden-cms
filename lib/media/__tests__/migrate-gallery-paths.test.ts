@@ -4,14 +4,16 @@ import path from "path"
 import sharp from "sharp"
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 
-const { readJson, mutateJson } = vi.hoisted(() => ({
+const { readJson, mutateJson, revalidateSite } = vi.hoisted(() => ({
   readJson: vi.fn(),
   mutateJson: vi.fn(),
+  revalidateSite: vi.fn(),
 }))
 
 vi.mock("@/lib/cms/store", () => ({
   readJson,
   mutateJson,
+  revalidateSite,
 }))
 
 import { remapGalleryCategoryIds } from "../migrate-gallery-paths"
