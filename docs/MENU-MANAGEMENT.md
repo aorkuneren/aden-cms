@@ -10,9 +10,9 @@ menü gruplarını çalışma anında okur.
 
 ## Mimari notu (önemli)
 
-Bu proje **JSON-dosya tabanlı bir CMS**'tir (Prisma mock — `lib/db.ts`). Bu yüzden
-şartnamedeki SQL `menu_groups` / `menu_items` tabloları, **`data/cms-config.json`
-→ `siteManagement.menuGroups`** altındaki zengin JSON modeline uyarlanmıştır.
+Bu proje **MySQL tabanlı bir CMS**'tir (`lib/cms/store.ts` → `cms_documents` +
+`menu_groups` / `menu_items`). Şartnamedeki SQL tabloları, **`cms-config` belgesi
+→ `siteManagement.menuGroups`** JSON şekliyle senkron tutulur.
 Alan adları şartnameyle birebir eşleşir (JSON'da camelCase). Migration yerine
 **geriye-uyumlu şema evrimi** kullanılır: eski `{text, href, isActive}` öğeleri
 `custom_link` olarak çözümlenir.
