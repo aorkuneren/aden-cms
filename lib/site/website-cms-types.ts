@@ -510,12 +510,12 @@ export const DEFAULT_WEBSITE_CMS_CONFIG: WebsiteCmsConfig = {
   galleryManagement: {
     categories: [
       {
-        id: "gallery-category-bungalovlar",
+        id: "bungalovlar",
         name: "Bungalovlar",
         isActive: true,
       },
       {
-        id: "gallery-category-odalar-suit",
+        id: "odalar-suit",
         name: "Odalar/Suit",
         isActive: true,
       },

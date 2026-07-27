@@ -14,8 +14,8 @@ export type GalleryCategoryContent = {
 }
 
 export const DEFAULT_GALLERY_CATEGORY_TABS: Array<{ id: string; label: string }> = [
-  { id: "gallery-category-bungalovlar", label: "Bungalovlar" },
-  { id: "gallery-category-odalar-suit", label: "Odalar/Suit" },
+  { id: "bungalovlar", label: "Bungalovlar" },
+  { id: "odalar-suit", label: "Odalar/Suit" },
 ]
 
 export function normalizeImages(images: string[]): string[] {

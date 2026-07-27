@@ -7,7 +7,8 @@ import { requireCms } from "@/lib/admin/permissions"
 import { mutateCms } from "@/lib/cms/mutate-cms"
 import { ensureSoftDeleteFields } from "@/lib/cms/normalize-soft-delete"
 import { filterDeleted, markDeleted } from "@/lib/cms/soft-delete"
-import { mutateJson, revalidateSite } from "@/lib/cms/store"
+import { mutateJson, readJson, revalidateSite } from "@/lib/cms/store"
+import { finalizeGalleryImage } from "@/lib/media/finalize-gallery"
 import { MAX_MENU_DEPTH, MENU_ITEM_TYPES } from "@/lib/site/menu-model"
 import { isSafeHref } from "@/lib/site/menu-resolver"
 
@@ -378,6 +379,34 @@ export async function saveGalleryAction(payload: unknown): Promise<ActionResult>
     return { ok: false, error: "Galeri verisi geçersiz: " + (parsed.error.issues[0]?.message ?? "") }
   }
 
+  const cfg = await readJson<Record<string, any>>(CMS_CONFIG_FILE).catch(() => ({}))
+  const existingCategories = Array.isArray(cfg?.galleryManagement?.categories)
+    ? cfg.galleryManagement.categories
+    : []
+  const categoryById = new Map<string, { name?: string }>()
+  for (const cat of [...parsed.data.categories, ...existingCategories]) {
+    categoryById.set(String(cat.id), cat)
+  }
+
+  const finalizedItems = []
+  for (const item of parsed.data.items) {
+    const cat = categoryById.get(String(item.categoryId))
+    const categoryName = String(cat?.name || item.categoryId || "genel")
+    try {
+      const finalized = await finalizeGalleryImage({
+        imageUrl: item.imageUrl,
+        title: item.title,
+        categoryName,
+        itemId: item.id,
+      })
+      finalizedItems.push({ ...item, imageUrl: finalized.imageUrl })
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Görsel işlenemedi."
+      const label = item.title?.trim() || item.id
+      return { ok: false, error: `Galeri görseli kaydedilemedi (${label}): ${message}` }
+    }
+  }
+
   await mutateJson<Record<string, any>>(CMS_CONFIG_FILE, (cfg = {}) => {
     const gallery = cfg.galleryManagement ?? {}
     const categories = Array.isArray(gallery.categories) ? gallery.categories : []
@@ -388,7 +417,7 @@ export async function saveGalleryAction(payload: unknown): Promise<ActionResult>
       galleryManagement: {
         ...gallery,
         categories: [...parsed.data.categories, ...filterDeleted(categories)],
-        items: [...parsed.data.items, ...filterDeleted(items)],
+        items: [...finalizedItems, ...filterDeleted(items)],
       },
     }
   })
@@ -415,14 +444,37 @@ export async function saveSingleGalleryAction(itemInput: unknown): Promise<Actio
   }
   const item = parsed.data
 
+  const cfg = await readJson<Record<string, any>>(CMS_CONFIG_FILE).catch(() => ({}))
+  const categories = Array.isArray(cfg?.galleryManagement?.categories)
+    ? cfg.galleryManagement.categories
+    : []
+  const cat = categories.find((c: any) => String(c.id) === String(item.categoryId))
+  const categoryName = String(cat?.name || item.categoryId || "genel")
+
+  let imageUrl = item.imageUrl
+  try {
+    const finalized = await finalizeGalleryImage({
+      imageUrl: item.imageUrl,
+      title: item.title,
+      categoryName,
+      itemId: item.id,
+    })
+    imageUrl = finalized.imageUrl
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Görsel işlenemedi."
+    return { ok: false, error: message }
+  }
+
+  const itemToSave = { ...item, imageUrl }
+
   await mutateJson<Record<string, any>>(CMS_CONFIG_FILE, (cfg = {}) => {
     const gallery = cfg.galleryManagement || { categories: [], items: [] }
     const items = Array.isArray(gallery.items) ? [...gallery.items] : []
-    const idx = items.findIndex((g) => String(g.id) === String(item.id))
+    const idx = items.findIndex((g) => String(g.id) === String(itemToSave.id))
     if (idx >= 0) {
-      items[idx] = { ...items[idx], ...item }
+      items[idx] = { ...items[idx], ...itemToSave }
     } else {
-      items.push(item)
+      items.push(itemToSave)
     }
     return { ...cfg, galleryManagement: { ...gallery, items } }
   })
@@ -434,8 +486,8 @@ export async function saveSingleGalleryAction(itemInput: unknown): Promise<Actio
     actorName: admin.name,
     action: "Tekil Galeri Görseli Kaydedildi",
     entityType: "cms_gallery",
-    entityId: item.id,
-    details: { title: item.title, imageUrl: item.imageUrl },
+    entityId: itemToSave.id,
+    details: { title: itemToSave.title, imageUrl: itemToSave.imageUrl },
   })
 
   return { ok: true }

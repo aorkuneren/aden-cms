@@ -26,6 +26,7 @@ import {
 } from "lucide-react"
 
 import { saveGalleryAction, deleteSingleGalleryAction, saveSingleGalleryAction } from "@/app/admin/(panel)/website/actions"
+import { uniqueCategoryId } from "@/lib/media/slug"
 import { GALLERY_FEATURED_LIMIT } from "@/lib/cms/gallery-constants"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -177,7 +178,10 @@ export function GalleryEditor({
     if (!newCatName.trim()) return
     const snapshot = { categories, items }
     const freshCat: GalleryCategory = {
-      id: rid("cat"),
+      id: uniqueCategoryId(
+        newCatName.trim(),
+        categories.map((c) => c.id)
+      ),
       name: newCatName.trim(),
       isActive: true,
     }

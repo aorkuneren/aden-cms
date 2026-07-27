@@ -15,6 +15,7 @@
     "db:seed:force": "tsx scripts/seed-mysql-from-json.ts --force",
     "db:export": "tsx scripts/export-cms-to-json.ts",
     "db:verify": "tsx scripts/verify-mysql-seed.ts",
+    "db:migrate-gallery-seo": "tsx scripts/migrate-gallery-seo-paths.ts",
     "postinstall": "prisma generate"
   },
   "dependencies": {

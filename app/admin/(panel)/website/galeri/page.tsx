@@ -20,7 +20,7 @@ export default async function GalleryAdminPage() {
 
   const categories: GalleryCategory[] = Array.isArray(gm.categories)
     ? filterActive(gm.categories).map((c: any) => ({
-        id: String(c?.id ?? `gallery-category-${Math.random().toString(36).slice(2, 8)}`),
+        id: String(c?.id ?? `kategori-${Math.random().toString(36).slice(2, 8)}`),
         name: String(c?.name ?? ""),
         isActive: c?.isActive !== false,
       }))
