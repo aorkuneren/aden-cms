@@ -26,6 +26,7 @@ import { getSiteContactConfig } from "@/lib/site/contact-config"
 import { isUserSystemEnabled } from "@/lib/site/modules"
 import { buildWhatsappHref } from "@/lib/site/whatsapp"
 import { getUiStrings, t } from "@/lib/cms/ui-strings"
+import { WHATSAPP_CONFIG } from "@/lib/site/site-config"
 
 type SiteLayoutContent = {
   settings: Awaited<ReturnType<typeof getSitePublicContent>>["settings"]
@@ -144,7 +145,7 @@ const getSiteLayoutContent = cache(async (): Promise<SiteLayoutContent> => {
         companyName: "Aden Bungalov",
         phone: "",
         whatsappPhone: "",
-        defaultWhatsappMessage: "",
+        defaultWhatsappMessage: WHATSAPP_CONFIG.defaultMessage,
         email: "",
         address: "",
         website: "",
