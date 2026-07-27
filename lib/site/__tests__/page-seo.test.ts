@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
-const { getConfig } = vi.hoisted(() => ({ getConfig: vi.fn() }))
+const { resolveSeo } = vi.hoisted(() => ({ resolveSeo: vi.fn() }))
 
-vi.mock("@/lib/data/queries", () => ({
-  websiteCmsQueries: { getConfig },
+vi.mock("@/lib/seo/seo-meta-service", () => ({
+  resolveSeo,
 }))
 
 import { resolvePageSeo } from "@/lib/site/page-seo"
@@ -16,56 +16,44 @@ const fallback = {
 
 describe("resolvePageSeo", () => {
   beforeEach(() => {
-    getConfig.mockReset()
+    resolveSeo.mockReset()
   })
 
   it("CMS alanları boş olduğunda fallback değerlerini döner", async () => {
-    getConfig.mockResolvedValue({
-      siteManagement: {
-        pageSeoItems: [{ slug: "/galeri", title: "  ", description: "", keywords: " " }],
-      },
+    resolveSeo.mockResolvedValue({
+      metaTitle: "",
+      metaDescription: "",
     })
 
     await expect(resolvePageSeo("/galeri", fallback)).resolves.toEqual(fallback)
   })
 
   it("dolu CMS alanları fallback yerine kullanır", async () => {
-    getConfig.mockResolvedValue({
-      siteManagement: {
-        pageSeoItems: [
-          {
-            slug: "/galeri",
-            title: "  CMS Galeri Başlığı  ",
-            description: "  CMS Galeri Açıklaması  ",
-            keywords: "  sapanca, galeri  ",
-          },
-        ],
-      },
+    resolveSeo.mockResolvedValue({
+      metaTitle: "CMS Galeri Başlığı",
+      metaDescription: "CMS Galeri Açıklaması",
     })
 
     await expect(resolvePageSeo("/galeri", fallback)).resolves.toEqual({
       title: "CMS Galeri Başlığı",
       description: "CMS Galeri Açıklaması",
-      keywords: "sapanca, galeri",
+      keywords: fallback.keywords,
     })
   })
 
   it.each([
     ["/iletisim/", "/iletisim"],
     ["/", ""],
-  ])("sondaki eğik çizgiyi ve ana sayfa eşdeğerlerini normalize eder", async (pathname, slug) => {
-    getConfig.mockResolvedValue({
-      siteManagement: {
-        pageSeoItems: [
-          { slug, title: "CMS Başlık", description: "CMS Açıklama", keywords: "cms" },
-        ],
-      },
+  ])("sondaki eğik çizgiyi ve ana sayfa eşdeğerlerini normalize eder (%s)", async (pathname) => {
+    resolveSeo.mockResolvedValue({
+      metaTitle: "CMS Başlık",
+      metaDescription: "CMS Açıklama",
     })
 
     await expect(resolvePageSeo(pathname, fallback)).resolves.toEqual({
       title: "CMS Başlık",
       description: "CMS Açıklama",
-      keywords: "cms",
+      keywords: fallback.keywords,
     })
   })
 })

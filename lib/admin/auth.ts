@@ -8,11 +8,9 @@ import { readJson, writeJson } from "@/lib/cms/store"
 /**
  * Bağımsız (standalone) admin kimlik doğrulama.
  *
- * Bu proje Prisma/MySQL'i mock'ladığı için oturum yönetimi veritabanına
- * bağlı DEĞİLDİR. Bunun yerine:
- *  - Admin kullanıcıları `data/admin-users.json` içinde tutulur (bcrypt hash).
- *  - Oturum, AUTH_SECRET ile HMAC-SHA256 imzalı, durumsuz (stateless) bir
- *    httpOnly cookie'dir. Sunucu tarafında saklanan bir kayıt gerekmez.
+ * Admin kullanıcıları MySQL `admin_users` / `cms_documents` (admin-users.json key)
+ * üzerinden okunur. Oturum, AUTH_SECRET ile HMAC-SHA256 imzalı, durumsuz
+ * (stateless) httpOnly cookie'dir.
  */
 
 const ADMIN_USERS_FILE = "admin-users.json"

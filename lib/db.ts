@@ -1,29 +1,20 @@
-/**
- * Standalone website mock database stub.
- * This project uses mock JSON data instead of a live Prisma/MySQL connection.
- */
-export const prisma: any = new Proxy(
-  {},
-  {
-    get(_target, prop) {
-      if (prop === "$connect" || prop === "$disconnect") {
-        return async () => {}
-      }
-      return new Proxy(
-        {},
-        {
-          get(_targetSub, subProp) {
-            return async (..._args: any[]) => {
-              if (subProp === "findMany") return []
-              if (subProp === "findFirst" || subProp === "findUnique") return null
-              if (subProp === "count") return 0
-              if (subProp === "create") return { id: "mock-id-" + Math.random().toString(36).slice(2, 8) }
-              if (subProp === "update" || subProp === "upsert" || subProp === "delete") return {}
-              return null
-            }
-          },
-        }
-      )
-    },
+import { PrismaClient } from "@prisma/client"
+
+const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient }
+
+function createClient(): PrismaClient {
+  if (!process.env.DATABASE_URL) {
+    throw new Error(
+      "[db] DATABASE_URL tanımlı değil. .env dosyasına MySQL bağlantı dizesini ekleyin."
+    )
   }
-)
+  return new PrismaClient({
+    log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
+  })
+}
+
+export const prisma = globalForPrisma.prisma ?? createClient()
+
+if (process.env.NODE_ENV !== "production") {
+  globalForPrisma.prisma = prisma
+}
