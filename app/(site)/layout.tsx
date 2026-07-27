@@ -26,6 +26,7 @@ import { getSiteContactConfig } from "@/lib/site/contact-config"
 import { isUserSystemEnabled } from "@/lib/site/modules"
 import { buildWhatsappHref } from "@/lib/site/whatsapp"
 import { getUiStrings, t } from "@/lib/cms/ui-strings"
+import { WHATSAPP_CONFIG } from "@/lib/site/site-config"
 
 type SiteLayoutContent = {
   settings: Awaited<ReturnType<typeof getSitePublicContent>>["settings"]
@@ -134,8 +135,22 @@ const getSiteLayoutContent = cache(async (): Promise<SiteLayoutContent> => {
   const [{ settings }, footerBungalowRows, cmsConfig, contact] = await Promise.all([
     getSitePublicContent(),
     bungalovQueries.findMany({ status: "AKTIF" }, { orderBy: { name: "asc" } }),
-    websiteCmsQueries.getConfig().catch(() => null),
-    getSiteContactConfig(),
+    websiteCmsQueries.getConfig().catch((err) => {
+      console.error("[getSiteLayoutContent] cms-config okunamadı:", err)
+      return null
+    }),
+    getSiteContactConfig().catch((err) => {
+      console.error("[getSiteLayoutContent] contact okunamadı:", err)
+      return {
+        companyName: "Aden Bungalov",
+        phone: "",
+        whatsappPhone: "",
+        defaultWhatsappMessage: WHATSAPP_CONFIG.defaultMessage,
+        email: "",
+        address: "",
+        website: "",
+      }
+    }),
   ])
 
   return { settings, footerBungalowRows, cmsConfig, contact }
