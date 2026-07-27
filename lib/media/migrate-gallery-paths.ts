@@ -72,7 +72,7 @@ function resolveCategoryName(
 
 async function removeEmptyLegacyCategoryDirs(): Promise<void> {
   const galeriRoot = path.join(resolveUploadRoot(), "galeri")
-  let entries: Awaited<ReturnType<typeof fs.readdir>>
+  let entries: import("fs").Dirent[]
   try {
     entries = await fs.readdir(galeriRoot, { withFileTypes: true })
   } catch (err) {
@@ -81,8 +81,8 @@ async function removeEmptyLegacyCategoryDirs(): Promise<void> {
   }
 
   for (const ent of entries) {
-    if (!ent.isDirectory() || !ent.name.startsWith("gallery-category-")) continue
-    const dir = path.join(galeriRoot, ent.name)
+    if (!ent.isDirectory() || !String(ent.name).startsWith("gallery-category-")) continue
+    const dir = path.join(galeriRoot, String(ent.name))
     const left = await fs.readdir(dir)
     if (left.length === 0) {
       await fs.rmdir(dir)

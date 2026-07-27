@@ -586,7 +586,7 @@ async function syncCmsConfig(tx: Tx, data: unknown) {
       data: {
         id: groupId,
         key: str(g.key) || groupId,
-        title: str(g.title, g.key || groupId),
+        title: str(g.title, str(g.key) || groupId),
         type: g.type ? str(g.type) : null,
         location: g.location ? str(g.location) : null,
         description: g.description ? str(g.description) : null,

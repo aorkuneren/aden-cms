@@ -379,8 +379,9 @@ export async function saveGalleryAction(payload: unknown): Promise<ActionResult>
     return { ok: false, error: "Galeri verisi geçersiz: " + (parsed.error.issues[0]?.message ?? "") }
   }
 
-  const cfg = await readJson<Record<string, any>>(CMS_CONFIG_FILE).catch(() => ({}))
-  const existingCategories = Array.isArray(cfg?.galleryManagement?.categories)
+  const cfg =
+    (await readJson<Record<string, any>>(CMS_CONFIG_FILE).catch(() => null)) ?? ({} as Record<string, any>)
+  const existingCategories = Array.isArray(cfg.galleryManagement?.categories)
     ? cfg.galleryManagement.categories
     : []
   const categoryById = new Map<string, { name?: string }>()
@@ -388,7 +389,7 @@ export async function saveGalleryAction(payload: unknown): Promise<ActionResult>
     categoryById.set(String(cat.id), cat)
   }
 
-  const finalizedItems = []
+  const finalizedItems: z.infer<typeof galleryItemSchema>[] = []
   for (const item of parsed.data.items) {
     const cat = categoryById.get(String(item.categoryId))
     const categoryName = String(cat?.name || item.categoryId || "genel")
@@ -444,8 +445,9 @@ export async function saveSingleGalleryAction(itemInput: unknown): Promise<Actio
   }
   const item = parsed.data
 
-  const cfg = await readJson<Record<string, any>>(CMS_CONFIG_FILE).catch(() => ({}))
-  const categories = Array.isArray(cfg?.galleryManagement?.categories)
+  const cfg =
+    (await readJson<Record<string, any>>(CMS_CONFIG_FILE).catch(() => null)) ?? ({} as Record<string, any>)
+  const categories = Array.isArray(cfg.galleryManagement?.categories)
     ? cfg.galleryManagement.categories
     : []
   const cat = categories.find((c: any) => String(c.id) === String(item.categoryId))
