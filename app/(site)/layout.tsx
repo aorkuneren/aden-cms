@@ -134,8 +134,22 @@ const getSiteLayoutContent = cache(async (): Promise<SiteLayoutContent> => {
   const [{ settings }, footerBungalowRows, cmsConfig, contact] = await Promise.all([
     getSitePublicContent(),
     bungalovQueries.findMany({ status: "AKTIF" }, { orderBy: { name: "asc" } }),
-    websiteCmsQueries.getConfig().catch(() => null),
-    getSiteContactConfig(),
+    websiteCmsQueries.getConfig().catch((err) => {
+      console.error("[getSiteLayoutContent] cms-config okunamadı:", err)
+      return null
+    }),
+    getSiteContactConfig().catch((err) => {
+      console.error("[getSiteLayoutContent] contact okunamadı:", err)
+      return {
+        companyName: "Aden Bungalov",
+        phone: "",
+        whatsappPhone: "",
+        defaultWhatsappMessage: "",
+        email: "",
+        address: "",
+        website: "",
+      }
+    }),
   ])
 
   return { settings, footerBungalowRows, cmsConfig, contact }

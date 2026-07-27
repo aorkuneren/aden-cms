@@ -22,14 +22,19 @@ function normalizeText(value: string) {
 }
 
 export const getSitePublicContent = cache(async () => {
-  const [settings, termsRaw] = await Promise.all([
-    settingsQueries.findFirst(),
-    termsAndRuleQueries.findMany({ orderBy: { order: "asc" } }),
-  ])
+  try {
+    const [settings, termsRaw] = await Promise.all([
+      settingsQueries.findFirst(),
+      termsAndRuleQueries.findMany({ orderBy: { order: "asc" } }),
+    ])
 
-  const terms = (termsRaw as SiteTerm[]).filter((term) => term.isActive)
+    const terms = (termsRaw as SiteTerm[]).filter((term) => term.isActive)
 
-  return { settings, terms }
+    return { settings, terms }
+  } catch (err) {
+    console.error("[getSitePublicContent] CMS/DB hatası:", err)
+    return { settings: null, terms: [] as SiteTerm[] }
+  }
 })
 
 export function findTermContentBySlug(terms: SiteTerm[], slug: string) {

@@ -57,8 +57,15 @@ function mapBungalow(row: any): BungalovRow {
 
 export const bungalovQueries = {
   findMany: async (filter?: BungalovFilter, options?: BungalovOptions): Promise<BungalovRow[]> => {
-    const bungalowsData = await readJson<any[]>(CMS_FILES.bungalovs)
-    let rows = filterActive((bungalowsData as any[]).map(ensureSoftDeleteFields)).map(mapBungalow)
+    let bungalowsData: any[]
+    try {
+      bungalowsData = await readJson<any[]>(CMS_FILES.bungalovs)
+    } catch (err) {
+      console.error("[bungalovQueries.findMany] CMS okunamadı:", err)
+      return []
+    }
+    if (!Array.isArray(bungalowsData)) return []
+    let rows = filterActive(bungalowsData.map(ensureSoftDeleteFields)).map(mapBungalow)
     if (filter?.status) {
       if (typeof filter.status === "string") {
         rows = rows.filter((r) => r.status === filter.status)
@@ -82,8 +89,15 @@ export const bungalovQueries = {
   },
 
   findUnique: async (idOrSlug: string): Promise<BungalovRow | null> => {
-    const bungalowsData = await readJson<any[]>(CMS_FILES.bungalovs)
-    const found = filterActive((bungalowsData as any[]).map(ensureSoftDeleteFields)).find(
+    let bungalowsData: any[]
+    try {
+      bungalowsData = await readJson<any[]>(CMS_FILES.bungalovs)
+    } catch (err) {
+      console.error("[bungalovQueries.findUnique] CMS okunamadı:", err)
+      return null
+    }
+    if (!Array.isArray(bungalowsData)) return null
+    const found = filterActive(bungalowsData.map(ensureSoftDeleteFields)).find(
       (b) => String(b.id) === String(idOrSlug) || String(b.slug || b.id) === String(idOrSlug)
     )
     return found ? mapBungalow(found) : null
@@ -92,53 +106,83 @@ export const bungalovQueries = {
 
 export const settingsQueries = {
   findFirst: async (): Promise<SettingsRow | null> => {
-    const settingsData = await readJson<any>(CMS_FILES.settings)
-    if (!settingsData) return null
-    return publicSettingsSchema.parse(settingsData)
+    try {
+      const settingsData = await readJson<any>(CMS_FILES.settings)
+      if (!settingsData) return null
+      return publicSettingsSchema.parse(settingsData)
+    } catch (err) {
+      console.error("[settingsQueries.findFirst] CMS okunamadı:", err)
+      return null
+    }
   },
 }
 
 export const termsAndRuleQueries = {
   findMany: async (options?: { orderBy?: { order?: "asc" | "desc" } }) => {
     void options
-    const termsData = await readJson<any>(CMS_FILES.terms)
-    return termsListSchema.parse(termsData)
+    try {
+      const termsData = await readJson<any>(CMS_FILES.terms)
+      return termsListSchema.parse(termsData ?? [])
+    } catch (err) {
+      console.error("[termsAndRuleQueries.findMany] CMS okunamadı:", err)
+      return []
+    }
   },
 }
 
 export const websiteCmsQueries = {
   getConfig: async (): Promise<WebsiteCmsConfig> => {
-    const cmsConfigData = await readJson<any>(CMS_FILES.cmsConfig)
-    const config = websiteCmsConfigSchema.parse(cmsConfigData) as unknown as WebsiteCmsConfig
-    return {
-      ...config,
-      sliderManagement: filterActive(config.sliderManagement.map(ensureSoftDeleteFields)),
-      faqManagement: filterActive(config.faqManagement.map(ensureSoftDeleteFields)),
-      whyAdenManagement: filterActive(config.whyAdenManagement.map(ensureSoftDeleteFields)),
-      galleryManagement: {
-        ...config.galleryManagement,
-        categories: filterActive(config.galleryManagement.categories.map(ensureSoftDeleteFields)),
-        items: filterActive(config.galleryManagement.items.map(ensureSoftDeleteFields)),
-      },
+    try {
+      const cmsConfigData = await readJson<any>(CMS_FILES.cmsConfig)
+      const config = websiteCmsConfigSchema.parse(cmsConfigData) as unknown as WebsiteCmsConfig
+      return {
+        ...config,
+        sliderManagement: filterActive(config.sliderManagement.map(ensureSoftDeleteFields)),
+        faqManagement: filterActive(config.faqManagement.map(ensureSoftDeleteFields)),
+        whyAdenManagement: filterActive(config.whyAdenManagement.map(ensureSoftDeleteFields)),
+        galleryManagement: {
+          ...config.galleryManagement,
+          categories: filterActive(config.galleryManagement.categories.map(ensureSoftDeleteFields)),
+          items: filterActive(config.galleryManagement.items.map(ensureSoftDeleteFields)),
+        },
+      }
+    } catch (err) {
+      console.error("[websiteCmsQueries.getConfig] CMS okunamadı:", err)
+      throw err
     }
   },
 
   getPageContent: async (slug: string): Promise<CmsPageContentMap> => {
-    const pageContentData = await readJson<Record<string, any>>(CMS_FILES.pageContent)
-    const pageContent = (pageContentData as Record<string, any>)[slug]
-    if (!pageContent) return {}
-    return cmsPageContentSchema.parse(pageContent)
+    try {
+      const pageContentData = await readJson<Record<string, any>>(CMS_FILES.pageContent)
+      const pageContent = (pageContentData as Record<string, any>)[slug]
+      if (!pageContent) return {}
+      return cmsPageContentSchema.parse(pageContent)
+    } catch (err) {
+      console.error("[websiteCmsQueries.getPageContent] CMS okunamadı:", err)
+      return {}
+    }
   },
 }
 
 export const localizationQueries = {
   getActiveLanguages: async (): Promise<LanguageRow[]> => {
-    const languagesData = await readJson<any>(CMS_FILES.languages)
-    return languageListSchema.parse(languagesData)
+    try {
+      const languagesData = await readJson<any>(CMS_FILES.languages)
+      return languageListSchema.parse(languagesData ?? [])
+    } catch (err) {
+      console.error("[localizationQueries.getActiveLanguages] CMS okunamadı:", err)
+      return []
+    }
   },
   getActiveCurrencies: async (): Promise<CurrencyRow[]> => {
-    const currenciesData = await readJson<any>(CMS_FILES.currencies)
-    return currencyListSchema.parse(currenciesData)
+    try {
+      const currenciesData = await readJson<any>(CMS_FILES.currencies)
+      return currencyListSchema.parse(currenciesData ?? [])
+    } catch (err) {
+      console.error("[localizationQueries.getActiveCurrencies] CMS okunamadı:", err)
+      return []
+    }
   },
 }
 
