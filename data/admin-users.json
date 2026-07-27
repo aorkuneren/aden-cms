@@ -4,7 +4,7 @@
     "email": "grafik@iyv.org.tr",
     "name": "Yönetici",
     "role": "SUPERADMIN",
-    "passwordHash": "$2b$10$hxf.CH0JVZ8OrUMXYhaY/ujxDYhcho/mivQEJc/oZNHB4FWvdQdLy",
+    "passwordHash": "$2b$10$dSaeY0ReaT.r1EkOZON2EeogrRui0ObWGSGo3ap7aT9lTkfDvSOEi",
     "isActive": true
   }
 ]

@@ -3,6 +3,7 @@ import { redirect } from "next/navigation"
 import { createHmac, timingSafeEqual } from "node:crypto"
 import bcrypt from "bcryptjs"
 
+import { prisma } from "@/lib/db"
 import { readJson, writeJson } from "@/lib/cms/store"
 
 /**
@@ -81,11 +82,44 @@ export function verifySession(token: string | undefined | null): string | null {
   }
 }
 
+function mapRow(u: {
+  id: string
+  email: string
+  name: string
+  role: string
+  passwordHash: string
+  isActive: boolean
+}): AdminUser {
+  return {
+    id: u.id,
+    email: u.email,
+    name: u.name,
+    role: u.role as AdminRole,
+    passwordHash: u.passwordHash,
+    isActive: u.isActive,
+  }
+}
+
+/**
+ * Admin listesi: önce cms_documents, olmazsa normalize admin_users tablosu.
+ * DB hatasını yutmaz — girişte "yanlış parola" ile karışmasın.
+ */
 export async function getAdminUsers(): Promise<AdminUser[]> {
   try {
-    return await readJson<AdminUser[]>(ADMIN_USERS_FILE)
-  } catch {
-    return []
+    const users = await readJson<AdminUser[]>(ADMIN_USERS_FILE)
+    if (Array.isArray(users)) return users
+  } catch (err) {
+    console.warn("[admin/auth] cms_documents okunamadı, admin_users fallback:", err)
+  }
+
+  try {
+    const rows = await prisma.adminUser.findMany()
+    return rows.map(mapRow)
+  } catch (err) {
+    console.error("[admin/auth] admin kullanıcıları okunamadı:", err)
+    throw new Error(
+      "Veritabanı bağlantısı başarısız. Hostinger env'de DATABASE_URL (localhost veya srvXXXX.hstgr.io) kontrol edin."
+    )
   }
 }
 
@@ -93,8 +127,9 @@ export async function saveAdminUsers(users: AdminUser[]): Promise<void> {
   await writeJson(ADMIN_USERS_FILE, users)
 }
 
+/** E-posta için ASCII lower (tr-TR'de I→ı domain eşleşmesini bozar). */
 function normalizeEmail(email: string): string {
-  return email.trim().toLocaleLowerCase("tr-TR")
+  return email.trim().toLowerCase()
 }
 
 /** E-posta + parola doğrular. Başarılıysa parolasız kullanıcı, değilse null. */
@@ -135,11 +170,16 @@ export async function getCurrentAdmin(): Promise<AdminSessionUser | null> {
   const token = cookieStore.get(ADMIN_SESSION_COOKIE)?.value
   const userId = verifySession(token)
   if (!userId) return null
-  const users = await getAdminUsers()
-  const user = users.find((u) => u.id === userId)
-  if (!user || !user.isActive) return null
-  const { passwordHash: _omit, ...safe } = user
-  return safe
+  try {
+    const users = await getAdminUsers()
+    const user = users.find((u) => u.id === userId)
+    if (!user || !user.isActive) return null
+    const { passwordHash: _omit, ...safe } = user
+    return safe
+  } catch (err) {
+    console.error("[admin/auth] getCurrentAdmin:", err)
+    return null
+  }
 }
 
 /** Korunan sayfalarda çağrılır — admin yoksa login'e yönlendirir. */

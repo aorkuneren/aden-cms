@@ -29,12 +29,23 @@ export async function loginAction(_prev: LoginState, formData: FormData): Promis
     return { error: parsed.error.issues[0]?.message ?? "Geçersiz giriş bilgileri" }
   }
 
-  const user = await verifyCredentials(parsed.data.email, parsed.data.password)
-  if (!user) {
-    return { error: "E-posta veya parola hatalı" }
+  try {
+    const user = await verifyCredentials(parsed.data.email, parsed.data.password)
+    if (!user) {
+      return { error: "E-posta veya parola hatalı" }
+    }
+
+    await createAdminSession(user.id)
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Giriş sırasında sunucu hatası"
+    console.error("[admin/login]", err)
+    return {
+      error: message.includes("Veritabanı")
+        ? message
+        : "Giriş yapılamadı. Sunucu/veritabanı bağlantısını kontrol edin.",
+    }
   }
 
-  await createAdminSession(user.id)
   redirect("/admin")
 }
 
