@@ -1,94 +1,83 @@
+import fs from "node:fs/promises"
+import path from "node:path"
 import { revalidatePath } from "next/cache"
-import { prisma } from "@/lib/db"
-import { syncNormalizedFromDocument } from "@/lib/cms/sync-normalized"
+import { withFileLock } from "@/lib/cms/file-lock"
 
 /**
- * MySQL tabanlı CMS deposu.
+ * Runtime JSON içerik deposu (dosya tabanlı CMS).
  *
- * Kaynak gerçeği: `cms_documents` tablosu (dosya adı = key, tam JSON payload).
- * Yazma sonrası normalize tablolar senkronlanır (SQL sorguları / raporlar için).
- * Disk `data/*.json` runtime'da YAZILMAZ (yedek/bootstrap için saklanabilir).
+ * Site içeriği `data/*.json` dosyalarında tutulur. Bu modül dosyaları BUILD
+ * anında `import` etmek yerine ÇALIŞMA anında okur; böylece admin panelinden
+ * yapılan düzenlemeler yeniden derleme gerektirmeden yansır.
+ *
+ * - Okuma: dosya mtime'ına göre süreç-içi (in-process) cache ile hızlandırılır.
+ * - Yazma: geçici dosyaya yaz + rename ile ATOMİK yapılır (yarım yazma olmaz).
+ *
+ * NOT: Kalıcı, yazılabilir disk gerektirir (Hostinger Node sunucu). Serverless
+ * (salt-okunur FS) ortamda yazma kalıcı olmaz.
  */
 
-type CacheEntry = { version: number; value: unknown }
+const DATA_DIR = path.join(process.cwd(), "data")
+
+type CacheEntry = { mtimeMs: number; value: unknown }
 const memoryCache = new Map<string, CacheEntry>()
 
-function resolveKey(file: string): string {
-  const base = file.split(/[/\\]/).pop() ?? file
-  if (!base || base !== file.replace(/^.*[/\\]/, "") || base.includes("..")) {
+function resolveDataPath(file: string): string {
+  // Yalnızca dosya adına izin ver — path traversal'ı engelle.
+  const safe = path.basename(file)
+  if (safe !== file) {
     throw new Error(`Geçersiz veri dosyası adı: ${file}`)
   }
-  return base
+  return path.join(DATA_DIR, safe)
 }
 
+/**
+ * Bir JSON veri dosyasını çalışma anında okur ve parse eder.
+ * mtime değişmediyse süreç-içi cache'ten döner.
+ */
 export async function readJson<T = unknown>(file: string): Promise<T> {
-  const key = resolveKey(file)
-  const row = await prisma.cmsDocument.findUnique({ where: { key } })
-  if (!row) {
-    throw new Error(`CMS belgesi bulunamadı: ${key}`)
-  }
-  const cached = memoryCache.get(key)
-  if (cached && cached.version === row.version) {
+  const filePath = resolveDataPath(file)
+  const stat = await fs.stat(filePath)
+  const cached = memoryCache.get(filePath)
+  if (cached && cached.mtimeMs === stat.mtimeMs) {
     return cached.value as T
   }
-  memoryCache.set(key, { version: row.version, value: row.payload })
-  return row.payload as T
+  const raw = await fs.readFile(filePath, "utf8")
+  const value = JSON.parse(raw) as T
+  memoryCache.set(filePath, { mtimeMs: stat.mtimeMs, value })
+  return value
 }
 
+/**
+ * Bir JSON veri dosyasını ATOMİK olarak yazar (temp + rename) ve cache'i tazeler.
+ */
 export async function writeJson(file: string, data: unknown): Promise<void> {
-  const key = resolveKey(file)
-
-  await prisma.$transaction(
-    async (tx) => {
-      const existing = await tx.cmsDocument.findUnique({ where: { key } })
-      const version = (existing?.version ?? 0) + 1
-      await tx.cmsDocument.upsert({
-        where: { key },
-        create: { key, payload: data as object, version: 1 },
-        update: { payload: data as object, version },
-      })
-      await syncNormalizedFromDocument(tx, key, data)
-      memoryCache.set(key, { version: existing ? version : 1, value: data })
-    },
-    { timeout: 120_000, maxWait: 30_000 }
-  )
+  const filePath = resolveDataPath(file)
+  const tmpPath = `${filePath}.${process.pid}.${Date.now()}.tmp`
+  const serialized = JSON.stringify(data, null, 2)
+  await fs.writeFile(tmpPath, serialized, "utf8")
+  await fs.rename(tmpPath, filePath)
+  const stat = await fs.stat(filePath)
+  memoryCache.set(filePath, { mtimeMs: stat.mtimeMs, value: data })
 }
 
-export async function mutateJson<T>(
-  file: string,
-  updater: (current: T) => T | Promise<T>
-): Promise<T> {
-  const key = resolveKey(file)
-
-  return prisma.$transaction(
-    async (tx) => {
-      const row = await tx.cmsDocument.findUnique({ where: { key } })
-      if (!row) {
-        throw new Error(`CMS belgesi bulunamadı: ${key}`)
-      }
-      const current = row.payload as T
-      const updated = await updater(current)
-      const version = row.version + 1
-      await tx.cmsDocument.update({
-        where: { key },
-        data: { payload: updated as object, version },
-      })
-      await syncNormalizedFromDocument(tx, key, updated)
-      memoryCache.set(key, { version, value: updated })
-      return updated
-    },
-    { timeout: 120_000, maxWait: 30_000 }
-  )
+/**
+ * Bir dosyayı oku → dönüştür → yaz akışını tek yerde toplar.
+ * updater aldığı mevcut içeriği değiştirip yeni içeriği döndürmelidir.
+ */
+export async function mutateJson<T>(file: string, updater: (current: T) => T | Promise<T>): Promise<T> {
+  return withFileLock(file, async () => {
+    const current = await readJson<T>(file)
+    const next = await updater(current)
+    await writeJson(file, next)
+    return next
+  })
 }
 
 /**
  * İçerik değişince tüm site (public) sayfalarının Next önbelleğini geçersiz kılar.
+ * Server action'lardan yazma sonrası çağrılmalıdır.
  */
 export function revalidateSite(): void {
   revalidatePath("/", "layout")
-}
-
-/** Bellek önbelleğini temizler (test / seed sonrası). */
-export function clearCmsMemoryCache(): void {
-  memoryCache.clear()
 }

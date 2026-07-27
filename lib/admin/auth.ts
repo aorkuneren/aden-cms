@@ -3,15 +3,16 @@ import { redirect } from "next/navigation"
 import { createHmac, timingSafeEqual } from "node:crypto"
 import bcrypt from "bcryptjs"
 
-import { prisma } from "@/lib/db"
 import { readJson, writeJson } from "@/lib/cms/store"
 
 /**
  * Bağımsız (standalone) admin kimlik doğrulama.
  *
- * Admin kullanıcıları MySQL `admin_users` / `cms_documents` (admin-users.json key)
- * üzerinden okunur. Oturum, AUTH_SECRET ile HMAC-SHA256 imzalı, durumsuz
- * (stateless) httpOnly cookie'dir.
+ * Bu proje Prisma/MySQL'i mock'ladığı için oturum yönetimi veritabanına
+ * bağlı DEĞİLDİR. Bunun yerine:
+ *  - Admin kullanıcıları `data/admin-users.json` içinde tutulur (bcrypt hash).
+ *  - Oturum, AUTH_SECRET ile HMAC-SHA256 imzalı, durumsuz (stateless) bir
+ *    httpOnly cookie'dir. Sunucu tarafında saklanan bir kayıt gerekmez.
  */
 
 const ADMIN_USERS_FILE = "admin-users.json"
@@ -82,44 +83,11 @@ export function verifySession(token: string | undefined | null): string | null {
   }
 }
 
-function mapRow(u: {
-  id: string
-  email: string
-  name: string
-  role: string
-  passwordHash: string
-  isActive: boolean
-}): AdminUser {
-  return {
-    id: u.id,
-    email: u.email,
-    name: u.name,
-    role: u.role as AdminRole,
-    passwordHash: u.passwordHash,
-    isActive: u.isActive,
-  }
-}
-
-/**
- * Admin listesi: önce cms_documents, olmazsa normalize admin_users tablosu.
- * DB hatasını yutmaz — girişte "yanlış parola" ile karışmasın.
- */
 export async function getAdminUsers(): Promise<AdminUser[]> {
   try {
-    const users = await readJson<AdminUser[]>(ADMIN_USERS_FILE)
-    if (Array.isArray(users)) return users
-  } catch (err) {
-    console.warn("[admin/auth] cms_documents okunamadı, admin_users fallback:", err)
-  }
-
-  try {
-    const rows = await prisma.adminUser.findMany()
-    return rows.map(mapRow)
-  } catch (err) {
-    console.error("[admin/auth] admin kullanıcıları okunamadı:", err)
-    throw new Error(
-      "Veritabanı bağlantısı başarısız. Hostinger env'de DATABASE_URL (localhost veya srvXXXX.hstgr.io) kontrol edin."
-    )
+    return await readJson<AdminUser[]>(ADMIN_USERS_FILE)
+  } catch {
+    return []
   }
 }
 
@@ -127,9 +95,8 @@ export async function saveAdminUsers(users: AdminUser[]): Promise<void> {
   await writeJson(ADMIN_USERS_FILE, users)
 }
 
-/** E-posta için ASCII lower (tr-TR'de I→ı domain eşleşmesini bozar). */
 function normalizeEmail(email: string): string {
-  return email.trim().toLowerCase()
+  return email.trim().toLocaleLowerCase("tr-TR")
 }
 
 /** E-posta + parola doğrular. Başarılıysa parolasız kullanıcı, değilse null. */
@@ -170,16 +137,11 @@ export async function getCurrentAdmin(): Promise<AdminSessionUser | null> {
   const token = cookieStore.get(ADMIN_SESSION_COOKIE)?.value
   const userId = verifySession(token)
   if (!userId) return null
-  try {
-    const users = await getAdminUsers()
-    const user = users.find((u) => u.id === userId)
-    if (!user || !user.isActive) return null
-    const { passwordHash: _omit, ...safe } = user
-    return safe
-  } catch (err) {
-    console.error("[admin/auth] getCurrentAdmin:", err)
-    return null
-  }
+  const users = await getAdminUsers()
+  const user = users.find((u) => u.id === userId)
+  if (!user || !user.isActive) return null
+  const { passwordHash: _omit, ...safe } = user
+  return safe
 }
 
 /** Korunan sayfalarda çağrılır — admin yoksa login'e yönlendirir. */

@@ -1,9 +1,10 @@
 # Veri Şeması — Menü Sistemi
 
-> **Not:** Runtime kaynak gerçeği MySQL `cms_documents` + normalize tablolardır.
-> Aşağıdaki yapı panel API uyumluluğu için JSON şeklini tanımlar (`cms-config.json` key).
+> **Not:** Bu proje JSON-dosya tabanlıdır (SQL yok). Aşağıdaki yapı
+> `data/cms-config.json → siteManagement.menuGroups` içinde saklanır. Şartnamedeki
+> `menu_groups` / `menu_items` tablolarının JSON karşılığıdır.
 
-## `menuGroups[]` (SQL: `menu_groups` + `menu_items`)
+## `menuGroups[]` (SQL karşılığı: `menu_groups`)
 
 ```jsonc
 {

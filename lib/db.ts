@@ -1,39 +1,29 @@
-import { PrismaClient } from "@prisma/client"
-
-const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient }
-
-const FALLBACK_DATABASE_URL = "mysql://invalid:invalid@127.0.0.1:3306/invalid"
-
-function createClient(): PrismaClient {
-  const url = process.env.DATABASE_URL?.trim()
-  if (!url) {
-    console.error(
-      "[db] DATABASE_URL tanımlı değil. Hostinger env'e MySQL bağlantı dizesini ekleyin (host: localhost)."
-    )
-  }
-  return new PrismaClient({
-    datasources: {
-      db: { url: url || FALLBACK_DATABASE_URL },
-    },
-    log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
-  })
-}
-
-function getClient(): PrismaClient {
-  if (!globalForPrisma.prisma) {
-    globalForPrisma.prisma = createClient()
-  }
-  return globalForPrisma.prisma
-}
-
 /**
- * Lazy Prisma proxy — import anında process'i düşürmez.
- * DATABASE_URL yok/yanlışsa ilk sorguda hata olur; public katman catch eder.
+ * Standalone website mock database stub.
+ * This project uses mock JSON data instead of a live Prisma/MySQL connection.
  */
-export const prisma: PrismaClient = new Proxy({} as PrismaClient, {
-  get(_target, prop, receiver) {
-    const client = getClient()
-    const value = Reflect.get(client, prop, receiver as object)
-    return typeof value === "function" ? value.bind(client) : value
-  },
-})
+export const prisma: any = new Proxy(
+  {},
+  {
+    get(_target, prop) {
+      if (prop === "$connect" || prop === "$disconnect") {
+        return async () => {}
+      }
+      return new Proxy(
+        {},
+        {
+          get(_targetSub, subProp) {
+            return async (..._args: any[]) => {
+              if (subProp === "findMany") return []
+              if (subProp === "findFirst" || subProp === "findUnique") return null
+              if (subProp === "count") return 0
+              if (subProp === "create") return { id: "mock-id-" + Math.random().toString(36).slice(2, 8) }
+              if (subProp === "update" || subProp === "upsert" || subProp === "delete") return {}
+              return null
+            }
+          },
+        }
+      )
+    },
+  }
+)

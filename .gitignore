@@ -11,7 +11,3 @@ npm-debug.log*
 *.tsbuildinfo
 next-env.d.ts
 .superpowers/
-
-/lib/generated/prisma
-/data/backup-pre-mysql/
-/data/export-from-mysql/

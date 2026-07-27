@@ -1,8 +1,3 @@
-import path from "node:path"
-import { config } from "dotenv"
-
-config({ path: path.join(process.cwd(), ".env") })
-
 import { migrateGallerySeoPaths } from "../lib/media/migrate-gallery-paths"
 
 async function main() {
