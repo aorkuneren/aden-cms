@@ -50,8 +50,13 @@ async function main() {
         update: { payload: payload as object, version: { increment: 1 } },
       })
 
-      // 2) Normalize senkron — belge zaten güvenli; senkron ayrı (timeout'suz batch)
-      await syncNormalizedFromDocument(prisma, file, payload)
+      // 2) Normalize senkron (transaction — yarım kalırsa rollback)
+      await prisma.$transaction(
+        async (tx) => {
+          await syncNormalizedFromDocument(tx, file, payload)
+        },
+        { timeout: 180_000, maxWait: 60_000 }
+      )
 
       const size = Array.isArray(payload)
         ? `array[${payload.length}]`
@@ -64,11 +69,15 @@ async function main() {
     const docs = await prisma.cmsDocument.count()
     const admins = await prisma.adminUser.count()
     const bungalovs = await prisma.bungalov.count()
+    const galleryCats = await prisma.galleryCategory.count()
+    const galleryItems = await prisma.galleryItem.count()
     const seo = await prisma.seoMeta.count()
     console.log("\nÖzet:")
     console.log(`  cms_documents: ${docs}`)
     console.log(`  admin_users:   ${admins}`)
     console.log(`  bungalovs:     ${bungalovs}`)
+    console.log(`  gallery_categories: ${galleryCats}`)
+    console.log(`  gallery_items: ${galleryItems}`)
     console.log(`  seo_meta:      ${seo}`)
   } finally {
     await prisma.$disconnect()
